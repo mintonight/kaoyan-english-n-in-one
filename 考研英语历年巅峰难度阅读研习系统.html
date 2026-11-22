@@ -732,28 +732,87 @@ header {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+/* ============ 移动端 / 窄屏自适应 ============ */
+@media (max-width: 900px) {
+  html, body { height: auto; }
+  body {
+    height: auto;
+    overflow: auto;
+    min-height: 100vh;
+  }
+  /* 顶栏：纵向堆叠，解除单行挤压 */
+  header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  .logo-group { justify-content: center; flex-wrap: wrap; gap: 8px; }
+  .logo-title { white-space: normal; font-size: 14px; line-height: 1.3; text-align: center; }
+  .logo-badge { font-size: 12px; padding: 3px 8px; }
+  .nav-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  .text-selector { max-width: 100%; width: 100%; }
+  .filter-tab-group { width: 100%; justify-content: center; }
+  .filter-tab { flex: 1 1 auto; padding: 6px 8px; font-size: 12px; }
+  .btn-nav, .timer-box { flex: 0 0 auto; }
+
+  /* 二级导航栏：允许换行，标题不再挤成一列 */
+  .sub-bar {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 12px;
+  }
+  .article-meta-left { flex-wrap: wrap; gap: 6px; width: 100%; }
+  .article-title-bar { white-space: normal; flex: 1 1 100%; font-size: 13px; line-height: 1.4; }
+  .q-jump-group { flex-wrap: wrap; width: 100%; }
+  .tool-actions { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+
+  /* 主区域：改为单栏纵向滚动，不再用固定 50% 高度 */
   .main-layout {
     flex-direction: column;
+    height: auto !important;
+    overflow: visible !important;
   }
   .left-pane {
     width: 100% !important;
-    height: 50% !important;
-    max-width: none;
-  }
-  .splitter {
-    width: 100%;
-    height: 8px;
-    cursor: row-resize;
-  }
-  .splitter-handle {
-    width: 38px;
-    height: 4px;
+    max-width: none !important;
+    min-width: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+    padding: 16px 14px !important;
   }
   .right-pane {
-    width: 100%;
-    height: 50% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    overflow-y: visible !important;
+    padding: 16px 12px !important;
   }
+  .splitter { display: none !important; }
+
+  /* 底部统计栏：换行 */
+  .bottom-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 12px;
+  }
+  .score-stats { flex-wrap: wrap; gap: 8px; font-size: 12px; }
+}
+
+/* 更窄的小屏手机（<=480px）进一步收紧 */
+@media (max-width: 480px) {
+  .logo-title { font-size: 13px; }
+  .left-pane { padding: 12px 10px !important; }
+  .right-pane { padding: 12px 8px !important; }
+  .passage-content, .passage-text { font-size: 16px !important; line-height: 1.7 !important; }
+  .option-item { padding: 10px 10px; }
+  .opt-an-row { font-size: 0.9em; padding: 6px 8px; }
 }
 
 /* 逐选项解析 */
