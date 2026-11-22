@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#faf4eb">
+<meta name="theme-color" content="#faf6f0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>考研英语学习中心 · N IN ONE</title>
 <link rel="manifest" href="./manifest.webmanifest">
@@ -11,12 +11,23 @@
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <style>
   :root{
-    --bg-main:#f4ede4; --bg-card:#fdfbf7; --bg-header:#faf4eb;
-    --text-main:#2d261e; --text-muted:#796c5e; --text-light:#a89a8a;
-    --border-color:#e8ded2; --accent-color:#b45309; --accent-hover:#92400e;
-    --accent-light:#fef3c7; --accent-border:#fde68a; --danger-color:#b91c1c;
-    --shadow-md:0 4px 6px -1px rgb(45 38 30 / .08),0 2px 4px -2px rgb(45 38 30 / .06);
-    --shadow-lg:0 10px 15px -3px rgb(45 38 30 / .1),0 4px 6px -4px rgb(45 38 30 / .08);
+    --bg-main:#f4eee5;
+    --bg-card:#fdfbf8;
+    --bg-subtle:#f6f0e6;
+    --bg-header:rgba(250,246,240,.86);
+    --text-main:#1f1914;
+    --text-muted:#675b4f;
+    --text-light:#9c8f80;
+    --border-color:rgba(45,34,22,.10);
+    --border-strong:rgba(45,34,22,.16);
+    --accent-color:#a84a0c;
+    --accent-hover:#8b3b07;
+    --accent-soft:rgba(168,74,12,.08);
+    --accent-border:rgba(168,74,12,.24);
+    --danger-color:#b42318;
+    --shadow-sm:0 1px 2px rgba(31,25,20,.04);
+    --shadow-md:0 1px 2px rgba(31,25,20,.04),0 10px 26px -14px rgba(45,30,14,.14);
+    --shadow-lg:0 2px 6px rgba(31,25,20,.05),0 22px 44px -18px rgba(45,30,14,.22);
     --serif:"Georgia","Cambria","Times New Roman",Times,"Noto Serif SC",serif;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
   }
@@ -25,155 +36,272 @@
   html,body{margin:0;padding:0}
   body{
     background:
-      radial-gradient(1200px 500px at 50% -140px, #fbf3e6 0%, rgba(251,243,230,0) 70%),
+      radial-gradient(1100px 480px at 50% -140px, #fbf6ee 0%, rgba(251,246,238,0) 72%),
+      radial-gradient(600px 360px at 85% 10%, rgba(168,74,12,.04) 0%, transparent 70%),
       var(--bg-main);
     color:var(--text-main); min-height:100vh; font-family:var(--sans);
-    -webkit-font-smoothing:antialiased;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   }
-  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
-    padding:14px 24px;border-bottom:1px solid var(--border-color);background:var(--bg-header)}
+  svg.ic{width:15px;height:15px;flex-shrink:0;display:block}
+
+  /* Topbar */
+  .topbar{
+    position:sticky;top:0;z-index:40;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:10px 24px;min-height:54px;
+    border-bottom:1px solid var(--border-color);
+    background:var(--bg-header);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  }
   .brand{display:flex;align-items:center;gap:10px;min-width:0}
-  .brand-badge{background:linear-gradient(135deg,#b45309,#d97706);color:#fff;font-weight:800;
-    font-size:13px;padding:4px 10px;border-radius:6px;letter-spacing:.5px;white-space:nowrap}
-  .brand-sub{font-size:12.5px;color:var(--text-muted);letter-spacing:.14em;white-space:nowrap}
-  .net-pill{font-size:11px;color:var(--accent-color);background:var(--accent-light);
-    border:1px solid var(--accent-border);padding:2px 8px;border-radius:99px;font-weight:600;white-space:nowrap}
+  .brand-mark{
+    width:28px;height:28px;border-radius:8px;flex-shrink:0;overflow:hidden;
+    box-shadow:0 2px 6px rgba(31,25,20,.16);display:flex;align-items:center;justify-content:center;
+  }
+  .brand-name{font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--text-main);white-space:nowrap}
+  .brand-div{width:1px;height:13px;background:var(--border-strong);flex-shrink:0}
+  .brand-sub{font-size:12px;color:var(--text-light);letter-spacing:.14em;white-space:nowrap;font-weight:500}
+  .net-pill{
+    display:inline-flex;align-items:center;gap:5px;
+    font-size:11.5px;color:var(--accent-color);background:var(--accent-soft);
+    border:1px solid var(--accent-border);padding:3px 9px;border-radius:99px;font-weight:600;white-space:nowrap;
+  }
   .top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-  .top-btn{font-size:12.5px;color:var(--text-muted);text-decoration:none;border:1px solid var(--border-color);
-    background:var(--bg-card);padding:6px 12px;border-radius:8px;cursor:pointer;font-family:inherit;
-    font-weight:600;transition:all .15s;white-space:nowrap}
-  .top-btn:hover{color:var(--accent-color);border-color:var(--accent-color);background:var(--accent-light)}
-  .top-btn.accent{background:var(--accent-color);color:#fff;border-color:var(--accent-color)}
-  .top-btn.accent:hover{background:var(--accent-hover);color:#fff}
+  .top-btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    font-size:12.5px;color:var(--text-muted);text-decoration:none;
+    border:1px solid var(--border-color);background:var(--bg-card);
+    padding:6px 12px;border-radius:8px;cursor:pointer;font-family:inherit;
+    font-weight:600;transition:all .16s ease;white-space:nowrap;box-shadow:var(--shadow-sm);
+  }
+  .top-btn:hover{color:var(--text-main);border-color:var(--border-strong);background:#fff;transform:translateY(-1px)}
+  .top-btn.accent{
+    background:linear-gradient(180deg,#b85412 0%,#9a3e08 100%);
+    color:#fff;border-color:rgba(120,44,4,.35);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 2px 8px -2px rgba(168,74,12,.45);
+  }
+  .top-btn.accent:hover{filter:brightness(1.06);color:#fff;border-color:rgba(120,44,4,.45)}
 
-  .wrap{max-width:1000px;margin:0 auto;padding:60px 22px 90px}
+  /* Main Container */
+  .wrap{max-width:980px;margin:0 auto;padding:64px 24px 88px}
   .hero{text-align:center;margin-bottom:52px}
-  .eyebrow{font-size:11.5px;letter-spacing:.24em;color:var(--accent-color);font-weight:700}
-  h1{font-size:clamp(26px,4vw,40px);margin:14px 0 12px;letter-spacing:-.01em;line-height:1.2}
-  .lead{max-width:640px;margin:0 auto;color:var(--text-muted);font-size:14.5px;line-height:1.9}
-  .lead .serif{font-family:var(--serif);font-style:italic;color:var(--text-main)}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:11.5px;letter-spacing:.18em;color:var(--accent-color);font-weight:600;
+    padding:5px 14px;border-radius:99px;
+    background:var(--bg-card);border:1px solid var(--border-color);box-shadow:var(--shadow-sm);
+  }
+  .eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--accent-color);opacity:.75}
+  h1{
+    font-size:clamp(28px,4.2vw,42px);margin:18px 0 14px;
+    letter-spacing:-.025em;line-height:1.18;font-weight:800;color:var(--text-main);
+  }
+  .lead{max-width:580px;margin:0 auto;color:var(--text-muted);font-size:14.5px;line-height:1.9}
+  .lead .serif{font-family:var(--serif);font-style:italic;color:var(--text-main);font-weight:600}
 
+  /* Feature Cards */
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:8px}
   .card{
     display:flex;flex-direction:column;text-decoration:none;color:inherit;
     background:var(--bg-card);border:1px solid var(--border-color);border-radius:20px;
     padding:30px 28px 26px;box-shadow:var(--shadow-md);
-    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    transition:transform .24s cubic-bezier(.22,1,.36,1), box-shadow .24s ease, border-color .24s ease;
     position:relative;overflow:hidden;
   }
-  .card::after{content:"";position:absolute;inset:0;border-radius:20px;pointer-events:none;
-    box-shadow:inset 0 0 0 1px rgba(180,83,9,0);transition:box-shadow .2s}
-  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--accent-border)}
-  .card:hover::after{box-shadow:inset 0 0 0 1px var(--accent-border)}
-  .ico{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;
-    font-size:28px;background:linear-gradient(135deg,#fef3c7,#fde9c8);border:1px solid var(--accent-border);margin-bottom:18px}
-  .card h2{margin:0 0 8px;font-size:21px;letter-spacing:-.01em}
+  .card::before{
+    content:"";position:absolute;top:0;left:24px;right:24px;height:2px;
+    background:linear-gradient(90deg,transparent,var(--accent-color),transparent);
+    opacity:0;transition:opacity .24s ease;
+  }
+  .card:hover{
+    transform:translateY(-4px);box-shadow:var(--shadow-lg);
+    border-color:var(--accent-border);
+  }
+  .card:hover::before{opacity:.75}
+
+  .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:20px}
+  .ico{
+    width:54px;height:54px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--bg-subtle);border:1px solid var(--border-color);
+    color:var(--accent-color);transition:all .24s ease;
+  }
+  .card:hover .ico{background:var(--accent-soft);border-color:var(--accent-border);transform:scale(1.03)}
+  .card-index{
+    font-family:var(--serif);font-style:italic;font-size:13px;
+    color:var(--text-light);letter-spacing:.08em;padding-top:4px;
+  }
+
+  .card h2{margin:0 0 6px;font-size:21px;font-weight:750;letter-spacing:-.015em;color:var(--text-main)}
   .card .en{font-family:var(--serif);font-size:13px;color:var(--text-light);letter-spacing:.02em;margin-bottom:14px}
   .card p.desc{margin:0 0 20px;color:var(--text-muted);font-size:13.8px;line-height:1.85;flex:1}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
-  .chip{font-size:11.5px;color:var(--accent-color);background:var(--accent-light);
-    border:1px solid var(--accent-border);padding:3px 10px;border-radius:99px;font-weight:600}
-  .chip.gray{color:var(--text-muted);background:#f2ebdf;border-color:var(--border-color)}
-  .go{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;color:var(--accent-color);
-    align-self:flex-start}
-  .go .arrow{transition:transform .2s}
-  .card:hover .go .arrow{transform:translateX(4px)}
 
-  footer{text-align:center;color:var(--text-light);font-size:12.5px;line-height:1.9;
-    margin-top:56px;padding-top:24px;border-top:1px solid var(--border-color)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+  .chip{
+    font-size:11.5px;color:var(--text-muted);background:var(--bg-subtle);
+    border:1px solid var(--border-color);padding:3px 10px;border-radius:99px;font-weight:600;
+  }
+  .chip.hi{color:var(--accent-color);background:var(--accent-soft);border-color:var(--accent-border)}
+
+  .card-foot{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding-top:16px;border-top:1px solid var(--border-color);
+  }
+  .go{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:13.5px;color:var(--accent-color)}
+  .go svg{width:15px;height:15px;transition:transform .2s cubic-bezier(.22,1,.36,1)}
+  .card:hover .go svg{transform:translateX(4px)}
+  .prog-pill{
+    font-size:12px;color:var(--text-light);font-variant-numeric:tabular-nums;font-weight:500;
+  }
+  .prog-pill b{color:var(--text-main);font-weight:700}
+
+  footer{
+    text-align:center;color:var(--text-light);font-size:12px;line-height:1.95;
+    margin-top:60px;padding-top:24px;border-top:1px solid var(--border-color);
+  }
   footer b{color:var(--text-muted);font-weight:600}
 
   /* Sync Modal */
-  .modal{position:fixed;inset:0;z-index:80;background:rgba(15,22,25,.45);display:flex;align-items:center;justify-content:center;padding:18px}
-  .modal-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:16px;max-width:460px;width:100%;padding:22px 24px 20px;box-shadow:var(--shadow-lg)}
-  .modal-card h3{margin:0 0 6px;font-size:17px}
-  .modal-tip{margin:0 0 12px;font-size:12.5px;color:var(--text-muted);line-height:1.75}
-  .gist-row{display:flex;margin-top:8px}
-  .gist-row input{flex:1;border:1px solid var(--border-color);border-radius:8px;padding:8px 10px;font-size:12.5px;font-family:inherit;background:#fffdf8;color:var(--text-main);min-width:0}
-  .gist-row input:focus{outline:none;border-color:var(--accent-color)}
-  .sync-opt{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:12.5px;color:var(--text-muted);cursor:pointer;user-select:none}
-  .modal-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:14px}
+  @keyframes modalIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+  .modal{
+    position:fixed;inset:0;z-index:80;background:rgba(24,18,12,.42);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;padding:18px;
+  }
+  .modal-card{
+    background:var(--bg-card);border:1px solid var(--border-color);border-radius:18px;
+    max-width:468px;width:100%;padding:24px 26px 22px;box-shadow:var(--shadow-lg);
+    animation:modalIn .18s ease-out;
+  }
+  .modal-title{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:16.5px;font-weight:700;color:var(--text-main)}
+  .modal-title svg{width:18px;height:18px;color:var(--accent-color)}
+  .modal-tip{margin:0 0 14px;font-size:12.5px;color:var(--text-muted);line-height:1.75}
+  .modal-tip code{
+    font-family:var(--sans);font-size:11.5px;font-weight:600;
+    background:var(--bg-subtle);border:1px solid var(--border-color);
+    padding:1px 6px;border-radius:5px;color:var(--text-main);
+  }
+  .gist-row{display:flex;margin-top:9px}
+  .gist-row input{
+    flex:1;border:1px solid var(--border-strong);border-radius:9px;
+    padding:9px 12px;font-size:13px;font-family:inherit;
+    background:#fff;color:var(--text-main);min-width:0;transition:border-color .15s,box-shadow .15s;
+  }
+  .gist-row input:focus{outline:none;border-color:var(--accent-color);box-shadow:0 0 0 3px var(--accent-soft)}
+  .sync-opt{display:flex;align-items:center;gap:7px;margin-top:12px;font-size:12.5px;color:var(--text-muted);cursor:pointer;user-select:none}
+  .sync-opt input{accent-color:var(--accent-color)}
+  .modal-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--border-color)}
   .modal-status{font-size:12px;color:var(--text-muted);margin-top:10px;line-height:1.65;word-break:break-word}
 
   @media (max-width:760px){
     .wrap{padding:40px 16px 64px}
     .hero{margin-bottom:36px}
     .cards{grid-template-columns:1fr;gap:16px}
-    .card{padding:24px 20px 22px;border-radius:16px}
+    .card{padding:24px 20px 20px;border-radius:16px}
     .topbar{padding:10px 14px}
-    .brand-sub{display:none}
-    .top-btn{padding:5px 9px;font-size:12px}
+    .brand-div,.brand-sub{display:none}
+    .top-btn{padding:6px 10px;font-size:12px}
   }
 </style>
 </head>
 <body>
   <div class="topbar">
     <div class="brand">
-      <span class="brand-badge">考研英语</span>
-      <span class="brand-sub">N IN ONE · 一站式研习</span>
-      <span class="net-pill" data-net-badge hidden>📴 离线模式</span>
+      <span class="brand-mark" aria-hidden="true">
+        <img src="./icons/icon.svg" alt="" width="28" height="28">
+      </span>
+      <span class="brand-name">考研英语</span>
+      <span class="brand-div" aria-hidden="true"></span>
+      <span class="brand-sub">N IN ONE</span>
+      <span class="net-pill" data-net-badge hidden>离线模式</span>
     </div>
     <div class="top-actions">
-      <button class="top-btn accent" data-pwa-install hidden>📲 安装到本地</button>
-      <button class="top-btn" id="btn-open-sync">☁️ 多端同步</button>
-      <a class="top-btn" href="https://github.com/mintonight/kaoyan-english-n-in-one" target="_blank" rel="noopener">GitHub ↗</a>
+      <button class="top-btn accent" data-pwa-install hidden>安装到本地</button>
+      <button class="top-btn" id="btn-open-sync">
+        <i data-lucide="cloud" data-size="15" class="ic"></i>
+        <span>多端同步</span>
+      </button>
+      <a class="top-btn" href="https://github.com/mintonight/kaoyan-english-n-in-one" target="_blank" rel="noopener">
+        <i data-lucide="github" data-size="15" class="ic"></i>
+        <span>GitHub</span>
+      </a>
     </div>
   </div>
 
   <main class="wrap">
     <div class="hero">
-      <div class="eyebrow">2021 — 2026 · 英语一 / 英语二</div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span>2021 — 2026 · 英语一 / 英语二</div>
       <h1>考研英语学习中心</h1>
-      <p class="lead">把真题阅读与写作词汇收进一处。选择下方任一区域开始：<br class="br">阅读靠<span class="serif">精读与自测</span>，词汇靠<span class="serif">逐词拼写</span>——两种手感，同一套护眼纸感。</p>
+      <p class="lead">把真题阅读与写作词汇收进同一张书桌。<br class="br">阅读靠<span class="serif">精读与自测</span>，词汇靠<span class="serif">逐词拼写</span>——两种手感，同一套静谧纸感。</p>
     </div>
 
     <div class="cards">
       <a class="card" href="reading.html">
-        <div class="ico">📖</div>
-        <h2>阅读练习</h2>
-        <div class="en">Reading · 历年巅峰难度阅读</div>
-        <p class="desc">近五年最难的 17 篇真题阅读，85 道题全配逐选项精读解析。左原文右题目同屏，支持自测 / 精读双模式、18 分钟计时、划词查词与笔记。</p>
-        <div class="chips">
-          <span class="chip">17 篇真题</span>
-          <span class="chip">85 题精析</span>
-          <span class="chip gray">英语一 · 英语二</span>
+        <div class="card-top">
+          <div class="ico" aria-hidden="true">
+            <i data-lucide="book-open" data-size="26" data-stroke="1.75"></i>
+          </div>
+          <span class="card-index">01 · READING</span>
         </div>
-        <span class="go">进入阅读区 <span class="arrow">→</span></span>
+        <h2>阅读练习</h2>
+        <div class="en">Intensive Reading · 历年巅峰难度真题</div>
+        <p class="desc">近五年最难的 17 篇真题阅读，85 道题全配逐选项精读解析。左原文右题目分栏同屏，支持自测 / 精读双模式、18 分钟倒计时、划词查词与单题笔记。</p>
+        <div class="chips">
+          <span class="chip hi">17 篇真题</span>
+          <span class="chip hi">85 题精析</span>
+          <span class="chip">英语一 · 英语二</span>
+        </div>
+        <div class="card-foot">
+          <span class="go">进入阅读区 <i data-lucide="arrow-right" data-size="15" data-stroke="2"></i></span>
+          <span class="prog-pill" id="idx-prog-reading"></span>
+        </div>
       </a>
 
       <a class="card" href="spelling.html">
-        <div class="ico">✍️</div>
-        <h2>拼写练习</h2>
-        <div class="en">Spelling · 看中文写英文</div>
-        <p class="desc">看中文、写英文，每条横线一空，逐词即时核对：写对变绿、写错变红、没填灰色。覆盖作文范文整句、2010–2025 真题主题词与必备主题词。</p>
-        <div class="chips">
-          <span class="chip">2 篇范文整句</span>
-          <span class="chip">16 年真题主题词</span>
-          <span class="chip">7 类必备主题词</span>
-          <span class="chip gray">25 组 · 419 项</span>
+        <div class="card-top">
+          <div class="ico" aria-hidden="true">
+            <i data-lucide="pen-tool" data-size="25" data-stroke="1.75"></i>
+          </div>
+          <span class="card-index">02 · SPELLING</span>
         </div>
-        <span class="go">进入拼写区 <span class="arrow">→</span></span>
+        <h2>拼写练习</h2>
+        <div class="en">Active Recall · 看中文写英文</div>
+        <p class="desc">看中文、写英文，每条横线一空，逐词即时核对：写对变绿、写错变红、没填灰色。覆盖作文范文整句、2010–2025 真题主题词与 7 类必备主题词。</p>
+        <div class="chips">
+          <span class="chip hi">2 篇范文整句</span>
+          <span class="chip hi">16 年主题词</span>
+          <span class="chip">25 组 · 419 项</span>
+        </div>
+        <div class="card-foot">
+          <span class="go">进入拼写区 <i data-lucide="arrow-right" data-size="15" data-stroke="2"></i></span>
+          <span class="prog-pill" id="idx-prog-spelling"></span>
+        </div>
       </a>
     </div>
 
     <footer>
-      <b>考研英语 · N IN ONE</b> ｜ 阅读 + 拼写双区 · 支持 PWA 安装到本地离线使用 · Gist 多端双向合并同步<br>
+      <b>考研英语 · N IN ONE</b> · 支持 PWA 安装离线研习 · GitHub Gist 多端无冲突双向同步<br>
       数据整理自历年真题与《英语二历年主题词汇总及拓展》
     </footer>
   </main>
 
   <div class="modal" id="sync-modal" hidden>
     <div class="modal-card">
-      <h3>☁️ 多端数据同步（GitHub Gist）</h3>
+      <h3 class="modal-title">
+        <i data-lucide="cloud" data-size="18"></i>
+        <span>多端数据同步（GitHub Gist）</span>
+      </h3>
       <p class="modal-tip">阅读作答/笔记与拼写进度/错词共用一份私密 Gist。只需填写带 <code>gist</code> 权限的 Token，新设备会自动查找已有 Gist 并双向合并，不覆盖任何一端记录。</p>
       <div class="gist-row"><input id="idx-gist-token" type="password" placeholder="GitHub Token（仅需 gist 权限）" autocomplete="off"></div>
       <div class="gist-row"><input id="idx-gist-id" type="text" placeholder="Gist ID（留空则自动查找已有或新建）" autocomplete="off"></div>
       <label class="sync-opt"><input id="idx-gist-auto" type="checkbox" checked> 开启自动双向同步（联网自动合并，离线先存本机）</label>
       <div class="modal-actions">
-        <button class="top-btn accent" id="idx-gist-sync">🔄 立即同步</button>
-        <button class="top-btn" id="idx-gist-save">保存配置</button>
-        <button class="top-btn" id="idx-backup-export">导出备份</button>
-        <button class="top-btn" id="idx-backup-import">导入合并</button>
+        <button class="top-btn accent" id="idx-gist-sync">
+          <i data-lucide="refresh-cw" data-size="14" class="ic"></i>
+          <span>立即同步</span>
+        </button>
+        <button class="top-btn" id="idx-gist-save"><i data-lucide="save" data-size="14" class="ic"></i><span>保存配置</span></button>
+        <button class="top-btn" id="idx-backup-export"><i data-lucide="download" data-size="14" class="ic"></i><span>导出备份</span></button>
+        <button class="top-btn" id="idx-backup-import"><i data-lucide="upload" data-size="14" class="ic"></i><span>导入合并</span></button>
         <input id="idx-backup-file" type="file" accept="application/json,.json" hidden>
         <button class="top-btn" id="btn-close-sync">关闭</button>
       </div>
@@ -181,13 +309,15 @@
     </div>
   </div>
 
+  <script src="icons/lucide.js"></script>
   <script src="sync.js"></script>
   <script src="pwa.js" defer></script>
   <script>
   (function () {
     'use strict';
+    var Sync = window.KaoyanSync;
     var modal = document.getElementById('sync-modal');
-    var ui = window.KaoyanSync.bindSyncUI({
+    var ui = Sync.bindSyncUI({
       tokenInput: document.getElementById('idx-gist-token'),
       gistIdInput: document.getElementById('idx-gist-id'),
       autoSyncCheckbox: document.getElementById('idx-gist-auto'),
@@ -199,6 +329,33 @@
       statusEl: document.getElementById('idx-gist-status'),
       errColor: 'var(--danger-color)'
     });
+
+    function renderHomeProgress() {
+      var rEl = document.getElementById('idx-prog-reading');
+      var sEl = document.getElementById('idx-prog-spelling');
+      try {
+        var rLog = Sync.loadReadingLog() || {};
+        var rAns = 0;
+        Object.keys(rLog).forEach(function (pid) {
+          var pm = rLog[pid] || {};
+          Object.keys(pm).forEach(function (qn) {
+            if (pm[qn] && !pm[qn].deleted && pm[qn].answer) rAns++;
+          });
+        });
+        if (rEl) rEl.innerHTML = rAns ? ('已答 <b>' + rAns + '</b> / 85 题') : '尚未开始';
+
+        var sp = Sync.loadSpellingNormalized() || { items: {} };
+        var spOk = 0;
+        Object.keys(sp.items || {}).forEach(function (k) {
+          if (sp.items[k] && sp.items[k].mastered === 'ok') spOk++;
+        });
+        if (sEl) sEl.innerHTML = spOk ? ('已掌握 <b>' + spOk + '</b> / 419 项') : '尚未开始';
+      } catch (e) {}
+    }
+
+    renderHomeProgress();
+    window.addEventListener('kaoyan:data-synced', renderHomeProgress);
+
     document.getElementById('btn-open-sync').addEventListener('click', function () {
       ui.refresh();
       modal.hidden = false;

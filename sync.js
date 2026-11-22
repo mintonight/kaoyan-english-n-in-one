@@ -593,7 +593,7 @@
       }
 
       if (typeof navigator !== 'undefined' && navigator.onLine === false) {
-        var msgOff = '📴 当前处于离线状态，数据已保存在本机，联网后将自动同步';
+        var msgOff = '当前处于离线状态，数据已保存在本机，联网后将自动同步';
         emitStatus(msgOff, false);
         return { ok: false, offline: true, message: msgOff };
       }
@@ -625,7 +625,7 @@
             dirty: localChangeSeq !== seqCreate,
             lastSyncAt: Date.now()
           });
-          var msgCreated = '✅ 已自动创建云端 Gist 并推送（' + new Date().toLocaleTimeString() + '）';
+          var msgCreated = '已自动创建云端 Gist 并推送（' + new Date().toLocaleTimeString() + '）';
           emitStatus(msgCreated, false);
           emitSynced({ gistId: gistId, localChanged: false, remoteChanged: true });
           return { ok: true, action: 'created', gistId: gistId, message: msgCreated };
@@ -667,10 +667,10 @@
 
         var timeStr = new Date().toLocaleTimeString();
         var summary;
-        if (localChanged && remoteChanged) summary = '✅ 双向合并同步完成（' + timeStr + '）';
-        else if (localChanged) summary = '✅ 已拉取云端最新记录（' + timeStr + '）';
-        else if (remoteChanged) summary = '✅ 已推送本地记录到云端（' + timeStr + '）';
-        else summary = '✅ 已是最新，无需改动（' + timeStr + '）';
+        if (localChanged && remoteChanged) summary = '双向合并同步完成（' + timeStr + '）';
+        else if (localChanged) summary = '已拉取云端最新记录（' + timeStr + '）';
+        else if (remoteChanged) summary = '已推送本地记录到云端（' + timeStr + '）';
+        else summary = '已是最新，无需改动（' + timeStr + '）';
 
         emitStatus(summary, false);
         emitSynced({ gistId: gistId, localChanged: localChanged, remoteChanged: remoteChanged });
@@ -708,7 +708,7 @@
     var cfg = saveConfig({ dirty: true });
     if (cfg.token && cfg.autoSync) {
       if (typeof navigator !== 'undefined' && navigator.onLine === false) {
-        emitStatus('📴 离线更改已保存到本机，联网后将自动同步', false);
+        emitStatus('离线更改已保存到本机，联网后将自动同步', false);
       } else {
         scheduleAutoSync(4000);
       }
@@ -744,9 +744,9 @@
       if (els.autoSyncCheckbox) els.autoSyncCheckbox.checked = c.autoSync;
       if (els.statusEl && !els.statusEl.dataset.touched) {
         if (typeof navigator !== 'undefined' && navigator.onLine === false) {
-          els.statusEl.textContent = '📴 当前离线；更改保存在本机，联网后自动同步。';
+          els.statusEl.textContent = '当前离线；更改保存在本机，联网后自动同步。';
         } else if (c.lastSyncAt) {
-          els.statusEl.textContent = (c.dirty ? '⏳ 有待同步更改 · ' : '✅ ') + '上次同步：' + new Date(c.lastSyncAt).toLocaleString();
+          els.statusEl.textContent = (c.dirty ? '有待同步更改 · ' : '已同步 · ') + '上次同步：' + new Date(c.lastSyncAt).toLocaleString();
         } else if (c.token) {
           els.statusEl.textContent = '已配置 Token，点击「立即同步」自动查找或创建云端 Gist。';
         } else {
@@ -790,7 +790,7 @@
         var r = readInputs();
         if (!r.token) { setLocalStatus('请填写 GitHub Token（需 gist 权限）', true); return; }
         saveConfig(r);
-        setLocalStatus('✅ 配置已保存在本机' + (r.gistId ? '' : '（Gist ID 留空将在同步时自动查找/新建）'), false);
+        setLocalStatus('配置已保存在本机' + (r.gistId ? '' : '（Gist ID 留空将在同步时自动查找/新建）'), false);
       });
     }
 
@@ -820,7 +820,7 @@
         a.click();
         a.remove();
         setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-        setLocalStatus('✅ 已导出本地 JSON 备份', false);
+        setLocalStatus('已导出本地 JSON 备份', false);
       });
     }
 
@@ -833,7 +833,7 @@
         reader.onload = function () {
           try {
             importBackup(String(reader.result || ''));
-            setLocalStatus('✅ 已合并导入备份文件（未覆盖现有新记录）', false);
+            setLocalStatus('已合并导入备份文件（未覆盖现有新记录）', false);
           } catch (e) {
             setLocalStatus('导入失败：' + e.message, true);
           }

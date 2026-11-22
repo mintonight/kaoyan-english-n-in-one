@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kaoyan-n-in-one-v2';
+const CACHE_NAME = 'kaoyan-n-in-one-v3';
 const PRECACHE_URLS = [
   './',
   './index.html',
@@ -9,6 +9,7 @@ const PRECACHE_URLS = [
   './data/reading-data.js',
   './data/spelling-data.js',
   './manifest.webmanifest',
+  './icons/lucide.js',
   './icons/icon.svg',
   './icons/icon-192.png',
   './icons/icon-512.png'

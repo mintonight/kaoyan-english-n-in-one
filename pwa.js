@@ -9,15 +9,21 @@
     || location.hostname === 'localhost'
     || location.hostname === '127.0.0.1';
 
+  function getIco(name, size) {
+    if (window.LucideIcons) return window.LucideIcons.svg(name, { size: size || 14 });
+    return '';
+  }
+
   function showToast(text, actionLabel, onAction) {
     var old = document.getElementById('kaoyan-pwa-toast');
     if (old) old.remove();
     var div = document.createElement('div');
     div.id = 'kaoyan-pwa-toast';
     div.style.cssText = [
-      'position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:9999;',
-      'background:#2d261e;color:#fdfbf7;padding:9px 14px;border-radius:10px;',
-      'font-size:12.5px;line-height:1.5;box-shadow:0 10px 24px rgba(0,0,0,.22);',
+      'position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:9999;',
+      'background:rgba(31,25,20,.94);color:#fdfbf8;padding:10px 15px;border-radius:12px;',
+      'border:1px solid rgba(253,251,248,.12);backdrop-filter:blur(10px);',
+      'font-size:12.5px;line-height:1.5;box-shadow:0 14px 32px -10px rgba(20,14,8,.42);',
       'display:flex;align-items:center;gap:10px;max-width:calc(100vw - 24px);'
     ].join('');
     var span = document.createElement('span');
@@ -26,14 +32,14 @@
     if (actionLabel && onAction) {
       var btn = document.createElement('button');
       btn.textContent = actionLabel;
-      btn.style.cssText = 'border:0;background:#d97706;color:#fff;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;';
+      btn.style.cssText = 'border:0;background:#c46218;color:#fff;padding:4px 10px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;';
       btn.onclick = function () { div.remove(); onAction(); };
       div.appendChild(btn);
     }
     var close = document.createElement('button');
-    close.textContent = '✕';
+    close.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
     close.setAttribute('aria-label', '关闭');
-    close.style.cssText = 'border:0;background:none;color:#c7b59f;cursor:pointer;font-size:13px;padding:0 2px;';
+    close.style.cssText = 'border:0;background:none;color:#b8aa99;cursor:pointer;display:inline-flex;align-items:center;padding:2px;';
     close.onclick = function () { div.remove(); };
     div.appendChild(close);
     document.body.appendChild(div);
@@ -51,10 +57,10 @@
       }
       if (deferredPrompt) {
         btn.hidden = false;
-        btn.textContent = '📲 安装到本地';
+        btn.innerHTML = getIco('download', 14) + '<span>安装到本地</span>';
       } else if (isIOS && isSecureForSW) {
         btn.hidden = false;
-        btn.textContent = '📲 添加到主屏幕';
+        btn.innerHTML = getIco('download', 14) + '<span>添加到主屏幕</span>';
       } else {
         btn.hidden = true;
       }
@@ -71,7 +77,7 @@
     deferredPrompt = null;
     isStandalone = true;
     updateInstallButtons();
-    showToast('✅ 已安装到本地，断网也可直接使用');
+    showToast('已安装到本地，断网也可直接使用');
   });
 
   document.addEventListener('click', function (e) {
@@ -115,7 +121,7 @@
         el.hidden = true;
       } else {
         el.hidden = false;
-        el.textContent = '📴 离线模式';
+        el.innerHTML = getIco('wifi-off', 13) + '<span>离线模式</span>';
       }
     });
   }
