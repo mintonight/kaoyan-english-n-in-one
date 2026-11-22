@@ -3,19 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#faf4eb">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>考研英语学习中心 · N IN ONE</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
 <style>
   :root{
     --bg-main:#f4ede4; --bg-card:#fdfbf7; --bg-header:#faf4eb;
     --text-main:#2d261e; --text-muted:#796c5e; --text-light:#a89a8a;
     --border-color:#e8ded2; --accent-color:#b45309; --accent-hover:#92400e;
-    --accent-light:#fef3c7; --accent-border:#fde68a;
+    --accent-light:#fef3c7; --accent-border:#fde68a; --danger-color:#b91c1c;
     --shadow-md:0 4px 6px -1px rgb(45 38 30 / .08),0 2px 4px -2px rgb(45 38 30 / .06);
     --shadow-lg:0 10px 15px -3px rgb(45 38 30 / .1),0 4px 6px -4px rgb(45 38 30 / .08);
     --serif:"Georgia","Cambria","Times New Roman",Times,"Noto Serif SC",serif;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
   }
   *{box-sizing:border-box}
+  [hidden]{display:none !important}
   html,body{margin:0;padding:0}
   body{
     background:
@@ -24,15 +30,21 @@
     color:var(--text-main); min-height:100vh; font-family:var(--sans);
     -webkit-font-smoothing:antialiased;
   }
-  .topbar{display:flex;align-items:center;justify-content:space-between;
-    padding:16px 24px;border-bottom:1px solid var(--border-color);background:var(--bg-header)}
-  .brand{display:flex;align-items:center;gap:10px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:14px 24px;border-bottom:1px solid var(--border-color);background:var(--bg-header)}
+  .brand{display:flex;align-items:center;gap:10px;min-width:0}
   .brand-badge{background:linear-gradient(135deg,#b45309,#d97706);color:#fff;font-weight:800;
-    font-size:13px;padding:4px 10px;border-radius:6px;letter-spacing:.5px}
-  .brand-sub{font-size:12.5px;color:var(--text-muted);letter-spacing:.14em}
-  .topbar a.gh{font-size:12.5px;color:var(--text-muted);text-decoration:none;border:1px solid var(--border-color);
-    padding:6px 12px;border-radius:8px;transition:all .15s}
-  .topbar a.gh:hover{color:var(--accent-color);border-color:var(--accent-color);background:var(--accent-light)}
+    font-size:13px;padding:4px 10px;border-radius:6px;letter-spacing:.5px;white-space:nowrap}
+  .brand-sub{font-size:12.5px;color:var(--text-muted);letter-spacing:.14em;white-space:nowrap}
+  .net-pill{font-size:11px;color:var(--accent-color);background:var(--accent-light);
+    border:1px solid var(--accent-border);padding:2px 8px;border-radius:99px;font-weight:600;white-space:nowrap}
+  .top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .top-btn{font-size:12.5px;color:var(--text-muted);text-decoration:none;border:1px solid var(--border-color);
+    background:var(--bg-card);padding:6px 12px;border-radius:8px;cursor:pointer;font-family:inherit;
+    font-weight:600;transition:all .15s;white-space:nowrap}
+  .top-btn:hover{color:var(--accent-color);border-color:var(--accent-color);background:var(--accent-light)}
+  .top-btn.accent{background:var(--accent-color);color:#fff;border-color:var(--accent-color)}
+  .top-btn.accent:hover{background:var(--accent-hover);color:#fff}
 
   .wrap{max-width:1000px;margin:0 auto;padding:60px 22px 90px}
   .hero{text-align:center;margin-bottom:52px}
@@ -71,13 +83,26 @@
     margin-top:56px;padding-top:24px;border-top:1px solid var(--border-color)}
   footer b{color:var(--text-muted);font-weight:600}
 
+  /* Sync Modal */
+  .modal{position:fixed;inset:0;z-index:80;background:rgba(15,22,25,.45);display:flex;align-items:center;justify-content:center;padding:18px}
+  .modal-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:16px;max-width:460px;width:100%;padding:22px 24px 20px;box-shadow:var(--shadow-lg)}
+  .modal-card h3{margin:0 0 6px;font-size:17px}
+  .modal-tip{margin:0 0 12px;font-size:12.5px;color:var(--text-muted);line-height:1.75}
+  .gist-row{display:flex;margin-top:8px}
+  .gist-row input{flex:1;border:1px solid var(--border-color);border-radius:8px;padding:8px 10px;font-size:12.5px;font-family:inherit;background:#fffdf8;color:var(--text-main);min-width:0}
+  .gist-row input:focus{outline:none;border-color:var(--accent-color)}
+  .sync-opt{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:12.5px;color:var(--text-muted);cursor:pointer;user-select:none}
+  .modal-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:14px}
+  .modal-status{font-size:12px;color:var(--text-muted);margin-top:10px;line-height:1.65;word-break:break-word}
+
   @media (max-width:760px){
     .wrap{padding:40px 16px 64px}
     .hero{margin-bottom:36px}
     .cards{grid-template-columns:1fr;gap:16px}
     .card{padding:24px 20px 22px;border-radius:16px}
-    .topbar{padding:12px 16px}
+    .topbar{padding:10px 14px}
     .brand-sub{display:none}
+    .top-btn{padding:5px 9px;font-size:12px}
   }
 </style>
 </head>
@@ -86,8 +111,13 @@
     <div class="brand">
       <span class="brand-badge">考研英语</span>
       <span class="brand-sub">N IN ONE · 一站式研习</span>
+      <span class="net-pill" data-net-badge hidden>📴 离线模式</span>
     </div>
-    <a class="gh" href="https://github.com/mintonight/kaoyan-english-n-in-one" target="_blank" rel="noopener">GitHub ↗</a>
+    <div class="top-actions">
+      <button class="top-btn accent" data-pwa-install hidden>📲 安装到本地</button>
+      <button class="top-btn" id="btn-open-sync">☁️ 多端同步</button>
+      <a class="top-btn" href="https://github.com/mintonight/kaoyan-english-n-in-one" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
   </div>
 
   <main class="wrap">
@@ -127,9 +157,56 @@
     </div>
 
     <footer>
-      <b>考研英语 · N IN ONE</b> ｜ 阅读 + 拼写双区 · 纯前端离线可用<br>
+      <b>考研英语 · N IN ONE</b> ｜ 阅读 + 拼写双区 · 支持 PWA 安装到本地离线使用 · Gist 多端双向合并同步<br>
       数据整理自历年真题与《英语二历年主题词汇总及拓展》
     </footer>
   </main>
+
+  <div class="modal" id="sync-modal" hidden>
+    <div class="modal-card">
+      <h3>☁️ 多端数据同步（GitHub Gist）</h3>
+      <p class="modal-tip">阅读作答/笔记与拼写进度/错词共用一份私密 Gist。只需填写带 <code>gist</code> 权限的 Token，新设备会自动查找已有 Gist 并双向合并，不覆盖任何一端记录。</p>
+      <div class="gist-row"><input id="idx-gist-token" type="password" placeholder="GitHub Token（仅需 gist 权限）" autocomplete="off"></div>
+      <div class="gist-row"><input id="idx-gist-id" type="text" placeholder="Gist ID（留空则自动查找已有或新建）" autocomplete="off"></div>
+      <label class="sync-opt"><input id="idx-gist-auto" type="checkbox" checked> 开启自动双向同步（联网自动合并，离线先存本机）</label>
+      <div class="modal-actions">
+        <button class="top-btn accent" id="idx-gist-sync">🔄 立即同步</button>
+        <button class="top-btn" id="idx-gist-save">保存配置</button>
+        <button class="top-btn" id="idx-backup-export">导出备份</button>
+        <button class="top-btn" id="idx-backup-import">导入合并</button>
+        <input id="idx-backup-file" type="file" accept="application/json,.json" hidden>
+        <button class="top-btn" id="btn-close-sync">关闭</button>
+      </div>
+      <div id="idx-gist-status" class="modal-status"></div>
+    </div>
+  </div>
+
+  <script src="sync.js"></script>
+  <script src="pwa.js" defer></script>
+  <script>
+  (function () {
+    'use strict';
+    var modal = document.getElementById('sync-modal');
+    var ui = window.KaoyanSync.bindSyncUI({
+      tokenInput: document.getElementById('idx-gist-token'),
+      gistIdInput: document.getElementById('idx-gist-id'),
+      autoSyncCheckbox: document.getElementById('idx-gist-auto'),
+      btnSync: document.getElementById('idx-gist-sync'),
+      btnSave: document.getElementById('idx-gist-save'),
+      btnExport: document.getElementById('idx-backup-export'),
+      btnImport: document.getElementById('idx-backup-import'),
+      importFile: document.getElementById('idx-backup-file'),
+      statusEl: document.getElementById('idx-gist-status'),
+      errColor: 'var(--danger-color)'
+    });
+    document.getElementById('btn-open-sync').addEventListener('click', function () {
+      ui.refresh();
+      modal.hidden = false;
+    });
+    document.getElementById('btn-close-sync').addEventListener('click', function () { modal.hidden = true; });
+    modal.addEventListener('click', function (e) { if (e.target === modal) modal.hidden = true; });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) modal.hidden = true; });
+  })();
+  </script>
 </body>
 </html>
