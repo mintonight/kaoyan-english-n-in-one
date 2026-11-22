@@ -24,12 +24,16 @@ jobs:
       - name: Prepare site directory
         run: |
           mkdir -p _site
-          # 主入口：index.html 若不存在则回退到中文名文件
+          # 顶层首页（阅读区 / 拼写练习区）
           if [ -f index.html ]; then
             cp index.html _site/index.html
           else
             cp "考研英语历年巅峰难度阅读研习系统.html" _site/index.html
           fi
+          # 子页面
+          [ -f reading.html ] && cp reading.html _site/ || true
+          [ -f spelling.html ] && cp spelling.html _site/ || true
+          [ -f "考研英语历年巅峰难度阅读研习系统.html" ] && cp "考研英语历年巅峰难度阅读研习系统.html" _site/ || true
           # 附带数据与说明，便于页面/下载
           [ -f hardest_reading_final.json ] && cp hardest_reading_final.json _site/ || true
           [ -f README.md ] && cp README.md _site/ || true

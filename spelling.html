@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>拼写练习 · 看中文拼英文 | 考研英语 N IN ONE</title>
+<style>
+:root{
+  --bg:#f4ede4; --card:#fdfbf7; --ink:#2d261e; --muted:#796c5e; --line:#e8ded2;
+  --accent:#b45309; --accent-soft:#f7ecda; --warn:#b91c1c; --ok:#15803d; --gray:#cdbfae;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);min-height:100vh;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;}
+.page{max-width:880px;margin:0 auto;padding:44px 20px 80px}
+.brand{font-size:11.5px;letter-spacing:.24em;color:var(--accent);font-weight:700}
+h1{font-size:clamp(23px,3.3vw,32px);margin:12px 0 8px;letter-spacing:-.01em;line-height:1.25}
+.lead{margin:0;color:var(--muted);font-size:13.5px;line-height:1.8}
+.hstats{margin:16px 0 0;font-size:12.5px;color:var(--muted);line-height:1.8}
+.hstats b{color:var(--accent);font-weight:700}
+.hsect{margin:34px 0 0}
+.hhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 14px}
+.hhead h2{font-size:17.5px;margin:0;letter-spacing:.01em}
+.hdesc{font-size:12.5px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:12px}
+.dcard{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px 14px;
+  cursor:pointer;font-family:inherit;color:var(--ink);transition:border-color .18s,transform .18s,box-shadow .18s}
+.dcard:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:0 14px 30px -24px rgba(25,40,45,.5)}
+.dtop{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.dname{font-weight:700;font-size:15px}
+.dcount{font-size:11px;color:var(--muted);background:var(--accent-soft);padding:2px 8px;border-radius:99px;white-space:nowrap}
+.dsub{font-size:12.5px;color:var(--muted);margin:6px 0 12px;line-height:1.55;height:2.9em;overflow:hidden}
+.dbar{height:4px;background:var(--line);border-radius:99px;overflow:hidden}
+.dbar span{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s}
+.dmeta{font-size:11.5px;color:var(--muted);margin-top:8px}
+.crumb{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:4px 0 14px}
+#btnHome{border:1px solid var(--line);background:transparent;color:var(--muted);font-family:inherit;font-size:13px;
+  padding:8px 14px;border-radius:9px;cursor:pointer;transition:all .18s}
+#btnHome:hover{color:var(--accent);border-color:var(--accent)}
+.crumb .path{font-size:12.5px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px 28px 22px;box-shadow:0 26px 60px -42px rgba(25,40,45,.45)}
+.meta{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--muted);letter-spacing:.02em}
+.progress{height:4px;background:var(--line);border-radius:99px;margin:12px 0 20px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .35s ease}
+.cnwrap{margin:0 0 24px;padding:15px 18px;background:var(--accent-soft);border-radius:14px}
+.cnlabel{font-size:11px;letter-spacing:.18em;color:var(--accent);font-weight:700}
+.tag{font-size:11px;letter-spacing:0;color:var(--accent);background:rgba(255,255,255,.5);border:1px solid var(--accent);
+  padding:1px 8px;border-radius:99px;margin-left:8px;font-weight:600}
+
+.cn{margin:7px 0 0;font-size:clamp(15.5px,1.9vw,18px);line-height:1.85;color:var(--ink)}
+.sentence{font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:2.8;padding:8px 2px 2px;min-height:86px;word-wrap:break-word}
+.sp{display:inline-block;width:.45em}
+.punct{color:var(--muted);font-family:Georgia,serif;padding:0 1px}
+.winput{font-family:Georgia,"Times New Roman",serif;font-size:19px;color:var(--ink);background:transparent;
+  border:0;border-bottom:2px solid var(--gray);border-radius:0;outline:none;padding:0 2px 1px;margin:0 2px;text-align:center;
+  width:5em;min-width:5em;transition:border-color .15s,color .15s,background .15s;vertical-align:baseline}
+.winput:focus{border-bottom-color:var(--accent);background:rgba(47,107,94,.04)}
+.winput.good{border-bottom-color:var(--ok);color:var(--ok)}
+.winput.bad{border-bottom-color:var(--warn);color:var(--warn);background:rgba(193,78,55,.05)}
+.winput.ghost{border-bottom-color:var(--ok);color:var(--ok);opacity:.62}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 10px}
+.tbtn{border:1px solid var(--line);background:transparent;color:var(--muted);font-size:12.8px;padding:7px 13px;border-radius:9px;cursor:pointer;font-family:inherit;transition:all .18s}
+.tbtn:hover{color:var(--accent);border-color:var(--accent)}
+.tbtn.holding{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+#btnReveal{touch-action:none;user-select:none;-webkit-user-select:none}
+.feedback{margin-top:12px;font-size:14px;line-height:1.9;display:none;min-height:24px}
+.feedback.show{display:block}
+.fb-ok{color:var(--ok);font-weight:700;font-size:15px}
+.fb-bad{color:var(--warn);font-weight:600;font-size:14.5px}
+.fb-note{color:var(--muted);font-size:13.5px}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:20px;align-items:center}
+button.primary{background:var(--accent);color:#fff;border:0;padding:11px 28px;border-radius:11px;font-size:14.5px;cursor:pointer;font-family:inherit;font-weight:700;transition:filter .18s}
+button.primary:hover{filter:brightness(1.08)}
+button.ghost2{background:transparent;border:1px solid var(--line);color:var(--muted);padding:11px 18px;border-radius:11px;font-size:13.5px;cursor:pointer;font-family:inherit;transition:all .18s}
+button.ghost2:hover{color:var(--accent);border-color:var(--accent)}
+button:disabled{opacity:.35;cursor:not-allowed}
+.foot{margin-top:22px;text-align:center;color:var(--muted);font-size:12.5px}
+.linkbtn{border:0;background:none;color:var(--muted);font-size:12px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;margin-left:12px;font-family:inherit;padding:0}
+.linkbtn:hover{color:var(--accent)}
+.keys-fab{position:fixed;right:18px;bottom:18px;z-index:50;border:1px solid var(--line);background:var(--card);color:var(--muted);
+  font-family:inherit;font-size:12.5px;padding:9px 14px;border-radius:999px;box-shadow:0 12px 26px -16px rgba(20,30,35,.6);cursor:pointer;transition:all .18s}
+.keys-fab:hover{color:var(--accent);border-color:var(--accent)}
+.keyhint{margin:6px 0 0;font-size:11.5px;color:var(--muted);line-height:2.1}
+.keyhint kbd{font-family:inherit;background:var(--accent-soft);border:1px solid var(--line);border-radius:5px;padding:0 5px;font-size:11px;color:var(--accent)}
+.modal{position:fixed;inset:0;z-index:80;background:rgba(15,22,25,.45);display:flex;align-items:center;justify-content:center;padding:20px}
+.modal[hidden]{display:none}
+.modal-card{background:var(--card);border:1px solid var(--line);border-radius:18px;max-width:540px;width:100%;max-height:86vh;overflow:auto;padding:22px 24px 20px;box-shadow:0 30px 70px -30px rgba(0,0,0,.55)}
+.modal-card h3{margin:0 0 6px;font-size:18px}
+.modal-tip{margin:0 0 14px;font-size:12.5px;color:var(--muted);line-height:1.8}
+.krow{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:10px 0;border-top:1px solid var(--line)}
+.krow:first-child{border-top:0}
+.kname{font-size:14px;font-weight:600}
+.kdesc{font-size:11.5px;color:var(--muted);margin-top:2px}
+.kbtn{border:1px solid var(--line);background:transparent;color:var(--ink);font-family:inherit;font-size:12.5px;padding:6px 12px;border-radius:8px;cursor:pointer;min-width:132px;text-align:center;white-space:nowrap}
+.kbtn:hover{border-color:var(--accent);color:var(--accent)}
+.kbtn.rec{color:var(--warn);border-color:var(--warn);background:rgba(193,78,55,.07)}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+@media (max-width:640px){
+  .page{padding:26px 14px 64px}
+  .card{padding:20px 16px 18px;border-radius:16px}
+  .sentence,.winput{font-size:17px}
+  .grid{grid-template-columns:1fr 1fr;gap:10px}
+  .dcard{padding:12px 13px}
+  .nav button{padding:10px 16px}
+}
+
+/* ===== 统一风格 · 与阅读区一致的纸感主题 ===== */
+body{background:radial-gradient(1200px 500px at 50% -140px,#fbf3e6 0,rgba(251,243,230,0) 70%),var(--bg);
+  color:var(--ink);}
+.topnav{position:sticky;top:0;z-index:60;background:rgba(250,244,235,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topnav-inner{max-width:880px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 20px}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.nb-badge{background:linear-gradient(135deg,#b45309,#d97706);color:#fff;font-weight:800;font-size:12.5px;padding:3px 9px;border-radius:6px;letter-spacing:.4px}
+.nb-sub{font-size:12px;color:var(--muted);letter-spacing:.12em}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-links a{font-size:12.5px;color:var(--muted);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:8px;transition:all .15s;white-space:nowrap}
+.nav-links a:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.brand{color:var(--accent)}
+.card{box-shadow:0 26px 60px -42px rgba(90,60,30,.45)}
+.dcard:hover{box-shadow:0 14px 30px -24px rgba(90,60,30,.5)}
+@media(max-width:640px){.nb-sub{display:none}.topnav-inner{padding:9px 14px}.nav-links a{padding:6px 9px;font-size:12px}}
+</style>
+</head>
+<body>
+<nav class="topnav"><div class="topnav-inner">
+  <a class="nav-brand" href="index.html"><span class="nb-badge">拼写练习</span><span class="nb-sub">作文句子 · 主题词</span></a>
+  <div class="nav-links"><a href="reading.html">📖 阅读练习</a><a href="index.html">🏠 首页</a></div>
+</div></nav>
+<div class="page">
+  <header id="hero">
+    <div class="brand">SPELLING · 看中文写英文</div>
+    <h1>作文句子 &amp; 主题词拼写</h1>
+    <p class="lead">先选一组练习：作文整句，或历年真题/必备主题词。每条横线填一个英文单词，标点不用输入；按空格或回车逐词确认——写对变绿、写错变红、没填是灰色。「按住显示答案」按住才显示，松开即恢复你写的内容。主题词整理自《英语二历年主题词汇总及拓展》。</p>
+    <p class="hstats" id="hstats"></p>
+  </header>
+
+  <section id="home"></section>
+
+  <section id="practice" hidden>
+    <div class="crumb">
+      <button id="btnHome">← 目录</button>
+      <span class="path" id="crumbText"></span>
+    </div>
+    <div class="card">
+      <div class="meta"><span id="metaLeft"></span><span id="metaRight"></span></div>
+      <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="cnwrap">
+        <div class="cnlabel">中文<span class="tag" id="partTag"></span></div>
+        <p class="cn" id="cn"></p>
+      </div>
+      <div class="sentence" id="sentence"></div>
+      <div class="tools">
+        <button class="tbtn" id="btnSpeak">🔊 朗读答案</button>
+        <button class="tbtn" id="btnReveal" title="按住显示答案，松开恢复你输入的内容">👁 按住显示答案</button>
+        <button class="tbtn" id="btnClear">⌫ 清空本句</button>
+      </div>
+      <p class="keyhint" id="keyHint"></p>
+      <div class="feedback" id="feedback"></div>
+      <div class="nav">
+        <button class="ghost2" id="btnPrev">← 上一句</button>
+        <button class="primary" id="btnCheck">检查</button>
+        <button class="ghost2" id="btnNext">下一句 →</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot"><span id="footStats"></span><button id="btnReset" class="linkbtn">清除练习记录</button></footer>
+</div>
+
+<button class="keys-fab" id="btnKeys">⌨ 快捷键</button>
+
+<div class="modal" id="keysModal" hidden>
+  <div class="modal-card">
+    <h3>快捷键设置</h3>
+    <p class="modal-tip">点击右侧按键，再按下新的组合键即可修改（按 Esc 取消）。「按住显示答案」是按住生效、松开消失。</p>
+    <div id="keyList"></div>
+    <div class="modal-actions">
+      <button class="ghost2" id="btnKeysReset">恢复默认</button>
+      <button class="primary" id="btnKeysClose">完成</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var DATA = {"SETS":[{"id":"s2026","name":"2026 范文","group":"作文句子","sub":"2026 英语二图表作文 · 9 句","items":[{"part":"第一段","cn":"该柱状图清晰地展示了一项关于人们对儿童户外活动益处的看法的调查结果。","en":"The column chart clearly illustrates the results of a survey on people’s views regarding the benefits of children’s outdoor activities."},{"part":"第一段","cn":"统计数据显示，满足好奇心和增强观察能力位居前列，分别占 54.6% 和 54.5%。","en":"According to the statistics, satisfying curiosity and enhancing observation ability top the list, accounting for 54.6% and 54.5% respectively."},{"part":"第一段","cn":"与此同时，增强体质和加强亲子互动也受到相当关注，分别为 37.2% 和 33.2%。","en":"Meanwhile, building physical fitness and strengthening parent-child interaction also garner notable attention, at 37.2% and 33.2%."},{"part":"第二段","cn":"图表表明，公众普遍认识到户外活动在儿童认知和身体发育中的关键作用。","en":"The chart indicates that the public widely recognizes the crucial role of outdoor activities in children’s cognitive and physical development."},{"part":"第二段","cn":"如今，越来越多的孩子被局限在室内空间和电子屏幕前，这也解释了为什么家长把大自然视为激发好奇心和观察力的理想课堂。","en":"Nowadays, an increasing number of children are confined to indoor spaces and electronic screens, which explains why parents value nature as an ideal classroom to stimulate curiosity and observation."},{"part":"第二段","cn":"此外，与室内学习相比，户外探索天然地鼓励体育锻炼，并创造了宝贵的家庭互动机会。","en":"Furthermore, compared with indoor study, outdoor exploration naturally encourages physical exercise and creates valuable opportunities for family bonding."},{"part":"第三段","cn":"基于以上分析，我们可以有把握地得出结论：户外活动对儿童的全面成长不可或缺。","en":"Based on the above analysis, we can safely conclude that outdoor activities are indispensable for children’s holistic growth."},{"part":"第三段","cn":"因此，家长应留出更多时间陪孩子在户外活动，同时社区应提供更安全的休闲设施。","en":"Therefore, parents should set aside more time to accompany their kids outdoors while communities provide safer recreational facilities."},{"part":"第三段","cn":"只有让孩子拥抱自然，他们才能实现全面发展。","en":"Only if children embrace nature can they achieve well-rounded development."}]},{"id":"s2025","name":"2025 范文","group":"作文句子","sub":"2025 英语二图表作文 · 9 句","items":[{"part":"第一段","cn":"该柱状图清晰地展示了一项关于某社区老年人日常主要休闲活动的调查结果。","en":"The column chart clearly illustrates the results of a survey on the main daily leisure activities of senior citizens in a certain community."},{"part":"第一段","cn":"统计数据显示，看电视以压倒性优势位居第一，占 90.8%，其次是散步，占 68.3%。","en":"According to the statistics, watching TV ranks first by an overwhelming margin, accounting for 90.8%, followed by taking a walk at 68.3%."},{"part":"第一段","cn":"相比之下，园艺、阅读和下棋所占比例要小得多，分别为 34.7%、31.8% 和 18.4%。","en":"By contrast, gardening, reading, and playing chess occupy much smaller proportions, at 34.7%, 31.8%, and 18.4% respectively."},{"part":"第二段","cn":"图表表明，老年人的日常消遣相对单调，严重依赖被动型娱乐。","en":"The chart indicates that the elderly’s daily pastimes are relatively monotonous, heavily reliant on passive entertainment."},{"part":"第二段","cn":"由于退休后身体活动能力下降、社交圈有限，老年人往往选择省力又方便的活动，比如在家看电视或在附近散步，这解释了它们为何占主导。","en":"Due to declining physical mobility and limited social circles after retirement, seniors tend to choose low-effort and accessible activities like watching TV at home or strolling nearby, which explains their dominance."},{"part":"第二段","cn":"然而，缺乏益智性和互动性的活动可能逐渐影响他们的精神活力和社会归属感。","en":"However, a lack of intellectually stimulating and interactive activities may gradually affect their mental vitality and sense of social belonging."},{"part":"第三段","cn":"基于以上分析，我们可以有把握地得出结论：丰富老年人的精神生活值得更多关注。","en":"Based on the above analysis, we can safely conclude that enriching the elderly’s spiritual life deserves greater attention."},{"part":"第三段","cn":"因此，社区应组织多样化的文化俱乐部，同时家庭成员应给予更多陪伴。","en":"Therefore, communities should organize diverse cultural clubs while family members offer more companionship."},{"part":"第三段","cn":"只有让老年人享有丰富多彩、充实有趣的退休生活，他们才能真正实现健康老龄化。","en":"Only if seniors enjoy a colorful and engaging retirement life can they truly achieve healthy aging."}]},{"id":"y2010","name":"2010 年","group":"历年主题词","sub":"主题：手机用户数量的变化","items":[{"part":"主题","cn":"手机用户数量的变化","en":"the change in the number of mobile phone subscriptions"},{"part":"相关词汇","cn":"手机用户数量","en":"mobile-phone subscriptions"},{"part":"相关词汇","cn":"发达国家和发展中国家","en":"developed and developing countries"},{"part":"相关词汇","cn":"人口数量众多","en":"have a great population"},{"part":"相关词汇","cn":"经济迅速发展","en":"rapid development of economy"},{"part":"相关词汇","cn":"科技","en":"science and technology"},{"part":"拓展词汇","cn":"网民","en":"Internet user"},{"part":"拓展词汇","cn":"互联网经济","en":"internet economy"},{"part":"拓展词汇","cn":"网上交易","en":"online transaction"},{"part":"拓展词汇","cn":"智能家电","en":"smart appliance"},{"part":"拓展词汇","cn":"电子书","en":"e-book (electronic book)"},{"part":"拓展词汇","cn":"在线学习","en":"online learning"}]},{"id":"y2011","name":"2011 年","group":"历年主题词","sub":"主题：国内轿车市场部分品牌市场份额示意图","items":[{"part":"主题","cn":"国内轿车市场部分品牌市场份额示意图","en":"bar chart of domestic automobile market share"},{"part":"相关词汇","cn":"中国汽车产业","en":"Chinese automobile industry"},{"part":"相关词汇","cn":"国内汽车市场","en":"domestic car markets"},{"part":"相关词汇","cn":"市场份额","en":"the market share"},{"part":"相关词汇","cn":"中国品牌占比","en":"the percentage of Chinese brands"},{"part":"相关词汇","cn":"科技的进步","en":"advancements in science and technology"},{"part":"相关词汇","cn":"产品质量和售后服务","en":"product quality and after-sales service"},{"part":"相关词汇","cn":"良好口碑","en":"good reputation"},{"part":"拓展词汇","cn":"手机市场","en":"mobile phone market"},{"part":"拓展词汇","cn":"家电市场","en":"home appliance market"},{"part":"拓展词汇","cn":"网购市场","en":"online shopping market"}]},{"id":"y2012","name":"2012 年","group":"历年主题词","sub":"主题：某公司员工工作满意度调查","items":[{"part":"主题","cn":"某公司员工工作满意度调查","en":"job satisfaction among employees of a company"},{"part":"相关词汇","cn":"工作满意度","en":"job satisfaction"},{"part":"相关词汇","cn":"经济压力","en":"economic pressures"},{"part":"相关词汇","cn":"工作压力","en":"work stress"},{"part":"相关词汇","cn":"家庭压力","en":"family stress"},{"part":"相关词汇","cn":"面对来自多方面的挑战","en":"face challenges from different aspects"},{"part":"相关词汇","cn":"创造和谐的工作氛围","en":"create a harmonious working environment"},{"part":"拓展词汇","cn":"幸福指数","en":"happiness index"},{"part":"拓展词汇","cn":"事业单位","en":"public institutions"},{"part":"拓展词汇","cn":"国企","en":"state-owned enterprise"},{"part":"拓展词汇","cn":"私企","en":"private enterprises"},{"part":"拓展词汇","cn":"人才市场","en":"talent market"},{"part":"拓展词汇","cn":"人力资源","en":"human resource"},{"part":"拓展词汇","cn":"员工福利","en":"employee benefit"},{"part":"拓展词汇","cn":"员工培训","en":"staff training"},{"part":"拓展词汇","cn":"体力与脑力培训","en":"physical and mental training"},{"part":"拓展词汇","cn":"五险一金","en":"five social insurance and one housing fund"},{"part":"拓展词汇","cn":"奖金","en":"bonus"},{"part":"拓展词汇","cn":"报酬","en":"remuneration"}]},{"id":"y2013","name":"2013 年","group":"历年主题词","sub":"主题：某高校学生兼职情况","items":[{"part":"主题","cn":"某高校学生兼职情况","en":"the proportion of the students taking part-time jobs"},{"part":"相关词汇","cn":"兼职","en":"part-time jobs"},{"part":"相关词汇","cn":"临时工","en":"temporary employee"},{"part":"相关词汇","cn":"平衡某人时间","en":"balance one’s time"},{"part":"相关词汇","cn":"自立","en":"self-independence"},{"part":"相关词汇","cn":"独立能力","en":"the ability of independence"},{"part":"相关词汇","cn":"工作经验","en":"work experience"},{"part":"相关词汇","cn":"适应社会","en":"adapt to the society"},{"part":"拓展词汇","cn":"奖学金","en":"scholarship"},{"part":"拓展词汇","cn":"全职工作","en":"full-time job"},{"part":"拓展词汇","cn":"校园工作","en":"campus job"},{"part":"拓展词汇","cn":"勤工俭学","en":"work-study program"}]},{"id":"y2014","name":"2014 年","group":"历年主题词","sub":"主题：20年间中国城镇人口与乡村人口变化图","items":[{"part":"主题","cn":"20年间中国城镇人口与乡村人口变化图","en":"the numerical changes of urban residents and rural population over the past 20 years"},{"part":"相关词汇","cn":"乡村/城镇人口","en":"rural/urban population"},{"part":"相关词汇","cn":"城市化","en":"urbanization"},{"part":"相关词汇","cn":"城镇化进程","en":"the process of urbanization"},{"part":"相关词汇","cn":"乡村发展","en":"rural development"},{"part":"相关词汇","cn":"城镇发展","en":"urban development"},{"part":"拓展词汇","cn":"城市基础设施","en":"urban infrastructure"},{"part":"拓展词汇","cn":"医疗条件","en":"medical condition"},{"part":"拓展词汇","cn":"教育资源","en":"educational resources"},{"part":"拓展词汇","cn":"生活质量","en":"the quality of life"}]},{"id":"y2015","name":"2015 年","group":"历年主题词","sub":"主题：我国某市居民春节假期花销比例","items":[{"part":"主题","cn":"我国某市居民春节假期花销比例","en":"the residents’ spending during the Spring Festival"},{"part":"相关词汇","cn":"春节礼物","en":"the Spring Festival presents"},{"part":"相关词汇","cn":"过度消费","en":"excessive consumption"},{"part":"相关词汇","cn":"人际交往","en":"interpersonal communication"},{"part":"相关词汇","cn":"理性消费","en":"reasonable consumption"},{"part":"相关词汇","cn":"适度的消费观","en":"moderate consumption concept"},{"part":"拓展词汇","cn":"庆祝","en":"celebration"},{"part":"拓展词汇","cn":"走亲访友","en":"visit relatives and friends"},{"part":"拓展词汇","cn":"新年祝福","en":"New Year’s blessing"}]},{"id":"y2016","name":"2016 年","group":"历年主题词","sub":"主题：学生旅游目的调查","items":[{"part":"主题","cn":"学生旅游目的调查","en":"the purpose of students’ touring"},{"part":"相关词汇","cn":"释放压力","en":"relieve pressure"},{"part":"相关词汇","cn":"放松自己","en":"relax themselves"},{"part":"相关词汇","cn":"欣赏风景","en":"sightseeing / enjoy natural beauty"},{"part":"拓展词汇","cn":"交通出行","en":"transportation"},{"part":"拓展词汇","cn":"名胜古迹","en":"scenic spots and historical sites"},{"part":"拓展词汇","cn":"科技展览馆","en":"science and technology museum"},{"part":"拓展词汇","cn":"历史博物馆","en":"history museum"},{"part":"拓展词汇","cn":"国家森林公园","en":"national forest park"},{"part":"拓展词汇","cn":"拥抱大自然","en":"embrace the nature"}]},{"id":"y2017","name":"2017 年","group":"历年主题词","sub":"主题：我国博物馆数量和人数","items":[{"part":"主题","cn":"我国博物馆数量和人数","en":"the number and attendance of museums in China"},{"part":"相关词汇","cn":"参观博物馆","en":"visit museums"},{"part":"相关词汇","cn":"博物馆普及","en":"the popularization of museums"},{"part":"相关词汇","cn":"博物馆建设","en":"construction of the museums"},{"part":"相关词汇","cn":"传承文化","en":"inherit the culture"},{"part":"相关词汇","cn":"获取知识","en":"acquire knowledge"},{"part":"相关词汇","cn":"扩宽眼界","en":"broaden our horizon"}]},{"id":"y2018","name":"2018 年","group":"历年主题词","sub":"主题：消费者选择餐厅时的关注因素","items":[{"part":"主题","cn":"消费者选择餐厅时的关注因素","en":"factors influencing consumers' choice of restaurants"},{"part":"相关词汇","cn":"消费者","en":"consumer"},{"part":"相关词汇","cn":"特色","en":"feature / characteristic"},{"part":"相关词汇","cn":"餐厅服务","en":"restaurant service"},{"part":"相关词汇","cn":"用餐环境","en":"eating environment"},{"part":"相关词汇","cn":"菜品价格","en":"food prices"},{"part":"拓展词汇","cn":"来自世界各地的美食","en":"food from all over the world"},{"part":"拓展词汇","cn":"垃圾食品","en":"junk food"},{"part":"拓展词汇","cn":"快餐","en":"fast food"},{"part":"拓展词汇","cn":"用餐体验","en":"dining experience"}]},{"id":"y2019","name":"2019 年","group":"历年主题词","sub":"主题：某高校2013年和2018年本科毕业生去向统计","items":[{"part":"主题","cn":"某高校2013年和2018年本科毕业生去向统计","en":"the changes of choices of graduates of a university in 2013 and 2018"},{"part":"相关词汇","cn":"就业","en":"get a job"},{"part":"相关词汇","cn":"继续深造","en":"continue further study/pursue advanced studies"},{"part":"相关词汇","cn":"创业","en":"start a business"},{"part":"相关词汇","cn":"职业规划","en":"career planning"},{"part":"拓展词汇","cn":"理想信念","en":"ideal and faith"},{"part":"拓展词汇","cn":"出国留学","en":"study abroad"},{"part":"拓展词汇","cn":"考研","en":"take part in the postgraduate entrance exams"},{"part":"拓展词汇","cn":"求职","en":"apply for a job"}]},{"id":"y2020","name":"2020 年","group":"历年主题词","sub":"主题：某高校学生手机阅读目的的调查","items":[{"part":"主题","cn":"某高校学生手机阅读目的的调查","en":"the use of mobile reading of students in a university"},{"part":"相关词汇","cn":"学习知识","en":"acquire knowledge"},{"part":"相关词汇","cn":"获取信息","en":"obtain information"},{"part":"相关词汇","cn":"消磨时间","en":"kill time"},{"part":"相关词汇","cn":"手机依赖","en":"mobile phone dependence"},{"part":"相关词汇","cn":"过度依赖手机的习惯","en":"the habit of excessive reliance on phones"},{"part":"拓展词汇","cn":"互联网","en":"the Internet"},{"part":"拓展词汇","cn":"数码产品","en":"digital products"},{"part":"拓展词汇","cn":"虚拟世界","en":"virtual world"},{"part":"拓展词汇","cn":"人际交流","en":"interpersonal communication"},{"part":"拓展词汇","cn":"低头族/手机上瘾者","en":"smartphone addict"},{"part":"拓展词汇","cn":"手机软件","en":"mobile software/ smartphone app"}]},{"id":"y2021","name":"2021 年","group":"历年主题词","sub":"主题：某市居民体育锻炼方式调查","items":[{"part":"主题","cn":"某市居民体育锻炼方式调查","en":"the ways residents in a city choose to do exercise"},{"part":"相关词汇","cn":"独自锻炼","en":"exercise alone"},{"part":"相关词汇","cn":"和朋友/家人一起锻炼","en":"exercise with friends/family members"},{"part":"相关词汇","cn":"团体活动","en":"group activity"},{"part":"相关词汇","cn":"体育锻炼","en":"physical exercise"},{"part":"相关词汇","cn":"身体健康的重要性","en":"the importance of physical health"},{"part":"拓展词汇","cn":"健康的生活方式","en":"healthy lifestyle"},{"part":"拓展词汇","cn":"骑单车","en":"cycling"},{"part":"拓展词汇","cn":"徒步","en":"hike"},{"part":"拓展词汇","cn":"广场舞","en":"square dancing"}]},{"id":"y2022","name":"2022 年","group":"历年主题词","sub":"主题：快递业务量调查","items":[{"part":"主题","cn":"快递业务量调查","en":"the growth of China’s express delivery services"},{"part":"相关词汇","cn":"快递业","en":"express delivery industry"},{"part":"相关词汇","cn":"总体的","en":"total"},{"part":"相关词汇","cn":"乡村的","en":"rural"},{"part":"相关词汇","cn":"快递业务量","en":"express delivery volumes"},{"part":"相关词汇","cn":"订单","en":"order"},{"part":"相关词汇","cn":"网购","en":"online shopping"},{"part":"拓展词汇","cn":"交通运输","en":"transportation"},{"part":"拓展词汇","cn":"乡村振兴","en":"rural revitalization"},{"part":"拓展词汇","cn":"改善生活环境","en":"improve living conditions"},{"part":"拓展词汇","cn":"提高生活质量","en":"enhance the quality of life"},{"part":"拓展词汇","cn":"小康生活","en":"well-off life"}]},{"id":"y2023","name":"2023 年","group":"历年主题词","sub":"主题：居民健康素养调查","items":[{"part":"主题","cn":"居民健康素养调查","en":"the changes of residents’ health literacy"},{"part":"相关词汇","cn":"健康素养","en":"health literacy"},{"part":"相关词汇","cn":"健康行为","en":"healthy behavior"},{"part":"相关词汇","cn":"健康生活方式","en":"healthy lifestyle"},{"part":"相关词汇","cn":"居民健康水平","en":"residents' health status"},{"part":"相关词汇","cn":"健康知识信息","en":"health knowledge and information"},{"part":"相关词汇","cn":"运动锻炼","en":"exercise training"},{"part":"相关词汇","cn":"身心健康","en":"physical and mental health"},{"part":"拓展词汇","cn":"亚健康","en":"sub-health"},{"part":"拓展词汇","cn":"全民健身运动","en":"national fitness campaign"},{"part":"拓展词汇","cn":"健康饮食","en":"healthy diet"},{"part":"拓展词汇","cn":"慢性病","en":"chronic disease"},{"part":"拓展词汇","cn":"幸福生活","en":"happy life"},{"part":"拓展词汇","cn":"医疗设施","en":"medical facilities"},{"part":"拓展词汇","cn":"医疗卫生服务","en":"health care services"},{"part":"拓展词汇","cn":"自我保护","en":"self-protection"},{"part":"拓展词汇","cn":"社会经济发展","en":"social and economic development"}]},{"id":"y2024","name":"2024 年","group":"历年主题词","sub":"主题：劳动实践课收获调查","items":[{"part":"主题","cn":"劳动实践课收获调查","en":"achievements in labor practice course"},{"part":"相关词汇","cn":"参加实践活动","en":"participating in practical activities"},{"part":"相关词汇","cn":"获得相关知识","en":"acquiring relevant knowledge"},{"part":"相关词汇","cn":"提升动手能力","en":"raising labor abilities"},{"part":"相关词汇","cn":"感到舒适放松","en":"feeling comfortable"},{"part":"相关词汇","cn":"增强合作能力","en":"enhancing cooperation capacity"},{"part":"相关词汇","cn":"运动锻炼","en":"exercise training"},{"part":"相关词汇","cn":"身心健康","en":"physical and mental health"},{"part":"拓展词汇","cn":"问题解决技巧","en":"problem-solving skills"},{"part":"拓展词汇","cn":"批判性思考","en":"think critically"},{"part":"拓展词汇","cn":"跳出思维定势","en":"think out of the box"},{"part":"拓展词汇","cn":"自信和独立","en":"self-confidence and independence"},{"part":"拓展词汇","cn":"处理不同的问题","en":"handle various situations"},{"part":"拓展词汇","cn":"交流和团队协作技巧","en":"communication and teamwork skills"}]},{"id":"y2025","name":"2025 年","group":"历年主题词","sub":"主题：日常休闲活动","items":[{"part":"主题","cn":"日常休闲活动","en":"daily leisure activities"},{"part":"相关词汇","cn":"看电视","en":"watch television"},{"part":"相关词汇","cn":"户外散步","en":"take a walk outdoors"},{"part":"相关词汇","cn":"养花/园艺","en":"gardening"},{"part":"相关词汇","cn":"阅读","en":"reading"},{"part":"相关词汇","cn":"下棋","en":"play chess"},{"part":"拓展词汇","cn":"独自进行的活动","en":"solitary activities"},{"part":"拓展词汇","cn":"社交活动","en":"social activities"},{"part":"拓展词汇","cn":"轻度体力活动","en":"light physical activities"},{"part":"拓展词汇","cn":"智力活动","en":"intellectual pursuits"},{"part":"拓展词汇","cn":"放松型爱好","en":"relaxing hobbies"}]},{"id":"t0","name":"文化类","group":"必备主题词","sub":"词组、文明为核心的词组、时政表达、节假日、其他","items":[{"part":"词组","cn":"东方文化","en":"oriental culture"},{"part":"词组","cn":"西方文化","en":"western culture"},{"part":"词组","cn":"多元文化","en":"multicultural"},{"part":"词组","cn":"文化多样性","en":"cultural diversification"},{"part":"词组","cn":"文化融合","en":"cultural integration"},{"part":"词组","cn":"文化遗产","en":"cultural heritage"},{"part":"词组","cn":"文物","en":"cultural relics"},{"part":"词组","cn":"文化底蕴","en":"cultural deposits"},{"part":"词组","cn":"文化景观","en":"cultural landscape"},{"part":"词组","cn":"跨文化交流","en":"cross cultural communication"},{"part":"词组","cn":"文物保护利用","en":"protection and utilization of cultural relics"},{"part":"词组","cn":"文化传播途径","en":"channels of cultural transmission"},{"part":"词组","cn":"新兴文化产业","en":"emerging cultural industries"},{"part":"文明为核心的词组","cn":"文明交流互鉴","en":"mutual learning between civilizations"},{"part":"文明为核心的词组","cn":"人类文明赓续","en":"the continuity of human civilization"},{"part":"文明为核心的词组","cn":"中华五千年文明","en":"the 5000-year-old Chinese civilization"},{"part":"文明为核心的词组","cn":"精神文明","en":"spiritual civilization"},{"part":"文明为核心的词组","cn":"精神财富","en":"spiritual wealth"},{"part":"时政表达","cn":"弘扬优秀传统文化","en":"carrying forward excellent traditional culture"},{"part":"时政表达","cn":"中华文化博大精深，源远流长","en":"Chinese culture boasts a long history, endowed with broad and profound significance"},{"part":"时政表达","cn":"增强中华民族的凝聚力","en":"enhance the cohesion of the Chinese nation"},{"part":"节假日","cn":"国庆假期","en":"the National Day holiday"},{"part":"节假日","cn":"冬至","en":"the Winter Solstice"},{"part":"节假日","cn":"元宵节","en":"the Lantern Festival"},{"part":"节假日","cn":"复活节","en":"the Easter"},{"part":"节假日","cn":"春联","en":"Spring Festival couplets"},{"part":"其他","cn":"农历","en":"lunar calendar"},{"part":"其他","cn":"民族自豪感","en":"national pride"},{"part":"其他","cn":"红色传统","en":"traditions from revolutionary times"},{"part":"其他","cn":"吉祥的象征","en":"auspicious symbol"},{"part":"其他","cn":"古建筑","en":"ancient architecture"},{"part":"其他","cn":"儒释道","en":"Confucianism, Buddhism and Taoism"}]},{"id":"t1","name":"科技创新类","group":"必备主题词","sub":"智能、数字、虚拟、时政表达","items":[{"part":"智能","cn":"智能产业","en":"intelligent industry"},{"part":"智能","cn":"云计算","en":"cloud computing"},{"part":"智能","cn":"机器人技术","en":"robot technology"},{"part":"智能","cn":"人形机器人","en":"humanoid robot"},{"part":"智能","cn":"人工智能","en":"artificial intelligence"},{"part":"智能","cn":"人机协作","en":"man-machine cooperation"},{"part":"智能","cn":"人脸识别支付","en":"payments using facial recognition"},{"part":"智能","cn":"无人驾驶","en":"unmanned driving"},{"part":"智能","cn":"新能源汽车","en":"new energy automobile"},{"part":"智能","cn":"智能驾驶","en":"intelligent driving"},{"part":"数字","cn":"数字基础设施","en":"digital infrastructure"},{"part":"数字","cn":"流媒体服务","en":"streaming service"},{"part":"数字","cn":"数码产品","en":"digital product"},{"part":"数字","cn":"数字经济","en":"digital economy"},{"part":"数字","cn":"生活服务数字化","en":"digitization of life services"},{"part":"虚拟","cn":"虚拟现实","en":"virtual reality"},{"part":"虚拟","cn":"数字世界","en":"digital world"},{"part":"时政表达","cn":"关键核心技术","en":"core technologies in key fields"},{"part":"时政表达","cn":"技术进步","en":"technology advancement"},{"part":"时政表达","cn":"创新驱动发展","en":"innovation-driven development"},{"part":"时政表达","cn":"开拓创新","en":"forge ahead with innovation"},{"part":"时政表达","cn":"科技自立自强","en":"self-reliance and strength in science and technology"}]},{"id":"t2","name":"自然环境类","group":"必备主题词","sub":"环境资源 · 保护、绿色、环保、自然灾害、自然景观、时政表达","items":[{"part":"环境资源 · 保护","cn":"环境保护","en":"environmental protection"},{"part":"环境资源 · 保护","cn":"资源保护","en":"resources conservation"},{"part":"环境资源 · 保护","cn":"海洋资源保护","en":"marine resources conservation"},{"part":"环境资源 · 保护","cn":"水资源保护","en":"water resources conservation"},{"part":"环境资源 · 保护","cn":"野生动物保护","en":"wildlife protection"},{"part":"环境资源 · 保护","cn":"生物多样性保护","en":"biodiversity conservation"},{"part":"绿色","cn":"绿色低碳","en":"green and low-carbon development"},{"part":"绿色","cn":"绿色经济","en":"green economy"},{"part":"绿色","cn":"可再生资源","en":"renewable energy"},{"part":"绿色","cn":"可持续发展","en":"sustainable development"},{"part":"绿色","cn":"生态文明建设","en":"ecological conservation"},{"part":"绿色","cn":"清洁能源","en":"clean energy"},{"part":"绿色","cn":"各种能源","en":"solar energy/ wind power/ hydropower"},{"part":"环保","cn":"环保产业","en":"environmental protection sector"},{"part":"环保","cn":"生态修复","en":"ecological restoration"},{"part":"环保","cn":"水利工程","en":"water conservancy project"},{"part":"环保","cn":"水资源优化配置","en":"optimized allocation of water resources"},{"part":"自然灾害","cn":"极端天气","en":"extreme weather conditions"},{"part":"自然灾害","cn":"防汛救灾","en":"flood prevention and disaster relief"},{"part":"自然灾害","cn":"应急响应","en":"emergency response"},{"part":"自然灾害","cn":"灾害性天气","en":"disastrous weather"},{"part":"自然灾害","cn":"全球变暖","en":"global warming"},{"part":"自然灾害","cn":"气候变化","en":"climate change"},{"part":"自然灾害","cn":"环境恶化","en":"environmental degradation"},{"part":"自然景观","cn":"国家公园","en":"national parks"},{"part":"自然景观","cn":"生态文明","en":"ecological civilization"},{"part":"自然景观","cn":"名胜古迹","en":"places of interest"},{"part":"时政表达","cn":"人与自然和谐共生","en":"man-nature harmony"},{"part":"时政表达","cn":"绿水青山就是金山银山","en":"lucid waters and lush mountains are invaluable assets"}]},{"id":"t3","name":"社会热点类","group":"必备主题词","sub":"经济发展、社会民生、信息科技、时政表达","items":[{"part":"经济发展","cn":"高质量发展","en":"high-quality development"},{"part":"经济发展","cn":"基础设施","en":"infrastructure construction"},{"part":"经济发展","cn":"提高居民生活质量","en":"raising peoples’ living standards"},{"part":"经济发展","cn":"实体经济","en":"real economy"},{"part":"经济发展","cn":"智能产业","en":"intelligent industry"},{"part":"经济发展","cn":"扩大消费市场","en":"expand consumption market"},{"part":"经济发展","cn":"扩大内需","en":"expand domestic demand"},{"part":"经济发展","cn":"国内市场","en":"domestic market"},{"part":"经济发展","cn":"海外市场","en":"overseas market"},{"part":"社会民生","cn":"民生","en":"people’s livelihoods"},{"part":"社会民生","cn":"民生福祉","en":"people's wellbeing"},{"part":"社会民生","cn":"社会热点问题","en":"social hot issues"},{"part":"社会民生","cn":"食品安全","en":"food security"},{"part":"社会民生","cn":"垃圾分类","en":"garbage sorting"},{"part":"社会民生","cn":"身心健康","en":"physical and mental health/well-being"},{"part":"社会民生","cn":"体育精神","en":"sportsmanship"},{"part":"社会民生","cn":"养老服务保障","en":"elderly care services"},{"part":"社会民生","cn":"人口老龄化","en":"population aging"},{"part":"社会民生","cn":"适龄劳动人口","en":"working-age population"},{"part":"社会民生","cn":"劳动报酬","en":"work remuneration"},{"part":"社会民生","cn":"各行各业","en":"all walks of life"},{"part":"社会民生","cn":"就业","en":"secure employment"},{"part":"社会民生","cn":"就业形势严峻","en":"tough job market"},{"part":"社会民生","cn":"新就业形态","en":"new forms of employment"},{"part":"信息科技","cn":"信息时代","en":"information era"},{"part":"信息科技","cn":"信息鸿沟","en":"information gap"},{"part":"信息科技","cn":"信息安全","en":"information security"},{"part":"信息科技","cn":"网络舆论","en":"network public opinion"},{"part":"信息科技","cn":"社交媒体","en":"social media"},{"part":"信息科技","cn":"短视频","en":"short video"},{"part":"信息科技","cn":"在线支付平台","en":"online payment platform"},{"part":"信息科技","cn":"电子竞技","en":"e-sports"},{"part":"信息科技","cn":"网红","en":"internet celebrity"},{"part":"时政表达","cn":"中国智慧","en":"China’s solutions and wisdom"},{"part":"时政表达","cn":"乡村全面振兴","en":"all-round rural revitalization"},{"part":"时政表达","cn":"有针对性的宽松的货币政策","en":"targeted monetary accommodation policy"},{"part":"时政表达","cn":"与时俱进","en":"keep pace with change"}]},{"id":"t4","name":"个人发展类","group":"必备主题词","sub":"品质、自我提升、适应与成长、人生理念、道德修养 · 正面、道德修养 · 负面","items":[{"part":"品质","cn":"正直","en":"integrity"},{"part":"品质","cn":"诚实","en":"honesty"},{"part":"品质","cn":"坚韧","en":"resilience"},{"part":"品质","cn":"仁慈","en":"benevolence"},{"part":"品质","cn":"豁达","en":"open-mindedness"},{"part":"品质","cn":"毅力","en":"perseverance"},{"part":"品质","cn":"自律","en":"self-discipline"},{"part":"品质","cn":"懒散","en":"sloppiness"},{"part":"品质","cn":"自责","en":"remorse"},{"part":"品质","cn":"傲慢","en":"arrogance"},{"part":"自我提升","cn":"自我激励","en":"self-motivation"},{"part":"自我提升","cn":"自我救赎","en":"self-redemption"},{"part":"自我提升","cn":"责任感","en":"sense of responsibility"},{"part":"自我提升","cn":"具有天生的批判性思维能力","en":"have an innate ability to think critically"},{"part":"适应与成长","cn":"抑郁症状","en":"depressive symptom"},{"part":"适应与成长","cn":"适应能力","en":"adaptability"},{"part":"适应与成长","cn":"自我保护意识","en":"self-protection awareness"},{"part":"人生理念","cn":"人生哲理","en":"life philosophy"},{"part":"人生理念","cn":"艰苦奋斗","en":"working hard"},{"part":"人生理念","cn":"理想信念","en":"ideals and convictions"},{"part":"人生理念","cn":"坚定不移的决心","en":"unwavering determination"},{"part":"人生理念","cn":"欲速则不达","en":"haste makes waste"},{"part":"道德修养 · 正面","cn":"道德修养","en":"moral cultivation"},{"part":"道德修养 · 正面","cn":"道德价值","en":"moral value"},{"part":"道德修养 · 正面","cn":"道德准则","en":"code of ethics"},{"part":"道德修养 · 正面","cn":"社会公德","en":"social morality"},{"part":"道德修养 · 正面","cn":"孝顺","en":"filial piety"},{"part":"道德修养 · 正面","cn":"无私奉献","en":"selfless devotion"},{"part":"道德修养 · 正面","cn":"尊老爱幼","en":"respect the aged and cherish the young"},{"part":"道德修养 · 正面","cn":"具有强烈的职业道德","en":"possess a strong work ethic"},{"part":"道德修养 · 正面","cn":"和平、团结、包容的向往","en":"desire for peace, unity and inclusiveness"},{"part":"道德修养 · 负面","cn":"道德缺失","en":"lack of morality"},{"part":"道德修养 · 负面","cn":"激烈竞争","en":"fierce competition/ rat race"},{"part":"道德修养 · 负面","cn":"不公平竞争","en":"unfair competition"},{"part":"道德修养 · 负面","cn":"学术不端","en":"academic misconduct"}]},{"id":"t5","name":"成长教育类","group":"必备主题词","sub":"教育、现象、生活、人际关系","items":[{"part":"教育","cn":"义务教育","en":"compulsory education"},{"part":"教育","cn":"学前教育","en":"preschool education"},{"part":"教育","cn":"应试教育","en":"exam-oriented education"},{"part":"教育","cn":"素质教育","en":"well-rounded education"},{"part":"教育","cn":"终身教育","en":"lifelong education"},{"part":"教育","cn":"本科教育","en":"undergraduate education"},{"part":"教育","cn":"高等教育","en":"higher education"},{"part":"教育","cn":"考研","en":"national postgraduate entrance examination"},{"part":"教育","cn":"考研热","en":"the craze for graduate school"},{"part":"教育","cn":"勤工俭学","en":"work-study program"},{"part":"教育","cn":"减负","en":"reduce the burden on students"},{"part":"教育","cn":"婴幼儿","en":"infant and toddler"},{"part":"现象","cn":"内卷","en":"involution"},{"part":"现象","cn":"躺平","en":"lie flat"},{"part":"生活","cn":"大学生活","en":"college life"},{"part":"生活","cn":"日常生活","en":"routine life"},{"part":"生活","cn":"凌晨","en":"wee hours"},{"part":"生活","cn":"睡眠质量欠佳","en":"poor sleep quality"},{"part":"生活","cn":"代沟","en":"generation gap"},{"part":"生活","cn":"减少差距","en":"bridge the gap"},{"part":"生活","cn":"沉迷网络","en":"web-addiction"},{"part":"生活","cn":"慢半拍的生活","en":"life in the slow lane"},{"part":"生活","cn":"虚实相融的社会生活形态","en":"lifestyle that combines both the digital and physical world"},{"part":"生活","cn":"低碳出行","en":"low-carbon means of transportation"},{"part":"生活","cn":"全面发展","en":"comprehensive development"},{"part":"人际关系","cn":"人际关系","en":"interpersonal relationship"},{"part":"人际关系","cn":"团队精神","en":"team spirit"},{"part":"人际关系","cn":"与他人合作","en":"collaborate with others"},{"part":"人际关系","cn":"互相帮助","en":"help each other/ mutual assistance"},{"part":"人际关系","cn":"无私援助","en":"unselfish assistance"},{"part":"人际关系","cn":"卓越的领导能力","en":"exceptional leadership skill"},{"part":"人际关系","cn":"社交礼节","en":"social etiquette"}]},{"id":"t6","name":"通用词组/结构","group":"必备主题词","sub":"连接、句首（状语）、动词、名词","items":[{"part":"连接","cn":"由于这个原因/在此背景下","en":"in this context"},{"part":"连接","cn":"随着","en":"in the light of…"},{"part":"连接","cn":"在这方面","en":"in this regard"},{"part":"连接","cn":"未来","en":"going forward,"},{"part":"句首（状语）","cn":"由于持续的努力","en":"thanks to one’s sustained efforts"},{"part":"句首（状语）","cn":"改革开放以来","en":"since initiating reform and opening up,"},{"part":"句首（状语）","cn":"面临多重任务","en":"it grapples with multiple tasks,"},{"part":"句首（状语）","cn":"重要组成部分","en":"an essential component of…"},{"part":"句首（状语）","cn":"关键时期","en":"at a pivotal stage"},{"part":"动词","cn":"在…开辟新道路","en":"break new ground in"},{"part":"动词","cn":"进展","en":"make headway in"},{"part":"动词","cn":"优先…","en":"place priority on…"},{"part":"动词","cn":"需要","en":"call for"},{"part":"动词","cn":"准备好","en":"stand ready to"},{"part":"动词","cn":"…的源泉","en":"the cradle of…"},{"part":"动词","cn":"共同努力","en":"collective endeavor"},{"part":"动词","cn":"全力做…","en":"unlock to the full"},{"part":"动词","cn":"统筹运用","en":"employ a wide range of"},{"part":"名词","cn":"新领域","en":"a new frontier"},{"part":"名词","cn":"痛点","en":"pain point"},{"part":"名词","cn":"面临挫折","en":"face setback"},{"part":"名词","cn":"鲜明特征","en":"defining feature"},{"part":"名词","cn":"任重道远","en":"much remains to be done"},{"part":"名词","cn":"分享经验","en":"share experience and expertise"},{"part":"名词","cn":"真知灼见","en":"insightful perspectives"},{"part":"名词","cn":"困境","en":"dilemma"},{"part":"名词","cn":"困难重重","en":"riddle with challenges"},{"part":"名词","cn":"持续快速发展","en":"sustained and rapid development"},{"part":"名词","cn":"举世瞩目","en":"garner recognition around the world"}]}],"GROUPS":[{"title":"作文句子","desc":"看中文写英文整句，逐词检验","ids":["s2026","s2025"]},{"title":"历年真题主题词","desc":"2010–2025 英语二图表作文主题及拓展词","ids":["y2010","y2011","y2012","y2013","y2014","y2015","y2016","y2017","y2018","y2019","y2020","y2021","y2022","y2023","y2024","y2025"]},{"title":"必备主题词","desc":"按文化 / 科技 / 环境 / 社会等类别整理","ids":["t0","t1","t2","t3","t4","t5","t6"]}]};
+  var SETS = DATA.SETS, GROUPS = DATA.GROUPS;
+  var BY_ID = {};
+  SETS.forEach(function(s){ BY_ID[s.id] = s; });
+
+  var LS_KEY = "zaowen-word-spell-v5";
+  var results = {};
+  try { results = JSON.parse(localStorage.getItem(LS_KEY) || "{}") || {}; } catch(e){ results = {}; }
+  function save(){ try { localStorage.setItem(LS_KEY, JSON.stringify(results)); } catch(e){} }
+
+  var state = { view:"home", setId:null, pos:0, words:[], originals:[], revealed:false, allOk:false };
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function curSet(){ return BY_ID[state.setId]; }
+  function curItem(){ var s=curSet(); return s ? s.items[state.pos] : null; }
+  function key(){ return state.setId + ":" + state.pos; }
+  function masteredCount(set){
+    var n=0;
+    for (var i=0;i<set.items.length;i++) if (results[set.id+":"+i]==="ok") n++;
+    return n;
+  }
+
+  function wordAt(str, i){
+    var m = /^[A-Za-z0-9]+(?:['’\-][A-Za-z0-9]+)*(?:\.[0-9]+)?%?/.exec(str.slice(i));
+    return m ? m[0] : null;
+  }
+  function wordList(text){
+    var arr=[], i=0;
+    while (i<text.length){ var w=wordAt(text,i); if (w){ arr.push({start:i,word:w}); i+=w.length; } else i++; }
+    return arr;
+  }
+  function norm(s){ return String(s).toLowerCase().replace(/['’\-]/g,"").replace(/[^a-z0-9]/g,""); }
+
+  function buildSentence(text){
+    var html="", i=0, wi=0;
+    while (i<text.length){
+      var w = wordAt(text, i);
+      if (w){
+        html += '<input class="winput" data-i="'+wi+'" data-norm="'+esc(norm(w))+'" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="第 '+(wi+1)+' 个单词">';
+        wi++; i+=w.length;
+      } else if (text.charAt(i)===" "){
+        html += '<span class="sp"></span>'; i++;
+      } else {
+        html += '<span class="punct">'+esc(text.charAt(i))+'</span>'; i++;
+      }
+    }
+    return html;
+  }
+  function inputs(){ return Array.prototype.slice.call($("sentence").querySelectorAll(".winput")); }
+  function fit(inp){
+    var len = inp.value.length;
+    inp.style.width = Math.max(5, len * 0.62 + 0.9).toFixed(2) + "em";
+  }
+  function commit(inp){
+    var v = inp.value.replace(/\s+/g," ").trim();
+    inp.classList.remove("good","bad","ghost");
+    if (!v) return "empty";
+    if (norm(v) === inp.getAttribute("data-norm")){ inp.classList.add("good"); return "good"; }
+    inp.classList.add("bad"); return "bad";
+  }
+  function focusNext(from){
+    var list = inputs(); var i = list.indexOf(from);
+    if (i>=0 && i+1<list.length){ list[i+1].focus(); list[i+1].select(); return true; }
+    return false;
+  }
+  function focusFirst(){
+    var list = inputs();
+    if (list.length && window.innerWidth > 640) list[0].focus();
+  }
+
+  /* ---------- home ---------- */
+  function renderHome(){
+    state.view = "home";
+    $("hero").style.display = "block";
+    $("practice").hidden = true;
+    $("home").hidden = false;
+
+    var totalSets = SETS.length, totalItems = 0, totalMastered = 0;
+    SETS.forEach(function(s){ totalItems += s.items.length; totalMastered += masteredCount(s); });
+    $("hstats").innerHTML = "<b>" + GROUPS[0].ids.length + "</b> 组作文句子 · <b>" +
+      GROUPS[1].ids.length + "</b> 年真题主题词 · <b>" + GROUPS[2].ids.length +
+      "</b> 类必备主题词 ｜ 共 <b>" + totalItems + "</b> 个练习项 · 已掌握 <b>" + totalMastered + "</b>";
+
+    var html = "";
+    GROUPS.forEach(function(g){
+      var groupItems = 0;
+      g.ids.forEach(function(id){ groupItems += BY_ID[id].items.length; });
+      html += '<div class="hsect"><div class="hhead"><h2>' + esc(g.title) + '</h2>' +
+              '<span class="hdesc">' + esc(g.desc) + ' · 共 ' + groupItems + ' 项</span></div><div class="grid">';
+      g.ids.forEach(function(id){
+        var s = BY_ID[id], m = masteredCount(s), pct = s.items.length ? (m/s.items.length*100) : 0;
+        html += '<button class="dcard" data-id="' + s.id + '">' +
+          '<div class="dtop"><span class="dname">' + esc(s.name) + '</span><span class="dcount">' + s.items.length + '</span></div>' +
+          '<div class="dsub">' + esc(s.sub) + '</div>' +
+          '<div class="dbar"><span style="width:' + pct.toFixed(1) + '%"></span></div>' +
+          '<div class="dmeta">已掌握 ' + m + ' / ' + s.items.length + '</div></button>';
+      });
+      html += "</div></div>";
+    });
+    $("home").innerHTML = html;
+    updateFooter();
+    window.scrollTo(0,0);
+  }
+
+  /* ---------- practice ---------- */
+  function openSet(id){
+    state.setId = id;
+    state.pos = 0;
+    state.view = "practice";
+    renderPractice();
+    window.scrollTo(0,0);
+  }
+
+  function renderPractice(){
+    var set = curSet(), it = curItem();
+    if (!set || !it) { renderHome(); return; }
+    state.view = "practice";
+    $("hero").style.display = "none";
+    $("home").hidden = true;
+    $("practice").hidden = false;
+
+    $("crumbText").textContent = set.group + " / " + set.name;
+
+    state.words = wordList(it.en).map(function(o){ return o.word; });
+    state.originals = state.words.slice();
+    state.revealed = false;
+    state.allOk = false;
+
+    $("metaLeft").textContent = set.name;
+    $("metaRight").textContent = "第 " + (state.pos+1) + " / " + set.items.length + " 项 · " + state.words.length + " 个单词";
+    $("partTag").textContent = it.part || "";
+    $("partTag").style.display = it.part ? "inline-block" : "none";
+    $("cn").textContent = it.cn;
+    $("sentence").innerHTML = buildSentence(it.en);
+
+    var m = masteredCount(set);
+    $("progressFill").style.width = (set.items.length ? m/set.items.length*100 : 0).toFixed(1) + "%";
+
+    $("btnPrev").disabled = state.pos === 0;
+    var isLastOfSet = state.pos + 1 >= set.items.length;
+    var idx = SETS.indexOf(set);
+    var hasNextSet = idx >= 0 && idx + 1 < SETS.length;
+    $("btnNext").textContent = isLastOfSet ? (hasNextSet ? "下一组 →" : "返回目录 →") : "下一句 →";
+
+    var fb = $("feedback");
+    fb.className = "feedback"; fb.innerHTML = "";
+
+    bindInputs();
+    focusFirst();
+    updateFooter();
+    renderKeyHint();
+  }
+
+  function bindInputs(){
+    inputs().forEach(function(inp){
+      inp.addEventListener("input", function(){
+        inp.classList.remove("bad","ghost");
+        fit(inp);
+        var v = inp.value.trim();
+        if (!v){ inp.classList.remove("good"); return; }
+        if (norm(v) === inp.getAttribute("data-norm")) inp.classList.add("good");
+        else inp.classList.remove("good");
+      });
+      inp.addEventListener("keydown", function(e){
+        if (e.key === " " && !e.ctrlKey && !e.altKey && !e.metaKey){
+          e.preventDefault();
+          if (commit(inp) === "good"){ maybeComplete(); focusNext(inp); }
+        } else if (e.key === "Enter" && !e.ctrlKey && !e.altKey && !e.metaKey){
+          e.preventDefault();
+          var r = commit(inp);
+          if (r === "good"){ maybeComplete(); if (!focusNext(inp)) checkAll(); }
+          else if (r === "empty"){ focusNext(inp); }
+        }
+      });
+      inp.addEventListener("blur", function(){ commit(inp); maybeComplete(); });
+      inp.addEventListener("focus", function(){ if (inp.value) inp.select(); });
+    });
+  }
+
+  function maybeComplete(){
+    if (state.revealed) return;
+    var list = inputs(); if (!list.length) return;
+    for (var i=0;i<list.length;i++) if (!list[i].classList.contains("good")) return;
+    state.allOk = true;
+    results[key()] = "ok"; save();
+    var fb = $("feedback");
+    fb.className = "feedback show";
+    fb.innerHTML = '<div class="fb-ok">✅ 全部正确，' + list.length + ' 个单词都拼对了！</div>';
+    refreshProgress();
+  }
+
+  function checkAll(){
+    var list = inputs(); var wrong=0, empty=0;
+    list.forEach(function(inp){ var r=commit(inp); if (r==="bad") wrong++; else if (r==="empty") empty++; });
+    var fb = $("feedback"); fb.className = "feedback show";
+    if (wrong===0 && empty===0){
+      state.allOk = true;
+      if (!state.revealed){ results[key()]="ok"; save(); fb.innerHTML = '<div class="fb-ok">✅ 全部正确，' + list.length + ' 个单词都拼对了！</div>'; }
+      else fb.innerHTML = '<div class="fb-ok">✅ 全部正确（显示过答案，本项不计分）</div>';
+      refreshProgress();
+    } else {
+      if (!state.revealed){ results[key()]="wrong"; save(); }
+      var parts = [];
+      if (wrong) parts.push("<b>" + wrong + "</b> 个单词有误");
+      if (empty) parts.push("<b>" + empty + "</b> 个单词还没写");
+      fb.innerHTML = '<div class="fb-bad">还有 ' + parts.join("、") + '，红线和灰线处再改一改。</div>';
+    }
+  }
+
+  function refreshProgress(){
+    var set = curSet(); if (!set) return;
+    $("progressFill").style.width = (set.items.length ? masteredCount(set)/set.items.length*100 : 0).toFixed(1) + "%";
+    updateFooter();
+  }
+
+  var holdActive = false, holdSnapshot = null, holdFb = null;
+
+  function showAnswerHold(){
+    if (holdActive || state.view !== "practice") return;
+    holdActive = true;
+    holdSnapshot = inputs().map(function(inp){
+      return { inp: inp, value: inp.value, cls: inp.className, width: inp.style.width };
+    });
+    var fb = $("feedback");
+    holdFb = { cls: fb.className, html: fb.innerHTML };
+    holdSnapshot.forEach(function(s, i){
+      s.inp.value = state.originals[i] || "";
+      fit(s.inp);
+      s.inp.classList.remove("good","bad","ghost");
+      s.inp.classList.add("ghost");
+    });
+    fb.className = "feedback show";
+    fb.innerHTML = '<div class="fb-note">按住中显示答案…松开立刻恢复你已填写的内容。</div>';
+    $("btnReveal").classList.add("holding");
+  }
+
+  function hideAnswerHold(){
+    if (!holdActive) return;
+    holdActive = false;
+    if (holdSnapshot){
+      holdSnapshot.forEach(function(s){
+        s.inp.value = s.value;
+        s.inp.className = s.cls;
+        s.inp.style.width = s.width;
+      });
+      holdSnapshot = null;
+    }
+    var fb = $("feedback");
+    if (holdFb){ fb.className = holdFb.cls; fb.innerHTML = holdFb.html; holdFb = null; }
+    $("btnReveal").classList.remove("holding");
+  }
+
+  function clearSentence(){
+    inputs().forEach(function(inp){
+      inp.value = ""; fit(inp);
+      inp.classList.remove("good","bad","ghost");
+    });
+    state.revealed = false; state.allOk = false;
+    var fb = $("feedback"); fb.className = "feedback"; fb.innerHTML = "";
+    var list = inputs();
+    if (list.length && window.innerWidth > 640) list[0].focus();
+  }
+
+  function goPrev(){
+    if (state.pos === 0) return;
+    state.pos--; renderPractice(); window.scrollTo(0,0);
+  }
+  function goNext(){
+    var set = curSet();
+    if (state.pos + 1 < set.items.length){ state.pos++; renderPractice(); window.scrollTo(0,0); return; }
+    var idx = SETS.indexOf(set);
+    if (idx >= 0 && idx + 1 < SETS.length){ openSet(SETS[idx+1].id); return; }
+    renderHome();
+  }
+
+  function updateFooter(){
+    var total=0, mastered=0;
+    SETS.forEach(function(s){ total += s.items.length; mastered += masteredCount(s); });
+    $("footStats").textContent = "全部 " + SETS.length + " 组 · " + total + " 项 · 已掌握 " + mastered + " 项";
+  }
+
+  var voice = null;
+  function pickVoice(){
+    if (!window.speechSynthesis) return null;
+    var vs = window.speechSynthesis.getVoices() || [];
+    if (!vs.length) return null;
+    var prefer = ["Google US English","Microsoft Aria","Microsoft Jenny","Samantha","Alex"];
+    for (var p=0;p<prefer.length;p++)
+      for (var i=0;i<vs.length;i++)
+        if (vs[i].name && vs[i].name.indexOf(prefer[p])!==-1) return vs[i];
+    for (var k=0;k<vs.length;k++) if (/^en[-_]US/i.test(vs[k].lang)) return vs[k];
+    for (var m=0;m<vs.length;m++) if (/^en/i.test(vs[m].lang)) return vs[m];
+    return null;
+  }
+  function speak(text){
+    if (!window.speechSynthesis || !text) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang="en-US"; u.rate=0.82; u.pitch=1;
+      var v = pickVoice(); if (v) u.voice = v;
+      window.speechSynthesis.speak(u);
+    } catch(e){}
+  }
+
+  /* ---------- shortcuts ---------- */
+  var DEFAULT_KEYS = { reveal:"`", check:"ctrl+enter", prev:"alt+arrowleft", next:"alt+arrowright", clear:"alt+x", speak:"alt+r", home:"alt+h" };
+  var ACTIONS = [
+    {id:"reveal", name:"按住显示答案", desc:"按住生效，松开恢复"},
+    {id:"check", name:"检查本句", desc:"批改整句，全部正确记入掌握"},
+    {id:"prev", name:"上一句", desc:"回到上一项"},
+    {id:"next", name:"下一句 / 下一组", desc:"进入下一项，本组最后一项进入下一组"},
+    {id:"clear", name:"清空本句", desc:"清空所有横线"},
+    {id:"speak", name:"朗读答案", desc:"朗读英文原句"},
+    {id:"home", name:"返回目录", desc:"回到目录页"}
+  ];
+  var KEY_LS = "jotjzb-pspx-ktehg-keys";
+  var bindings = {};
+  (function loadKeys(){
+    try { bindings = JSON.parse(localStorage.getItem(KEY_LS) || "{}") || {}; } catch(e){ bindings = {}; }
+    for (var dk in DEFAULT_KEYS) if (!bindings[dk]) bindings[dk] = DEFAULT_KEYS[dk];
+  })();
+  function saveKeys(){ try { localStorage.setItem(KEY_LS, JSON.stringify(bindings)); } catch(e){} }
+  function isModifierKey(k){ return k==="Control"||k==="Shift"||k==="Alt"||k==="Meta"||k==="AltGraph"; }
+  function comboFromEvent(e){
+    var parts = [];
+    if (e.ctrlKey) parts.push("ctrl");
+    if (e.altKey) parts.push("alt");
+    if (e.shiftKey) parts.push("shift");
+    if (e.metaKey) parts.push("meta");
+    if (isModifierKey(e.key)) return parts.join("+");
+    var key = String(e.key || "").toLowerCase();
+    if (key === " " || key === "spacebar") key = "space";
+    parts.push(key);
+    return parts.join("+");
+  }
+  function prettyKey(combo){
+    if (!combo) return "未设置";
+    var label = { ctrl:"Ctrl", alt:"Alt", shift:"Shift", meta:"Cmd", enter:"Enter", escape:"Esc", space:"Space", backspace:"Backspace", delete:"Delete", tab:"Tab", arrowleft:"←", arrowright:"→", arrowup:"↑", arrowdown:"↓", "`":"`" };
+    return combo.split("+").map(function(p){
+      if (label[p]) return label[p];
+      if (/^f\d+$/.test(p)) return p.toUpperCase();
+      return p.length === 1 ? p.toUpperCase() : p.charAt(0).toUpperCase() + p.slice(1);
+    }).join(" + ");
+  }
+  function actionById(id){ for (var i=0;i<ACTIONS.length;i++) if (ACTIONS[i].id===id) return ACTIONS[i]; return null; }
+  var recording = null;
+  function renderKeyHint(){
+    if (!$("keyHint")) return;
+    var items = ["reveal","check","prev","next"].map(function(id){
+      return "<kbd>" + prettyKey(bindings[id]) + "</kbd> " + actionById(id).name;
+    });
+    $("keyHint").innerHTML = "快捷键：" + items.join(" · ") + " · 点右下角「⌨ 快捷键」自定义";
+    if ($("btnReveal")) $("btnReveal").title = "按住显示答案（" + prettyKey(bindings.reveal) + "，按住生效）";
+    if ($("btnCheck")) $("btnCheck").title = "检查本句（" + prettyKey(bindings.check) + "）";
+    if ($("btnPrev")) $("btnPrev").title = "上一句（" + prettyKey(bindings.prev) + "）";
+    if ($("btnNext")) $("btnNext").title = "下一句 / 下一组（" + prettyKey(bindings.next) + "）";
+  }
+  function renderKeyList(){
+    var wrap = $("keyList"); if (!wrap) return;
+    wrap.innerHTML = "";
+    ACTIONS.forEach(function(a){
+      var row = document.createElement("div"); row.className = "krow";
+      var left = document.createElement("div");
+      left.innerHTML = '<div class="kname">' + esc(a.name) + '</div><div class="kdesc">' + esc(a.desc) + '</div>';
+      var btn = document.createElement("button");
+      btn.className = "kbtn" + (recording === a.id ? " rec" : "");
+      btn.textContent = recording === a.id ? "请按下新快捷键…" : prettyKey(bindings[a.id]);
+      btn.onclick = function(){ recording = a.id; renderKeyList(); };
+      row.appendChild(left); row.appendChild(btn); wrap.appendChild(row);
+    });
+  }
+  function openKeys(){ recording = null; renderKeyList(); $("keysModal").hidden = false; }
+  function closeKeys(){ recording = null; $("keysModal").hidden = true; renderKeyHint(); }
+  function setBinding(id, combo){
+    for (var k in bindings) if (k !== id && bindings[k] === combo) bindings[k] = "";
+    bindings[id] = combo; saveKeys();
+  }
+  function runShortcut(id){
+    if (id === "home"){ renderHome(); return; }
+    if (state.view !== "practice") return;
+    if (id === "check") checkAll();
+    else if (id === "prev") goPrev();
+    else if (id === "next") goNext();
+    else if (id === "clear") clearSentence();
+    else if (id === "speak"){ var it = curItem(); if (it) speak(it.en); }
+  }
+  function shortcutAllowed(e, combo){
+    var t = e.target;
+    var typing = t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA");
+    if (!typing) return true;
+    if (/ctrl|alt|meta/.test(combo)) return true;
+    var key = String(e.key || "").toLowerCase();
+    if (key === "`" || key === "escape" || /^f\d+$/.test(key)) return true;
+    return false;
+  }
+  document.addEventListener("keydown", function(e){
+    if (!$("keysModal").hidden){
+      if (recording){
+        e.preventDefault(); e.stopPropagation();
+        if (e.key === "Escape"){ recording = null; renderKeyList(); return; }
+        var c = comboFromEvent(e);
+        if (!c || isModifierKey(e.key)) return;
+        setBinding(recording, c);
+        recording = null; renderKeyList(); renderKeyHint();
+        return;
+      }
+      if (e.key === "Escape") closeKeys();
+      return;
+    }
+    if (e.defaultPrevented) return;
+    var combo = comboFromEvent(e);
+    var id = null;
+    for (var k in bindings){ if (bindings[k] && bindings[k] === combo){ id = k; break; } }
+    if (!id) return;
+    if (!shortcutAllowed(e, combo)) return;
+    if (id === "reveal"){ e.preventDefault(); if (!e.repeat) showAnswerHold(); return; }
+    e.preventDefault();
+    if (e.repeat) return;
+    runShortcut(id);
+  }, true);
+  document.addEventListener("keyup", function(e){
+    if (!$("keysModal").hidden) return;
+    if (bindings.reveal && comboFromEvent(e) === bindings.reveal) hideAnswerHold();
+  }, true);
+  $("btnKeys").onclick = openKeys;
+  $("btnKeysClose").onclick = closeKeys;
+  $("btnKeysReset").onclick = function(){
+    bindings = {};
+    for (var dk in DEFAULT_KEYS) bindings[dk] = DEFAULT_KEYS[dk];
+    saveKeys(); renderKeyList(); renderKeyHint();
+  };
+  $("keysModal").addEventListener("click", function(e){ if (e.target === this) closeKeys(); });
+
+  $("home").addEventListener("click", function(e){
+    var b = e.target.closest ? e.target.closest(".dcard") : null;
+    if (b && b.dataset.id) openSet(b.dataset.id);
+  });
+  $("btnHome").onclick = renderHome;
+  $("btnSpeak").onclick = function(){ var it=curItem(); if (it) speak(it.en); };
+  (function(){
+    var btn = $("btnReveal");
+    btn.addEventListener("pointerdown", function(e){
+      if (e.button && e.button !== 0) return;
+      e.preventDefault();
+      showAnswerHold();
+      try { btn.setPointerCapture(e.pointerId); } catch(err){}
+    });
+    btn.addEventListener("pointerup", hideAnswerHold);
+    btn.addEventListener("pointercancel", hideAnswerHold);
+    btn.addEventListener("pointerleave", hideAnswerHold);
+    btn.addEventListener("contextmenu", function(e){ e.preventDefault(); });
+    btn.addEventListener("keydown", function(e){
+      if (e.key === " " || e.key === "Enter"){ e.preventDefault(); showAnswerHold(); }
+    });
+    btn.addEventListener("keyup", function(e){
+      if (e.key === " " || e.key === "Enter"){ e.preventDefault(); hideAnswerHold(); }
+    });
+    window.addEventListener("pointerup", hideAnswerHold);
+    window.addEventListener("blur", hideAnswerHold);
+  })();
+  $("btnClear").onclick = clearSentence;
+  $("btnCheck").onclick = checkAll;
+  $("btnPrev").onclick = goPrev;
+  $("btnNext").onclick = goNext;
+  $("btnReset").onclick = function(){
+    if (!window.confirm("确定清除所有练习记录吗？")) return;
+    results = {}; save();
+    if (state.view === "practice") renderPractice(); else renderHome();
+  };
+
+  $("sentence").addEventListener("paste", function(e){
+    var cd = e.clipboardData || window.clipboardData; if (!cd) return;
+    var t = cd.getData("text"); if (!t || !/\s/.test(t.trim())) return;
+    e.preventDefault();
+    var parts = t.trim().split(/\s+/).filter(function(x){return x.length;});
+    var list = inputs();
+    parts.forEach(function(p,i){ if (list[i]){ list[i].value=p; fit(list[i]); commit(list[i]); } });
+  });
+
+  if (window.speechSynthesis){ try { window.speechSynthesis.getVoices(); } catch(e){} }
+
+  renderHome();
+})();
+</script>
+</body>
+</html>
