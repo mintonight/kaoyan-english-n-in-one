@@ -1001,6 +1001,10 @@ header {
   .records-popover { position: fixed; left: 8px; right: 8px; top: 48px; width: auto; max-width: none; max-height: 74vh; overflow-y: auto; }
 }
 
+/* ===== 顶栏自动折叠 ===== */
+header{ transition: margin-top .26s cubic-bezier(.4,0,.2,1); will-change: margin-top; }
+.main-layout{ height: auto; min-height: 0; }
+
 </style>
 </head>
 <body>
@@ -2048,6 +2052,39 @@ populateSelect('all');
 
   loadCfgFields();
   afterLoad();
+})();
+</script>
+
+<script>
+/* 顶栏自动折叠：下滑隐藏，上滑/回顶显示 */
+(function(){
+  var hd = document.querySelector('header');
+  if (!hd) return;
+  hd.style.transition = 'margin-top .26s cubic-bezier(.4,0,.2,1)';
+  var lastMap = new WeakMap();
+  function setHidden(v){
+    var cur = hd.dataset.autoHidden === '1';
+    if (cur === v) return;
+    hd.dataset.autoHidden = v ? '1' : '0';
+    hd.style.marginTop = v ? (-hd.offsetHeight) + 'px' : '0px';
+  }
+  function onScroll(e){
+    var t = e.target;
+    var sc = (t === document || t === window) ? (document.scrollingElement || document.documentElement) : t;
+    if (!sc || typeof sc.scrollTop !== 'number') return;
+    var y = sc.scrollTop;
+    var prev = lastMap.has(sc) ? lastMap.get(sc) : y;
+    lastMap.set(sc, y);
+    var dy = y - prev;
+    if (Math.abs(dy) < 6) return;
+    if (y <= 6){ setHidden(false); return; }
+    if (dy > 0 && y > 40){ setHidden(true); }
+    else if (dy < 0){ setHidden(false); }
+  }
+  document.addEventListener('scroll', onScroll, true);
+  window.addEventListener('resize', function(){
+    if (hd.dataset.autoHidden === '1') hd.style.marginTop = (-hd.offsetHeight) + 'px';
+  });
 })();
 </script>
 
