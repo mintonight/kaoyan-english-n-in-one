@@ -26,7 +26,7 @@
 - **本地直接打开**：也保留了零构建特性，下载仓库后直接双击 `index.html` 即可在浏览器中使用
 
 ### ☁️ 多端双向同步（GitHub Gist）
-- 在首页、阅读页或拼写页任一处填入仅有 **`gist`** 权限的 [GitHub Token](https://github.com/settings/tokens/new?scopes=gist) 即可使用
+- 在首页顶栏点击 **「☁️ 多端同步」** 填入仅有 **`gist`** 权限的 [GitHub Token](https://github.com/settings/tokens/new?scopes=gist) 即可使用（配置入口集中在首页，阅读页与拼写页后台自动同步，界面保持简洁）
 - **无需手动复制 Gist ID**：新设备留空 Gist ID，首次同步会自动查找云端已有的 `kaoyan-study-data.json`（没有则自动新建私密 Gist）
 - **安全双向合并（不覆盖）**：先拉取远端 → 按单题时间戳 / 拼写分设备 CRDT 计数无损合并 → 仅在有差异时推送；若拉取失败直接中止，绝不盲写覆盖
 - **离线自动续传**：断网期间学习记录照常保存在本机，联网后自动同步；同时支持一键导出/导入合并 `.json` 本地备份

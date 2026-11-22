@@ -34,7 +34,7 @@
   --shadow-sm: 0 1px 2px 0 rgb(45 38 30 / 0.06);
   --shadow-md: 0 4px 6px -1px rgb(45 38 30 / 0.08), 0 2px 4px -2px rgb(45 38 30 / 0.06);
   --shadow-lg: 0 10px 15px -3px rgb(45 38 30 / 0.1), 0 4px 6px -4px rgb(45 38 30 / 0.08);
-  --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-family-serif: "Georgia", "Cambria", "Times New Roman", Times, "Noto Serif SC", serif;
   --font-size-base: 16.5px;
   --line-height-base: 1.85;
@@ -71,7 +71,7 @@ header {
   will-change: margin-top;
 }
 
-.logo-group { display: flex; align-items: center; gap: 10px; }
+.logo-group { display: flex; align-items: center; gap: 10px; position: relative; }
 .logo-home {
   color: var(--text-muted); text-decoration: none; font-size: 12.5px; font-weight: 600;
   padding: 4px 8px; border: 1px solid var(--border-color); border-radius: 6px;
@@ -119,9 +119,6 @@ header {
 }
 .btn-tool:hover { color: var(--accent-color); border-color: var(--accent-color); }
 .btn-tool.active { background: var(--accent-light); color: var(--accent-color); border-color: var(--accent-border); }
-.btn-tool.primary { background: var(--accent-color); color: #fff; border-color: var(--accent-color); }
-.btn-tool.primary:hover { background: var(--accent-hover); color: #fff; }
-.btn-tool:disabled { opacity: .5; cursor: not-allowed; }
 
 /* Popovers */
 .popover {
@@ -134,9 +131,9 @@ header {
 
 .timer-popover { min-width: 205px; }
 .timer-pop-title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; }
-#timer-display { font-family: monospace; font-size: 15px; font-weight: 800; color: var(--text-main); }
+#timer-display { font-family: var(--font-family-sans); font-variant-numeric: tabular-nums; font-size: 15px; font-weight: 800; color: var(--text-main); }
 .timer-pop-row { display: flex; gap: 8px; }
-.timer-start-btn { font-family: monospace; }
+.timer-start-btn { font-family: var(--font-family-sans); font-variant-numeric: tabular-nums; }
 
 .settings-popover { min-width: 210px; }
 .set-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 7px 0; }
@@ -144,6 +141,7 @@ header {
 .font-group { display: flex; gap: 6px; }
 
 .directory-panel {
+  left: 0; right: auto;
   width: 390px; max-width: calc(100vw - 24px);
   display: flex; flex-direction: column; gap: 10px; padding: 12px;
 }
@@ -169,23 +167,14 @@ header {
 .dir-item-title { font-size: 13.5px; font-weight: 700; color: var(--text-main); }
 .dir-item-meta { font-size: 11.5px; color: var(--text-muted); }
 
-/* Records & Sync Popover */
-.records-popover { width: 350px; max-width: calc(100vw - 24px); z-index: 320; max-height: 82vh; overflow-y: auto; }
+/* Records Popover */
+.records-popover { width: 320px; max-width: calc(100vw - 24px); z-index: 320; max-height: 82vh; overflow-y: auto; }
 .rec-section-title { font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: .08em; margin: 12px 0 6px; }
 .rec-section-title:first-of-type { margin-top: 0; }
 .rec-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .rec-stat { background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: 8px; padding: 7px 9px; }
 .rec-stat .k { font-size: 10.5px; color: var(--text-muted); }
 .rec-stat .v { font-size: 16px; font-weight: 800; color: var(--text-main); font-variant-numeric: tabular-nums; }
-.gist-row { display: flex; margin-top: 6px; }
-.gist-row input[type="password"], .gist-row input[type="text"] {
-  flex: 1; border: 1px solid var(--border-color); border-radius: 7px; padding: 6px 8px;
-  font-size: 12px; font-family: inherit; background: #fffdf8; color: var(--text-main); min-width: 0;
-}
-.gist-row input:focus { outline: none; border-color: var(--accent-color); }
-.sync-opt { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 12px; color: var(--text-muted); cursor: pointer; user-select: none; }
-.rec-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-.rec-status { font-size: 11px; color: var(--text-muted); margin-top: 7px; line-height: 1.6; word-break: break-word; }
 
 /* Badges */
 .badge-tag { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; }
@@ -300,7 +289,7 @@ header {
 /* Per-question Notes */
 .q-note { border-top: 1px dashed var(--border-color); margin-top: 12px; padding-top: 9px; }
 .q-note-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 12px; color: var(--text-muted); }
-.q-note-time { font-family: monospace; font-size: 11.5px; white-space: nowrap; }
+.q-note-time { font-family: var(--font-family-sans); font-variant-numeric: tabular-nums; font-size: 11.5px; white-space: nowrap; }
 .q-note-input {
   width: 100%; margin-top: 6px; border: 1px solid var(--border-color); border-radius: 8px;
   padding: 7px 10px; font-family: inherit; font-size: 13px; line-height: 1.65;
@@ -335,7 +324,7 @@ header {
   .logo-home { font-size: 11px; padding: 3px 6px; }
   .logo-badge { font-size: 11.5px; padding: 3px 7px; }
   .nav-controls { gap: 6px; }
-  .nav-controls .icon-btn { width: 32px; height: 30px; font-size: 15px; }
+  header .icon-btn { width: 32px; height: 30px; font-size: 15px; }
 
   .main-layout { flex-direction: column; }
   .left-pane {
@@ -364,7 +353,7 @@ header {
   .logo-home { font-size: 10px; padding: 2px 5px; }
   .logo-badge { font-size: 11px; padding: 2px 6px; }
   .nav-controls { gap: 5px; }
-  .nav-controls .icon-btn { width: 30px; height: 28px; font-size: 14px; }
+  header .icon-btn { width: 30px; height: 28px; font-size: 14px; }
   .left-pane { padding: 12px 10px !important; }
   .right-pane { padding: 12px 8px !important; }
   .para-text { font-size: 16px; line-height: 1.72; }
@@ -379,7 +368,20 @@ header {
   <div class="logo-group">
     <a class="logo-home" href="index.html" title="返回首页">← 首页</a>
     <span class="logo-badge">巅峰阅读</span>
+    <button id="btn-directory" class="icon-btn" title="目录" aria-label="目录">📑</button>
     <span class="net-pill" data-net-badge hidden>📴 离线模式</span>
+    <div id="directory-panel" class="popover directory-panel" hidden>
+      <div class="dir-head">
+        <span>📑 选择篇章</span>
+        <button id="btn-dir-close" class="dir-close" title="关闭">✕</button>
+      </div>
+      <div class="filter-tab-group">
+        <button class="filter-tab active" data-filter="all">全部 (17篇)</button>
+        <button class="filter-tab" data-filter="英语一">英语一 (8篇)</button>
+        <button class="filter-tab" data-filter="英语二">英语二 (9篇)</button>
+      </div>
+      <div id="directory-list" class="directory-list"></div>
+    </div>
   </div>
 
   <div class="nav-controls">
@@ -394,10 +396,8 @@ header {
       </div>
     </div>
 
-    <button id="btn-directory" class="icon-btn" title="目录" aria-label="目录">📑</button>
-
     <div class="icon-wrap">
-      <button id="btn-records" class="icon-btn" title="学习记录 / 笔记 / 多端同步" aria-label="学习记录">📝</button>
+      <button id="btn-records" class="icon-btn" title="学习记录" aria-label="学习记录">📝</button>
       <div id="records-popover" class="popover records-popover" hidden>
         <div class="pop-title">学习记录</div>
         <div class="rec-section-title">本篇</div>
@@ -414,18 +414,6 @@ header {
           <div class="rec-stat"><div class="k">正确 / 错误</div><div class="v" id="rec-g-cw">0 / 0</div></div>
           <div class="rec-stat"><div class="k">累计用时</div><div class="v" id="rec-g-time">0:00</div></div>
         </div>
-        <div class="rec-section-title">多端双向同步（GitHub Gist）</div>
-        <div class="gist-row"><input id="gist-token" type="password" placeholder="GitHub Token（仅需 gist 权限）" autocomplete="off"></div>
-        <div class="gist-row"><input id="gist-id" type="text" placeholder="Gist ID（留空则自动查找已有或新建）" autocomplete="off"></div>
-        <label class="sync-opt"><input id="gist-auto" type="checkbox" checked> 开启自动双向同步（联网自动合并，防覆盖）</label>
-        <div class="rec-actions">
-          <button id="btn-gist-sync" class="btn-tool primary">🔄 立即同步</button>
-          <button id="btn-gist-save" class="btn-tool">保存配置</button>
-          <button id="btn-backup-export" class="btn-tool">导出备份</button>
-          <button id="btn-backup-import" class="btn-tool">导入合并</button>
-          <input id="backup-file" type="file" accept="application/json,.json" hidden>
-        </div>
-        <div id="gist-status" class="rec-status"></div>
       </div>
     </div>
 
@@ -445,19 +433,6 @@ header {
           </div>
         </div>
       </div>
-    </div>
-
-    <div id="directory-panel" class="popover directory-panel" hidden>
-      <div class="dir-head">
-        <span>📑 选择篇章</span>
-        <button id="btn-dir-close" class="dir-close" title="关闭">✕</button>
-      </div>
-      <div class="filter-tab-group">
-        <button class="filter-tab active" data-filter="all">全部 (17篇)</button>
-        <button class="filter-tab" data-filter="英语一">英语一 (8篇)</button>
-        <button class="filter-tab" data-filter="英语二">英语二 (9篇)</button>
-      </div>
-      <div id="directory-list" class="directory-list"></div>
     </div>
   </div>
 </header>
@@ -601,10 +576,7 @@ header {
   $('btn-dir-close').addEventListener('click', function () { closePopovers(); });
   btnRecords.addEventListener('click', function (e) {
     e.stopPropagation();
-    togglePopover(btnRecords, recordsPopover, function () {
-      renderRecords();
-      syncUI.refresh();
-    });
+    togglePopover(btnRecords, recordsPopover, renderRecords);
   });
   btnSettings.addEventListener('click', function (e) {
     e.stopPropagation();
@@ -1143,20 +1115,7 @@ header {
     });
   })();
 
-  /* ---------- Multi-Device Sync Binding ---------- */
-  var syncUI = Sync.bindSyncUI({
-    tokenInput: $('gist-token'),
-    gistIdInput: $('gist-id'),
-    autoSyncCheckbox: $('gist-auto'),
-    btnSync: $('btn-gist-sync'),
-    btnSave: $('btn-gist-save'),
-    btnExport: $('btn-backup-export'),
-    btnImport: $('btn-backup-import'),
-    importFile: $('backup-file'),
-    statusEl: $('gist-status'),
-    errColor: 'var(--danger-color)'
-  });
-
+  /* ---------- Background Sync Live Update ---------- */
   window.addEventListener('kaoyan:data-synced', function (ev) {
     if (!ev.detail || !ev.detail.localChanged) return;
     readingNotes = Sync.loadReadingNotes();

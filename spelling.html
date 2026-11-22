@@ -29,9 +29,11 @@ body{
   backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
   transition:transform .26s cubic-bezier(.4,0,.2,1); will-change:transform;
 }
-.topnav-inner{max-width:880px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 20px}
-.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
-.nb-badge{background:linear-gradient(135deg,#b45309,#d97706);color:#fff;font-weight:800;font-size:12.5px;padding:3px 9px;border-radius:6px;letter-spacing:.4px}
+.topnav-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 20px}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-home{color:var(--muted);text-decoration:none;font-size:12.5px;font-weight:600;padding:4px 8px;border:1px solid var(--line);border-radius:6px;white-space:nowrap;transition:all .15s}
+.nav-home:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.nb-badge{background:linear-gradient(135deg,#b45309,#d97706);color:#fff;font-weight:800;font-size:13px;padding:4px 9px;border-radius:6px;letter-spacing:.5px;white-space:nowrap}
 .nb-sub{font-size:12px;color:var(--muted);letter-spacing:.12em}
 .net-pill{font-size:11px;color:var(--accent);background:var(--accent-soft);border:1px solid var(--line);padding:2px 7px;border-radius:99px;font-weight:600;white-space:nowrap}
 .nav-links{display:flex;align-items:center;gap:8px}
@@ -142,10 +144,6 @@ button:disabled{opacity:.35;cursor:not-allowed}
 .wrong-row:first-child{border-top:0}
 .wrong-word{font-weight:600;word-break:break-word}
 .wrong-num{color:var(--warn);font-variant-numeric:tabular-nums;white-space:nowrap}
-.gist-row{display:flex;margin-top:6px}
-.gist-row input{flex:1;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:12.5px;font-family:inherit;background:#fffdf8;color:var(--ink);min-width:0}
-.gist-row input:focus{outline:none;border-color:var(--accent)}
-.sync-opt{display:flex;align-items:center;gap:6px;margin-top:9px;font-size:12.5px;color:var(--muted);cursor:pointer;user-select:none}
 
 @media (max-width:640px){
   .nb-sub{display:none}
@@ -162,12 +160,13 @@ button:disabled{opacity:.35;cursor:not-allowed}
 </head>
 <body>
 <nav class="topnav"><div class="topnav-inner">
-  <a class="nav-brand" href="index.html">
+  <div class="nav-brand">
+    <a class="nav-home" href="index.html" title="返回首页">← 首页</a>
     <span class="nb-badge">拼写练习</span>
     <span class="nb-sub">作文句子 · 主题词</span>
     <span class="net-pill" data-net-badge hidden>📴 离线模式</span>
-  </a>
-  <div class="nav-links"><a href="reading.html">📖 阅读练习</a><a href="index.html">🏠 首页</a></div>
+  </div>
+  <div class="nav-links"><a href="reading.html">📖 阅读练习</a></div>
 </div></nav>
 
 <div class="page">
@@ -228,8 +227,8 @@ button:disabled{opacity:.35;cursor:not-allowed}
 
 <div class="modal" id="statsModal" hidden>
   <div class="modal-card">
-    <h3>练习记录 &amp; 多端同步</h3>
-    <p class="modal-tip">自动记录掌握进度与错词统计；配置 GitHub Token 后可跨设备自动双向合并同步（与阅读页共用同一 Gist）。</p>
+    <h3>练习记录</h3>
+    <p class="modal-tip">自动记录掌握进度与错词统计。</p>
     <div class="stat-grid">
       <div class="stat-cell"><div class="k">检查次数</div><div class="v" id="stChecks">0</div></div>
       <div class="stat-cell"><div class="k">句子正确率</div><div class="v" id="stItemAcc">--</div></div>
@@ -238,19 +237,9 @@ button:disabled{opacity:.35;cursor:not-allowed}
     </div>
     <div class="stat-sec">错词榜（按错误次数排序）</div>
     <div id="wrongWordList" class="wrong-list"></div>
-    <div class="stat-sec">多端双向同步（GitHub Gist）</div>
-    <div class="gist-row"><input id="sp-gist-token" type="password" placeholder="GitHub Token（仅需 gist 权限）" autocomplete="off"></div>
-    <div class="gist-row"><input id="sp-gist-id" type="text" placeholder="Gist ID（留空则自动查找已有或新建）" autocomplete="off"></div>
-    <label class="sync-opt"><input id="sp-gist-auto" type="checkbox" checked> 开启自动双向同步（联网自动合并，防覆盖）</label>
     <div class="modal-actions">
-      <button class="primary" id="sp-gist-sync">🔄 立即同步</button>
-      <button class="ghost2" id="sp-gist-save">保存配置</button>
-      <button class="ghost2" id="sp-backup-export">导出备份</button>
-      <button class="ghost2" id="sp-backup-import">导入合并</button>
-      <input id="sp-backup-file" type="file" accept="application/json,.json" hidden>
       <button class="ghost2" id="sp-stats-close">关闭</button>
     </div>
-    <div id="sp-gist-status" class="modal-tip" style="margin:10px 0 0;word-break:break-word"></div>
   </div>
 </div>
 
@@ -812,20 +801,7 @@ button:disabled{opacity:.35;cursor:not-allowed}
     }
   }
 
-  var syncUI = Sync.bindSyncUI({
-    tokenInput: $('sp-gist-token'),
-    gistIdInput: $('sp-gist-id'),
-    autoSyncCheckbox: $('sp-gist-auto'),
-    btnSync: $('sp-gist-sync'),
-    btnSave: $('sp-gist-save'),
-    btnExport: $('sp-backup-export'),
-    btnImport: $('sp-backup-import'),
-    importFile: $('sp-backup-file'),
-    statusEl: $('sp-gist-status'),
-    errColor: 'var(--warn)'
-  });
-
-  function openStats() { renderStats(); syncUI.refresh(); $('statsModal').hidden = false; }
+  function openStats() { renderStats(); $('statsModal').hidden = false; }
   function closeStats() { $('statsModal').hidden = true; }
   $('btnStatsFab').onclick = openStats;
   $('sp-stats-close').onclick = closeStats;
