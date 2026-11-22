@@ -734,11 +734,11 @@ header {
 /* Responsive */
 /* ============ 移动端 / 窄屏自适应 ============ */
 @media (max-width: 900px) {
-  html, body { height: auto; }
+  html, body { height: 100%; }
   body {
-    height: auto;
-    overflow: auto;
-    min-height: 100vh;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
   }
   /* 顶栏：纵向堆叠，解除单行挤压 */
   header {
@@ -772,29 +772,51 @@ header {
   .q-jump-group { flex-wrap: wrap; width: 100%; }
   .tool-actions { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
 
-  /* 主区域：改为单栏纵向滚动，不再用固定 50% 高度 */
+  /* 主区域：上下分栏，同屏阅读+做题，中间水平分隔条可拖动 */
   .main-layout {
     flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
     height: auto !important;
-    overflow: visible !important;
+    overflow: hidden !important;
   }
   .left-pane {
     width: 100% !important;
     max-width: none !important;
     min-width: 0 !important;
+    flex: 0 0 50%;
     height: auto !important;
     max-height: none !important;
-    overflow-y: visible !important;
-    padding: 16px 14px !important;
+    min-height: 80px;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding: 14px 14px 16px !important;
   }
   .right-pane {
     width: 100% !important;
     min-width: 0 !important;
+    flex: 1 1 auto;
     height: auto !important;
-    overflow-y: visible !important;
-    padding: 16px 12px !important;
+    min-height: 0;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px 12px 16px !important;
   }
-  .splitter { display: none !important; }
+  .splitter {
+    display: block !important;
+    width: 100% !important;
+    height: 14px !important;
+    flex: 0 0 14px !important;
+    cursor: row-resize !important;
+    touch-action: none;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+  .splitter-handle {
+    width: 44px !important;
+    height: 4px !important;
+    border-radius: 3px !important;
+  }
 
   /* 底部统计栏：换行 */
   .bottom-bar {
@@ -1423,70 +1445,97 @@ function scrollToQuestion(qNum) {
   }
 }
 
-// Draggable Divider implementation
+// Draggable Divider implementation (desktop: vertical split / mobile: horizontal split)
 let isDragging = false;
+let dragStartPos = 0;
+let dragStartSize = 0;
 
-splitter.addEventListener('mousedown', (e) => {
+function isMobileLayout() { return window.matchMedia('(max-width: 900px)').matches; }
+
+function beginDrag(clientX, clientY) {
   isDragging = true;
   splitter.classList.add('dragging');
-  document.body.style.cursor = 'col-resize';
-  document.body.style.userSelect = 'none';
-});
+  if (isMobileLayout()) {
+    dragStartPos = clientY;
+    dragStartSize = passagePane.getBoundingClientRect().height;
+  } else {
+    dragStartPos = clientX;
+    dragStartSize = passagePane.getBoundingClientRect().width;
+  }
+}
 
-document.addEventListener('mousemove', (e) => {
+function moveDrag(clientX, clientY) {
   if (!isDragging) return;
   const workspaceRect = workspace.getBoundingClientRect();
-  const offsetX = e.clientX - workspaceRect.left;
-  const totalWidth = workspaceRect.width;
-  
-  const minWidth = totalWidth * 0.22;
-  const maxWidth = totalWidth * 0.78;
-
-  if (offsetX >= minWidth && offsetX <= maxWidth) {
-    const pct = (offsetX / totalWidth) * 100;
-    passagePane.style.width = `${pct}%`;
+  if (isMobileLayout()) {
+    const totalH = workspaceRect.height;
+    let newH = dragStartSize + (clientY - dragStartPos);
+    const minH = 80;
+    const maxH = totalH - 120;
+    if (newH < minH) newH = minH;
+    if (newH > maxH) newH = maxH;
+    passagePane.style.flex = '0 0 ' + newH + 'px';
+    passagePane.style.width = '100%';
+  } else {
+    const offsetX = clientX - workspaceRect.left;
+    const totalWidth = workspaceRect.width;
+    const minWidth = totalWidth * 0.22;
+    const maxWidth = totalWidth * 0.78;
+    if (offsetX >= minWidth && offsetX <= maxWidth) {
+      const pct = (offsetX / totalWidth) * 100;
+      passagePane.style.flex = '0 0 auto';
+      passagePane.style.width = pct + '%';
+    }
   }
-});
+}
 
-document.addEventListener('mouseup', () => {
+function endDrag() {
   if (isDragging) {
     isDragging = false;
     splitter.classList.remove('dragging');
     document.body.style.cursor = '';
     document.body.style.userSelect = '';
   }
+}
+
+splitter.addEventListener('mousedown', (e) => {
+  beginDrag(e.clientX, e.clientY);
+  document.body.style.cursor = isMobileLayout() ? 'row-resize' : 'col-resize';
+  document.body.style.userSelect = 'none';
 });
+
+document.addEventListener('mousemove', (e) => moveDrag(e.clientX, e.clientY));
+document.addEventListener('mouseup', endDrag);
 
 // Touch support for tablets/mobiles
 splitter.addEventListener('touchstart', (e) => {
-  isDragging = true;
-  splitter.classList.add('dragging');
-});
+  if (e.touches[0]) beginDrag(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: true });
 
 document.addEventListener('touchmove', (e) => {
   if (!isDragging || !e.touches[0]) return;
-  const touch = e.touches[0];
-  const workspaceRect = workspace.getBoundingClientRect();
-  const offsetX = touch.clientX - workspaceRect.left;
-  const totalWidth = workspaceRect.width;
-  const minWidth = totalWidth * 0.22;
-  const maxWidth = totalWidth * 0.78;
-  if (offsetX >= minWidth && offsetX <= maxWidth) {
-    const pct = (offsetX / totalWidth) * 100;
-    passagePane.style.width = `${pct}%`;
-  }
-});
+  moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+  if (e.cancelable) e.preventDefault();
+}, { passive: false });
 
-document.addEventListener('touchend', () => {
-  if (isDragging) {
-    isDragging = false;
-    splitter.classList.remove('dragging');
-  }
-});
+document.addEventListener('touchend', endDrag);
 
-// Double click splitter to reset to 50%
+// Double click / double tap splitter to reset to 50%
 splitter.addEventListener('dblclick', () => {
-  passagePane.style.width = '50%';
+  if (isMobileLayout()) {
+    passagePane.style.flex = '0 0 50%';
+    passagePane.style.width = '100%';
+  } else {
+    passagePane.style.flex = '0 0 auto';
+    passagePane.style.width = '50%';
+  }
+});
+
+// Reset inline overrides when the viewport orientation changes
+window.addEventListener('resize', () => {
+  passagePane.style.flex = '';
+  passagePane.style.width = '';
+  passagePane.style.height = '';
 });
 
 // Events & navigation
