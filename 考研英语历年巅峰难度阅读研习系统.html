@@ -1065,12 +1065,6 @@ header {
 
 <!-- Bottom Status Bar -->
 <div class="bottom-bar">
-  <div class="score-stats">
-    <span>当前进度: <span id="stat-progress" class="score-num">0 / 5</span></span>
-    <span>当前得分: <span id="stat-score" class="score-num">0 分 (0%)</span></span>
-    <span style="color:var(--text-light);">|</span>
-    <span id="stat-hint" style="color:var(--text-muted);">点击右侧选项即可作答，双击文章生词可查看词义释义</span>
-  </div>
   <div class="bottom-actions">
     <button id="btn-check-all" class="btn-nav" style="background:var(--accent-color); color:#fff; border:none; padding:5px 16px;">核对</button>
     <button id="btn-reset-answers" class="btn-nav" style="padding:5px 16px;">清空</button>
@@ -1437,9 +1431,6 @@ function updateStats() {
     }
   });
 
-  statProgress.textContent = `${answeredCount} / ${item.questions.length}`;
-  const pct = Math.round((correctCount / item.questions.length) * 100);
-  statScore.textContent = `${correctCount * 2} 分 (${pct}%)`;
 }
 
 // Scroll right pane to question
