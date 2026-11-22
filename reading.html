@@ -1110,15 +1110,6 @@ header {
 
   <!-- Right: Questions & Options -->
   <div class="right-pane" id="questions-pane">
-    <!-- Key Vocabulary Card -->
-    <div class="vocab-panel" id="vocab-panel">
-      <div class="vocab-header">
-        <span>📖</span>
-        <span>本篇核心词汇速查 (双击或划选文章任意单词即弹查词浮窗)</span>
-      </div>
-      <div class="vocab-grid" id="vocab-grid"></div>
-    </div>
-
     <!-- Questions Container -->
     <div id="questions-container"></div>
   </div>
@@ -1168,8 +1159,6 @@ const passageTitle = document.getElementById('passage-title');
 const passageMetaSub = document.getElementById('passage-meta-sub');
 const passageSummary = document.getElementById('passage-summary');
 const paragraphsContainer = document.getElementById('paragraphs-container');
-const vocabGrid = document.getElementById('vocab-grid');
-const vocabPanel = document.getElementById('vocab-panel');
 const questionsContainer = document.getElementById('questions-container');
 const splitter = document.getElementById('splitter');
 const workspace = document.getElementById('workspace');
@@ -1276,20 +1265,6 @@ function loadCurrentText() {
 
     paragraphsContainer.appendChild(pDiv);
   });
-
-  // Vocabulary keywords
-  vocabGrid.innerHTML = '';
-  if (item.keywords && item.keywords.length > 0) {
-    vocabPanel.style.display = 'block';
-    item.keywords.forEach(kv => {
-      const chip = document.createElement('div');
-      chip.className = 'vocab-chip';
-      chip.innerHTML = `<span class="vocab-word">${kv.word}</span><span class="vocab-trans">${kv.trans}</span>`;
-      vocabGrid.appendChild(chip);
-    });
-  } else {
-    vocabPanel.style.display = 'none';
-  }
 
   // Questions
   questionsContainer.innerHTML = '';
