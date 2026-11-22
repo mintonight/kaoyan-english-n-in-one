@@ -741,20 +741,25 @@ header {
     overflow: hidden;
   }
   /* 顶栏：纵向堆叠，解除单行挤压 */
+  /* 顶栏：始终单行，压缩为紧凑图标栏 */
   header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-    padding: 10px 12px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 7px 10px;
   }
-  .logo-group { justify-content: center; flex-wrap: wrap; gap: 8px; }
-  .logo-title { white-space: normal; font-size: 14px; line-height: 1.3; text-align: center; }
-  .logo-badge { font-size: 12px; padding: 3px 8px; }
+  .logo-group { justify-content: flex-start; flex-wrap: nowrap; gap: 6px; flex: 0 1 auto; min-width: 0; }
+  .logo-home { font-size: 11px; padding: 3px 6px; flex: 0 0 auto; }
+  .logo-badge { font-size: 11.5px; padding: 3px 7px; flex: 0 0 auto; }
   .nav-controls {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    gap: 6px;
+    flex: 0 0 auto;
   }
+  .nav-controls .icon-btn { width: 32px; height: 30px; font-size: 15px; }
   .text-selector { max-width: 100%; width: 100%; }
   .filter-tab-group { width: 100%; justify-content: center; }
   .filter-tab { flex: 1 1 auto; padding: 6px 8px; font-size: 12px; }
@@ -829,7 +834,11 @@ header {
 
 /* 更窄的小屏手机（<=480px）进一步收紧 */
 @media (max-width: 480px) {
-  .logo-title { font-size: 13px; }
+  header { padding: 6px 8px; gap: 4px; }
+  .logo-home { font-size: 10px; padding: 2px 5px; }
+  .logo-badge { font-size: 11px; padding: 2px 6px; }
+  .nav-controls { gap: 5px; }
+  .nav-controls .icon-btn { width: 30px; height: 28px; font-size: 14px; }
   .left-pane { padding: 12px 10px !important; }
   .right-pane { padding: 12px 8px !important; }
   .passage-content, .passage-text { font-size: 16px !important; line-height: 1.7 !important; }
@@ -931,8 +940,9 @@ header {
 .passage-meta-sub { font-size: 12.5px; color: var(--text-muted); }
 
 @media (max-width: 900px) {
-  .directory-panel { width: auto; left: 0; right: 0; }
-  .timer-popover { right: auto; left: 0; }
+  .directory-panel { width: calc(100vw - 16px); max-width: calc(100vw - 16px); left: auto; right: 0; }
+  .timer-popover { right: 0; left: auto; }
+  .settings-popover { right: 0; left: auto; }
 }
 
 
@@ -973,7 +983,18 @@ header {
 
   <div class="nav-controls">
     <div id="q-pills-container" style="display:none;"></div>
-    <div class="icon-wrap settings-wrap">
+        <div class="icon-wrap timer-wrap">
+      <button id="btn-timer-toggle" class="icon-btn" title="考试计时器" aria-label="计时器"><span class="clock-ico">⏱</span></button>
+      <div id="timer-popover" class="timer-popover" hidden>
+        <div class="timer-pop-title">考试倒计时 <span id="timer-display">18:00</span></div>
+        <div class="timer-pop-row">
+          <button id="btn-timer-start" class="btn-tool timer-start-btn" title="开始/暂停">▶ 开始</button>
+          <button id="btn-timer-reset" class="btn-tool" title="重置为18分钟">↺ 重置</button>
+        </div>
+      </div>
+    </div>
+    <button id="btn-directory" class="icon-btn" title="目录" aria-label="目录"><span>📑</span></button>
+<div class="icon-wrap settings-wrap">
       <button id="btn-settings" class="icon-btn" title="设置：模式与字号" aria-label="设置">⚙</button>
       <div id="settings-popover" class="settings-popover" hidden>
         <div class="pop-title">设置</div>
@@ -990,17 +1011,6 @@ header {
         </div>
       </div>
     </div>
-    <div class="icon-wrap timer-wrap">
-      <button id="btn-timer-toggle" class="icon-btn" title="考试计时器" aria-label="计时器"><span class="clock-ico">⏱</span></button>
-      <div id="timer-popover" class="timer-popover" hidden>
-        <div class="timer-pop-title">考试倒计时 <span id="timer-display">18:00</span></div>
-        <div class="timer-pop-row">
-          <button id="btn-timer-start" class="btn-tool timer-start-btn" title="开始/暂停">▶ 开始</button>
-          <button id="btn-timer-reset" class="btn-tool" title="重置为18分钟">↺ 重置</button>
-        </div>
-      </div>
-    </div>
-    <button id="btn-directory" class="icon-btn" title="目录" aria-label="目录"><span>📑</span></button>
 
     <div id="directory-panel" class="directory-panel" hidden>
       <div class="dir-head">
