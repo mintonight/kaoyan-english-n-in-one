@@ -913,6 +913,31 @@ header {
   .timer-popover { right: auto; left: 0; }
 }
 
+
+/* === icon-style header controls === */
+.icon-wrap { position: relative; }
+.icon-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 34px; padding: 0;
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 8px; cursor: pointer; font-size: 16px; line-height: 1;
+  color: var(--text-main); transition: all .15s;
+}
+.icon-btn:hover { border-color: var(--accent-color); background: var(--accent-light); }
+.icon-btn.active { border-color: var(--accent-color); background: var(--accent-light); }
+.settings-popover {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 60;
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.14);
+  padding: 12px 14px; min-width: 210px;
+}
+.pop-title { font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: .1em; margin-bottom: 10px; }
+.set-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 7px 0; }
+.set-label { font-size: 13px; color: var(--text-muted); white-space: nowrap; }
+.font-group { display: flex; gap: 6px; }
+.timer-pop-title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+#timer-display { font-family: monospace; font-size: 15px; font-weight: 800; color: var(--text-main); }
+
 </style>
 </head>
 <body>
@@ -925,26 +950,35 @@ header {
   </div>
 
   <div class="nav-controls">
-    <div class="tool-actions">
-      <button id="btn-toggle-mode" class="btn-tool" title="切换做题模式/精读解析模式">模式: 📝 自测做题</button>
-      <button id="btn-font-dec" class="btn-tool" title="缩小字号">A-</button>
-      <button id="btn-font-inc" class="btn-tool" title="放大字号">A+</button>
-    </div>
     <div id="q-pills-container" style="display:none;"></div>
-    <div class="timer-wrap">
-      <button id="btn-timer-toggle" class="timer-clock-btn" title="点击展开计时器">
-        <span class="clock-ico">⏱</span><span id="timer-display">18:00</span>
-      </button>
+    <div class="icon-wrap settings-wrap">
+      <button id="btn-settings" class="icon-btn" title="设置：模式与字号" aria-label="设置">⚙</button>
+      <div id="settings-popover" class="settings-popover" hidden>
+        <div class="pop-title">设置</div>
+        <div class="set-row">
+          <span class="set-label">模式</span>
+          <button id="btn-toggle-mode" class="btn-tool" title="切换做题模式/精读解析模式">📝 自测做题</button>
+        </div>
+        <div class="set-row">
+          <span class="set-label">字号</span>
+          <div class="font-group">
+            <button id="btn-font-dec" class="btn-tool" title="缩小字号">A-</button>
+            <button id="btn-font-inc" class="btn-tool" title="放大字号">A+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="icon-wrap timer-wrap">
+      <button id="btn-timer-toggle" class="icon-btn" title="考试计时器" aria-label="计时器"><span class="clock-ico">⏱</span></button>
       <div id="timer-popover" class="timer-popover" hidden>
-        <div class="timer-pop-title">考试倒计时</div>
+        <div class="timer-pop-title">考试倒计时 <span id="timer-display">18:00</span></div>
         <div class="timer-pop-row">
           <button id="btn-timer-start" class="btn-tool timer-start-btn" title="开始/暂停">▶ 开始</button>
           <button id="btn-timer-reset" class="btn-tool" title="重置为18分钟">↺ 重置</button>
         </div>
       </div>
     </div>
-
-    <button id="btn-directory" class="btn-directory" title="打开目录"><span>📑</span> 目录</button>
+    <button id="btn-directory" class="icon-btn" title="目录" aria-label="目录"><span>📑</span></button>
 
     <div id="directory-panel" class="directory-panel" hidden>
       <div class="dir-head">
@@ -1471,11 +1505,11 @@ document.addEventListener('click', (e) => {
 btnToggleMode.addEventListener('click', () => {
   if (mode === 'practice') {
     mode = 'analysis';
-    btnToggleMode.textContent = '模式: 📖 精读解析';
+    btnToggleMode.textContent = '📖 精读解析';
     btnToggleMode.classList.add('active');
   } else {
     mode = 'practice';
-    btnToggleMode.textContent = '模式: 📝 自测做题';
+    btnToggleMode.textContent = '📝 自测做题';
     btnToggleMode.classList.remove('active');
   }
   updateAnswerUI();
@@ -1555,7 +1589,7 @@ if (btnTimerReset) btnTimerReset.addEventListener('click', resetTimer);
 // Check all & Reset
 btnCheckAll.addEventListener('click', () => {
   mode = 'analysis';
-  btnToggleMode.textContent = '模式: 📖 精读解析';
+  btnToggleMode.textContent = '📖 精读解析';
   btnToggleMode.classList.add('active');
   updateAnswerUI();
   updateStats();
@@ -1602,6 +1636,24 @@ document.addEventListener('keydown', (e) => {
 
 // Initialize
 populateSelect('all');
+</script>
+
+<script>
+(function(){
+  var b=document.getElementById('btn-settings'), p=document.getElementById('settings-popover');
+  if(!b||!p) return;
+  b.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = p.hidden;
+    p.hidden = !open;
+    b.classList.toggle('active', open);
+  });
+  document.addEventListener('click', function(e){
+    if(!p.hidden && !p.contains(e.target) && !b.contains(e.target)){
+      p.hidden = true; b.classList.remove('active');
+    }
+  });
+})();
 </script>
 </body>
 </html>
