@@ -846,6 +846,70 @@ header {
 .opt-an-row.opt-an-right .opt-an-letter { color: #2e7d32; }
 .opt-an-text { flex: 1 1 auto; }
 
+/* ===== New header: timer clock + directory ===== */
+[hidden] { display: none !important; }
+.nav-controls { position: relative; }
+.timer-wrap { position: relative; }
+.timer-clock-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--bg-main); border: 1px solid var(--border-color);
+  padding: 6px 12px; border-radius: 8px; cursor: pointer;
+  font-family: monospace; font-size: 14px; font-weight: 700;
+  color: var(--text-main); transition: all .15s;
+}
+.timer-clock-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
+.timer-clock-btn .clock-ico { font-size: 15px; }
+.timer-popover {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 60;
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.14);
+  padding: 12px 14px; min-width: 200px;
+}
+.timer-pop-title { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; }
+.timer-pop-row { display: flex; gap: 8px; }
+.timer-start-btn { font-family: monospace; }
+
+.btn-directory {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  color: var(--text-main); padding: 6px 14px; border-radius: 8px;
+  font-size: 13px; font-weight: 700; cursor: pointer; transition: all .15s;
+}
+.btn-directory:hover, .btn-directory.active { border-color: var(--accent-color); color: var(--accent-color); }
+
+.directory-panel {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 55;
+  width: 390px; max-width: calc(100vw - 24px);
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.16);
+  padding: 12px; display: flex; flex-direction: column; gap: 10px;
+}
+.dir-head { display: flex; align-items: center; justify-content: space-between;
+  font-size: 13px; font-weight: 700; color: var(--text-main); }
+.dir-close { border: none; background: none; cursor: pointer; font-size: 14px; color: var(--text-muted); }
+.dir-close:hover { color: var(--danger-color); }
+.directory-panel .filter-tab-group { width: 100%; }
+.directory-panel .filter-tab { flex: 1 1 auto; text-align: center; }
+.directory-list { max-height: 62vh; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+.dir-item {
+  display: flex; flex-direction: column; gap: 3px; text-align: left;
+  background: var(--bg-main); border: 1px solid var(--border-color);
+  border-radius: 8px; padding: 9px 11px; cursor: pointer; transition: all .12s;
+}
+.dir-item:hover { border-color: var(--accent-color); background: var(--accent-light); }
+.dir-item.active { border-color: var(--accent-color); background: var(--accent-light); }
+.dir-item-title { font-size: 13.5px; font-weight: 700; color: var(--text-main); }
+.dir-item-meta { font-size: 11.5px; color: var(--text-muted); }
+
+.passage-meta-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 2px; }
+.bottom-actions { display: flex; align-items: center; gap: 8px; }
+.passage-meta-sub { font-size: 12.5px; color: var(--text-muted); }
+
+@media (max-width: 900px) {
+  .directory-panel { width: auto; left: 0; right: 0; }
+  .timer-popover { right: auto; left: 0; }
+}
+
 </style>
 </head>
 <body>
@@ -854,63 +918,56 @@ header {
 <header>
   <div class="logo-group">
     <span class="logo-badge">巅峰阅读</span>
-    <span class="logo-title">考研英语历年巅峰难度阅读研习系统 (2021-2025)</span>
   </div>
 
   <div class="nav-controls">
-    <!-- Filter tabs -->
-    <div class="filter-tab-group">
-      <button class="filter-tab active" data-filter="all">全部 (17篇)</button>
-      <button class="filter-tab" data-filter="英语一">英语一 (8篇)</button>
-      <button class="filter-tab" data-filter="英语二">英语二 (9篇)</button>
+    <div class="tool-actions">
+      <button id="btn-toggle-mode" class="btn-tool" title="切换做题模式/精读解析模式">模式: 📝 自测做题</button>
+      <button id="btn-font-dec" class="btn-tool" title="缩小字号">A-</button>
+      <button id="btn-font-inc" class="btn-tool" title="放大字号">A+</button>
+    </div>
+    <div id="q-pills-container" style="display:none;"></div>
+    <div class="timer-wrap">
+      <button id="btn-timer-toggle" class="timer-clock-btn" title="点击展开计时器">
+        <span class="clock-ico">⏱</span><span id="timer-display">18:00</span>
+      </button>
+      <div id="timer-popover" class="timer-popover" hidden>
+        <div class="timer-pop-title">考试倒计时</div>
+        <div class="timer-pop-row">
+          <button id="btn-timer-start" class="btn-tool timer-start-btn" title="开始/暂停">▶ 开始</button>
+          <button id="btn-timer-reset" class="btn-tool" title="重置为18分钟">↺ 重置</button>
+        </div>
+      </div>
     </div>
 
-    <!-- Dropdown selector -->
-    <select id="text-select" class="text-selector" title="选择篇章"></select>
+    <button id="btn-directory" class="btn-directory" title="打开目录"><span>📑</span> 目录</button>
 
-    <!-- Prev / Next buttons -->
-    <button id="btn-prev-text" class="btn-nav" title="上一篇">◀ 上一篇</button>
-    <button id="btn-next-text" class="btn-nav" title="下一篇">下一篇 ▶</button>
-
-    <!-- Timer -->
-    <div class="timer-box">
-      <span>⏱️</span>
-      <span id="timer-display">18:00</span>
-      <button id="btn-timer-toggle" class="timer-btn" title="开始/暂停">▶</button>
-      <button id="btn-timer-reset" class="timer-btn" title="重置">↺</button>
+    <div id="directory-panel" class="directory-panel" hidden>
+      <div class="dir-head">
+        <span>📑 选择篇章</span>
+        <button id="btn-dir-close" class="dir-close" title="关闭">✕</button>
+      </div>
+      <div class="filter-tab-group">
+        <button class="filter-tab active" data-filter="all">全部 (17篇)</button>
+        <button class="filter-tab" data-filter="英语一">英语一 (8篇)</button>
+        <button class="filter-tab" data-filter="英语二">英语二 (9篇)</button>
+      </div>
+      <div id="directory-list" class="directory-list"></div>
     </div>
   </div>
 </header>
-
-<!-- Subheader / Navigator Bar -->
-<div class="sub-bar">
-  <div class="article-meta-left">
-    <span id="badge-exam" class="badge-tag badge-eng1">英语一</span>
-    <span id="badge-diff" class="badge-tag badge-diff-5">困难★★★★★</span>
-    <span id="current-title-bar" class="article-title-bar">加载中...</span>
-  </div>
-
-  <!-- Jump to Question pills -->
-  <div class="q-jump-group">
-    <span style="font-size:12px; color:var(--text-muted); font-weight:600; margin-right:4px;">题目直达:</span>
-    <div id="q-pills-container" style="display:flex; gap:6px;"></div>
-  </div>
-
-  <div class="tool-actions">
-    <button id="btn-toggle-mode" class="btn-tool" title="切换做题模式/精读解析模式">模式: 📝 自测做题</button>
-    <button id="btn-font-dec" class="btn-tool" title="缩小字号">A-</button>
-    <button id="btn-font-inc" class="btn-tool" title="放大字号">A+</button>
-  </div>
-</div>
 
 <!-- Main Splitter Workspace -->
 <div class="main-layout" id="workspace">
   <!-- Left: Reading Passage -->
   <div class="left-pane" id="passage-pane">
     <div class="passage-header">
-      <div id="passage-meta-sub" style="font-size:13px; color:var(--text-muted); margin-bottom:6px;"></div>
       <h2 id="passage-title" class="passage-title-main"></h2>
-      <div id="passage-summary" class="passage-summary-box"></div>
+      <div class="passage-meta-line">
+        <span id="badge-exam" class="badge-tag badge-eng1">英语一</span>
+        <span id="badge-diff" class="badge-tag badge-diff-5">困难★★★★★</span>
+        <span id="passage-meta-sub" class="passage-meta-sub"></span>
+      </div>
     </div>
     <div id="paragraphs-container"></div>
   </div>
@@ -944,9 +1001,9 @@ header {
     <span style="color:var(--text-light);">|</span>
     <span id="stat-hint" style="color:var(--text-muted);">点击右侧选项即可作答，双击文章生词可查看词义释义</span>
   </div>
-  <div>
-    <button id="btn-check-all" class="btn-nav" style="background:var(--accent-color); color:#fff; border:none; padding:5px 14px;">一键核对全篇答案</button>
-    <button id="btn-reset-answers" class="btn-nav" style="margin-left:8px;">清空重做</button>
+  <div class="bottom-actions">
+    <button id="btn-check-all" class="btn-nav" style="background:var(--accent-color); color:#fff; border:none; padding:5px 16px;">核对</button>
+    <button id="btn-reset-answers" class="btn-nav" style="padding:5px 16px;">清空</button>
   </div>
 </div>
 
@@ -969,9 +1026,13 @@ let timerInterval = null;
 let timerRunning = false;
 
 // DOM Elements
-const textSelect = document.getElementById('text-select');
-const btnPrev = document.getElementById('btn-prev-text');
-const btnNext = document.getElementById('btn-next-text');
+const directoryList = document.getElementById('directory-list');
+const directoryPanel = document.getElementById('directory-panel');
+const btnDirectory = document.getElementById('btn-directory');
+const btnDirClose = document.getElementById('btn-dir-close');
+const timerPopover = document.getElementById('timer-popover');
+const timerWrap = document.querySelector('.timer-wrap');
+const btnTimerStart = document.getElementById('btn-timer-start');
 const badgeExam = document.getElementById('badge-exam');
 const badgeDiff = document.getElementById('badge-diff');
 const titleBar = document.getElementById('current-title-bar');
@@ -999,22 +1060,48 @@ const statProgress = document.getElementById('stat-progress');
 const statScore = document.getElementById('stat-score');
 const wordPopup = document.getElementById('word-popup');
 
-// Populate dropdown options
+// Populate directory list
 function populateSelect(filter = 'all') {
-  textSelect.innerHTML = '';
   filteredData = READING_DATA.filter(item => {
     if (filter === 'all') return true;
     return item.exam === filter;
   });
-
-  filteredData.forEach((item, idx) => {
-    const opt = document.createElement('option');
-    opt.value = idx;
-    opt.textContent = `[${item.exam} ${item.year}] ${item.text_num} - ${item.title} (${item.difficulty})`;
-    textSelect.appendChild(opt);
-  });
+  if (directoryList) {
+    directoryList.innerHTML = '';
+    filteredData.forEach((item, idx) => {
+      const row = document.createElement('button');
+      row.className = 'dir-item';
+      row.dataset.idx = idx;
+      row.innerHTML = '<span class="dir-item-title">' + item.text_num + ' · ' + item.title +
+        '</span><span class="dir-item-meta">' + item.exam + ' · ' + item.year + ' · ' + item.difficulty + '</span>';
+      row.addEventListener('click', () => {
+        closeDirectory();
+        currentIndex = idx;
+        loadCurrentText();
+      });
+      directoryList.appendChild(row);
+    });
+  }
   currentIndex = 0;
   loadCurrentText();
+}
+
+function markActiveDirItem() {
+  if (!directoryList) return;
+  document.querySelectorAll('.dir-item').forEach(el => {
+    el.classList.toggle('active', parseInt(el.dataset.idx) === currentIndex);
+  });
+}
+function openDirectory() {
+  if (!directoryPanel) return;
+  directoryPanel.hidden = false;
+  if (btnDirectory) btnDirectory.classList.add('active');
+  markActiveDirItem();
+}
+function closeDirectory() {
+  if (!directoryPanel) return;
+  directoryPanel.hidden = true;
+  if (btnDirectory) btnDirectory.classList.remove('active');
 }
 
 // Filter tabs click
@@ -1031,21 +1118,18 @@ function loadCurrentText() {
   const item = filteredData[currentIndex];
   if (!item) return;
 
-  textSelect.value = currentIndex;
-  btnPrev.disabled = currentIndex === 0;
-  btnNext.disabled = currentIndex === filteredData.length - 1;
-
   // Badges
   badgeExam.textContent = item.exam;
   badgeExam.className = 'badge-tag ' + (item.exam === '英语一' ? 'badge-eng1' : 'badge-eng2');
   badgeDiff.textContent = item.difficulty;
   badgeDiff.className = 'badge-tag ' + (item.difficulty.includes('★★★★★') ? 'badge-diff-5' : 'badge-diff-4');
-  titleBar.textContent = `${item.year}年 ${item.text_num} · ${item.title}`;
 
   // Passage Header
-  passageMetaSub.textContent = `全国硕士研究生招生考试 · ${item.exam} (${item.year}年真题) · 难度评级: ${item.difficulty}`;
   passageTitle.textContent = `${item.text_num}: ${item.title}`;
-  passageSummary.innerHTML = `<strong>【核心导读与背景】</strong>${item.summary}<br><span style="color:var(--text-muted);font-size:12px;margin-top:6px;display:inline-block;">${item.detailed_analysis || ''}</span>`;
+  passageMetaSub.textContent = `${item.year}年真题 · ${item.exam} · 难度评级: ${item.difficulty}`;
+
+  // Highlight current item in directory
+  if (typeof markActiveDirItem === 'function') markActiveDirItem();
 
   // Paragraphs
   paragraphsContainer.innerHTML = '';
@@ -1368,22 +1452,14 @@ splitter.addEventListener('dblclick', () => {
 });
 
 // Events & navigation
-textSelect.addEventListener('change', (e) => {
-  currentIndex = parseInt(e.target.value);
-  loadCurrentText();
+if (btnDirectory) btnDirectory.addEventListener('click', () => {
+  if (directoryPanel.hidden) openDirectory(); else closeDirectory();
 });
-
-btnPrev.addEventListener('click', () => {
-  if (currentIndex > 0) {
-    currentIndex--;
-    loadCurrentText();
-  }
-});
-
-btnNext.addEventListener('click', () => {
-  if (currentIndex < filteredData.length - 1) {
-    currentIndex++;
-    loadCurrentText();
+if (btnDirClose) btnDirClose.addEventListener('click', closeDirectory);
+document.addEventListener('click', (e) => {
+  if (directoryPanel && !directoryPanel.hidden && btnDirectory &&
+      !directoryPanel.contains(e.target) && !btnDirectory.contains(e.target)) {
+    closeDirectory();
   }
 });
 
@@ -1432,18 +1508,30 @@ function resetTimer() {
   clearInterval(timerInterval);
   timerRunning = false;
   timerSeconds = 18 * 60;
-  btnTimerToggle.textContent = '▶';
+  if (btnTimerStart) btnTimerStart.textContent = '▶ 开始';
   updateTimerUI();
 }
 
-btnTimerToggle.addEventListener('click', () => {
+// Clock button toggles the timer popover
+if (btnTimerToggle) btnTimerToggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (timerPopover) timerPopover.hidden = !timerPopover.hidden;
+});
+document.addEventListener('click', (e) => {
+  if (timerPopover && !timerPopover.hidden && timerWrap && !timerWrap.contains(e.target)) {
+    timerPopover.hidden = true;
+  }
+});
+
+// Start / pause
+if (btnTimerStart) btnTimerStart.addEventListener('click', () => {
   if (timerRunning) {
     clearInterval(timerInterval);
     timerRunning = false;
-    btnTimerToggle.textContent = '▶';
+    btnTimerStart.textContent = '▶ 继续';
   } else {
     timerRunning = true;
-    btnTimerToggle.textContent = '⏸';
+    btnTimerStart.textContent = '⏸ 暂停';
     timerInterval = setInterval(() => {
       if (timerSeconds > 0) {
         timerSeconds--;
@@ -1451,13 +1539,14 @@ btnTimerToggle.addEventListener('click', () => {
       } else {
         clearInterval(timerInterval);
         timerRunning = false;
+        btnTimerStart.textContent = '▶ 开始';
         alert('时间到！本篇做题倒计时结束。');
       }
     }, 1000);
   }
 });
 
-btnTimerReset.addEventListener('click', resetTimer);
+if (btnTimerReset) btnTimerReset.addEventListener('click', resetTimer);
 
 // Check all & Reset
 btnCheckAll.addEventListener('click', () => {
@@ -1498,11 +1587,7 @@ document.addEventListener('mouseup', (e) => {
 // Keyboard shortcuts (Arrow Left/Right to switch texts, 1-5 to jump to questions)
 document.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
-  if (e.key === 'ArrowLeft' && !btnPrev.disabled) {
-    btnPrev.click();
-  } else if (e.key === 'ArrowRight' && !btnNext.disabled) {
-    btnNext.click();
-  } else if (['1', '2', '3', '4', '5'].includes(e.key)) {
+  if (['1', '2', '3', '4', '5'].includes(e.key)) {
     const item = filteredData[currentIndex];
     const qIndex = parseInt(e.key) - 1;
     if (item && item.questions[qIndex]) {
