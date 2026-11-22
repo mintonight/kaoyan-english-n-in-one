@@ -138,6 +138,7 @@ body{background:radial-gradient(1200px 500px at 50% -140px,#fbf3e6 0,rgba(251,24
 .gist-row input{flex:1;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:12.5px;font-family:inherit;background:#fffdf8;color:var(--ink);min-width:0}
 .gist-row input:focus{outline:none;border-color:var(--accent)}
 
+.topnav{transition:transform .26s cubic-bezier(.4,0,.2,1);will-change:transform}
 </style>
 </head>
 <body>
@@ -857,6 +858,21 @@ body{background:radial-gradient(1200px 500px at 50% -140px,#fbf3e6 0,rgba(251,24
   };
 
   renderHome();
+})();
+</script>
+<script>
+/* 顶栏自动折叠：下滑隐藏，上滑/回顶显示 */
+(function(){
+  var hd=document.querySelector('.topnav'); if(!hd) return;
+  var last=window.scrollY||document.documentElement.scrollTop||0, hidden=false;
+  function set(v){ if(v===hidden) return; hidden=v; hd.style.transform = v ? 'translateY(-100%)' : ''; }
+  window.addEventListener('scroll', function(){
+    var y=window.scrollY||document.documentElement.scrollTop||0;
+    var dy=y-last; last=y;
+    if(Math.abs(dy)<6) return;
+    if(y<=8){ set(false); return; }
+    if(dy>0 && y>50){ set(true); } else if(dy<0){ set(false); }
+  }, {passive:true});
 })();
 </script>
 </body>
