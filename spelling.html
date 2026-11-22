@@ -122,6 +122,22 @@ body{background:radial-gradient(1200px 500px at 50% -140px,#fbf3e6 0,rgba(251,24
 .card{box-shadow:0 26px 60px -42px rgba(90,60,30,.45)}
 .dcard:hover{box-shadow:0 14px 30px -24px rgba(90,60,30,.5)}
 @media(max-width:640px){.nb-sub{display:none}.topnav-inner{padding:9px 14px}.nav-links a{padding:6px 9px;font-size:12px}}
+/* ===== 练习记录 / Gist ===== */
+#btnStatsFab{bottom:70px}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0 4px}
+.stat-cell{background:var(--accent-soft);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.stat-cell .k{font-size:11px;color:var(--muted)}
+.stat-cell .v{font-size:18px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+.stat-sec{margin:16px 0 8px;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--muted)}
+.wrong-list{max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:6px 12px;background:#fffdf8}
+.wrong-row{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-top:1px solid var(--line);font-size:13px}
+.wrong-row:first-child{border-top:0}
+.wrong-word{font-weight:600;word-break:break-word}
+.wrong-num{color:var(--warn);font-variant-numeric:tabular-nums;white-space:nowrap}
+.gist-row{display:flex;margin-top:6px}
+.gist-row input{flex:1;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:12.5px;font-family:inherit;background:#fffdf8;color:var(--ink);min-width:0}
+.gist-row input:focus{outline:none;border-color:var(--accent)}
+
 </style>
 </head>
 <body>
@@ -170,6 +186,7 @@ body{background:radial-gradient(1200px 500px at 50% -140px,#fbf3e6 0,rgba(251,24
   <footer class="foot"><span id="footStats"></span><button id="btnReset" class="linkbtn">清除练习记录</button></footer>
 </div>
 
+<button class="keys-fab" id="btnStatsFab">📊 练习记录</button>
 <button class="keys-fab" id="btnKeys">⌨ 快捷键</button>
 
 <div class="modal" id="keysModal" hidden>
@@ -181,6 +198,32 @@ body{background:radial-gradient(1200px 500px at 50% -140px,#fbf3e6 0,rgba(251,24
       <button class="ghost2" id="btnKeysReset">恢复默认</button>
       <button class="primary" id="btnKeysClose">完成</button>
     </div>
+  </div>
+</div>
+
+
+<div class="modal" id="statsModal" hidden>
+  <div class="modal-card">
+    <h3>练习记录</h3>
+    <p class="modal-tip">记录拼写过程中的正确与错误情况；可配置 GitHub Gist 跨设备同步。</p>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="k">检查次数</div><div class="v" id="stChecks">0</div></div>
+      <div class="stat-cell"><div class="k">句子正确率</div><div class="v" id="stItemAcc">--</div></div>
+      <div class="stat-cell"><div class="k">单词 正确 / 错误</div><div class="v" id="stWordCW">0 / 0</div></div>
+      <div class="stat-cell"><div class="k">单词正确率</div><div class="v" id="stWordAcc">--</div></div>
+    </div>
+    <div class="stat-sec">错词榜（按错误次数排序）</div>
+    <div id="wrongWordList" class="wrong-list"></div>
+    <div class="stat-sec">GitHub Gist 同步</div>
+    <div class="gist-row"><input id="sp-gist-token" type="password" placeholder="GitHub Token（gist 权限）" autocomplete="off"></div>
+    <div class="gist-row"><input id="sp-gist-id" type="text" placeholder="Gist ID（留空则首次推送自动新建）" autocomplete="off"></div>
+    <div class="modal-actions" style="gap:8px;flex-wrap:wrap;margin-top:14px">
+      <button class="ghost2" id="sp-gist-save">保存配置</button>
+      <button class="ghost2" id="sp-gist-pull">⬇ 拉取</button>
+      <button class="primary" id="sp-gist-push">⬆ 推送</button>
+      <button class="ghost2" id="sp-stats-close">关闭</button>
+    </div>
+    <div id="sp-gist-status" class="modal-tip" style="margin:10px 0 0;word-break:break-all">数据默认只存在本机浏览器；填写 Gist 后可跨设备同步。</div>
   </div>
 </div>
 
@@ -196,6 +239,14 @@ body{background:radial-gradient(1200px 500px at 50% -140px,#fbf3e6 0,rgba(251,24
   var results = {};
   try { results = JSON.parse(localStorage.getItem(LS_KEY) || "{}") || {}; } catch(e){ results = {}; }
   function save(){ try { localStorage.setItem(LS_KEY, JSON.stringify(results)); } catch(e){} }
+
+  var SLOG_KEY = "piviaa-wseyrsmh-weo-j8";
+  var spellLog = {};
+  try { spellLog = JSON.parse(localStorage.getItem(SLOG_KEY) || "{}") || {}; } catch(e){ spellLog = {}; }
+  if (!spellLog.items) spellLog.items = {};
+  if (!spellLog.words) spellLog.words = {};
+  if (!spellLog.totals) spellLog.totals = { checks:0, itemOk:0, itemBad:0 };
+  function saveSpellLog(){ try { localStorage.setItem(SLOG_KEY, JSON.stringify(spellLog)); } catch(e){} }
 
   var state = { view:"home", setId:null, pos:0, words:[], originals:[], revealed:false, allOk:false };
   function $(id){ return document.getElementById(id); }
@@ -381,6 +432,7 @@ body{background:radial-gradient(1200px 500px at 50% -140px,#fbf3e6 0,rgba(251,24
   function checkAll(){
     var list = inputs(); var wrong=0, empty=0;
     list.forEach(function(inp){ var r=commit(inp); if (r==="bad") wrong++; else if (r==="empty") empty++; });
+    try { recordSpell(list, wrong, empty); } catch(e){}
     var fb = $("feedback"); fb.className = "feedback show";
     if (wrong===0 && empty===0){
       state.allOk = true;
@@ -655,6 +707,8 @@ body{background:radial-gradient(1200px 500px at 50% -140px,#fbf3e6 0,rgba(251,24
   $("btnReset").onclick = function(){
     if (!window.confirm("确定清除所有练习记录吗？")) return;
     results = {}; save();
+    spellLog = { items:{}, words:{}, totals:{ checks:0, itemOk:0, itemBad:0 } };
+    saveSpellLog();
     if (state.view === "practice") renderPractice(); else renderHome();
   };
 
@@ -668,6 +722,139 @@ body{background:radial-gradient(1200px 500px at 50% -140px,#fbf3e6 0,rgba(251,24
   });
 
   if (window.speechSynthesis){ try { window.speechSynthesis.getVoices(); } catch(e){} }
+
+
+  /* ===================== 练习记录 + Gist ===================== */
+  function recordSpell(list, wrong, empty){
+    var k = key(); var nowIso = new Date().toISOString();
+    var allRight = (wrong === 0 && empty === 0);
+    var entry = spellLog.items[k] || { attempts:0, ok:0, bad:0 };
+    entry.attempts++;
+    entry.lastResult = allRight ? "ok" : "bad";
+    entry.lastAt = nowIso;
+    entry.revealed = !!state.revealed;
+    if (!state.revealed){ if (allRight) entry.ok++; else entry.bad++; }
+    spellLog.items[k] = entry;
+    var words = state.words || [];
+    list.forEach(function(inp){
+      var v = String(inp.value||"").replace(/\s+/g," ").trim(); if (!v) return;
+      var idx = parseInt(inp.getAttribute("data-i"), 10);
+      var display = (idx >= 0 && words[idx]) ? words[idx] : (inp.getAttribute("data-norm")||"");
+      var wkey = inp.getAttribute("data-norm") || norm(display);
+      if (!wkey) return;
+      var ok = norm(v) === inp.getAttribute("data-norm");
+      if (!spellLog.words[wkey]) spellLog.words[wkey] = { word: display, right:0, wrong:0 };
+      if (ok) spellLog.words[wkey].right++; else spellLog.words[wkey].wrong++;
+    });
+    if (!state.revealed){
+      spellLog.totals.checks = (spellLog.totals.checks||0) + 1;
+      if (allRight) spellLog.totals.itemOk = (spellLog.totals.itemOk||0) + 1;
+      else spellLog.totals.itemBad = (spellLog.totals.itemBad||0) + 1;
+    }
+    saveSpellLog();
+    renderStats();
+  }
+
+  function renderStats(){
+    var t = spellLog.totals || {};
+    var checks = t.checks||0, itemOk = t.itemOk||0;
+    var right = 0, wrong = 0;
+    for (var w in spellLog.words){ right += spellLog.words[w].right||0; wrong += spellLog.words[w].wrong||0; }
+    var el;
+    if ((el=$("stChecks"))) el.textContent = checks;
+    if ((el=$("stItemAcc"))) el.textContent = checks ? Math.round(itemOk/checks*100)+"%" : "--";
+    if ((el=$("stWordCW"))) el.textContent = right + " / " + wrong;
+    if ((el=$("stWordAcc"))) el.textContent = (right+wrong) ? Math.round(right/(right+wrong)*100)+"%" : "--";
+    var arr = [];
+    for (var k2 in spellLog.words){ var o = spellLog.words[k2]; if ((o.wrong||0) > 0) arr.push(o); }
+    arr.sort(function(a,b){ return (b.wrong||0) - (a.wrong||0); });
+    var box = $("wrongWordList");
+    if (box){
+      if (!arr.length) box.innerHTML = '<div class="modal-tip">暂无错词记录，做完一次「检查」后这里会出现错词。</div>';
+      else box.innerHTML = arr.slice(0,80).map(function(o){
+        return '<div class="wrong-row"><span class="wrong-word">'+esc(o.word||'')+'</span><span class="wrong-num">错 '+(o.wrong||0)+' · 对 '+(o.right||0)+'</span></div>';
+      }).join('');
+    }
+  }
+
+  var CFG_LS = "kaoyan_gist_config";
+  var GIST_FILE = "kaoyan-study-data.json";
+  function getCfg(){ try { return JSON.parse(localStorage.getItem(CFG_LS)||"{}")||{}; } catch(e){ return {}; } }
+  function setCfg(c){ try { localStorage.setItem(CFG_LS, JSON.stringify(c)); } catch(e){} }
+  function gistStatus(t, err){ var el=$("sp-gist-status"); if(el){ el.textContent=t; el.style.color = err ? "var(--warn)" : "var(--muted)"; } }
+  function loadCfgFields(){ var c=getCfg(); if ($("sp-gist-token") && c.token) $("sp-gist-token").value=c.token; if ($("sp-gist-id") && c.gistId) $("sp-gist-id").value=c.gistId; }
+  function readCfgInputs(){ var c=getCfg(); var tk=$("sp-gist-token").value.trim(), gid=$("sp-gist-id").value.trim(); if (tk) c.token=tk; if (gid) c.gistId=gid; setCfg(c); return c; }
+  async function github(method, path, body, token){
+    var res = await fetch("https://api.github.com"+path, {
+      method: method,
+      headers: { "Accept":"application/vnd.github+json", "Authorization":"Bearer "+token, "Content-Type":"application/json" },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    var data = null; try { data = await res.json(); } catch(e){}
+    if (!res.ok) { var msg = (data && data.message) ? data.message : ("HTTP "+res.status); throw new Error(msg); }
+    return data;
+  }
+  function buildPayload(){
+    return { app:"kaoyan-english-n-in-one", version:1, updatedAt:new Date().toISOString(),
+      spelling:{ items:spellLog.items, words:spellLog.words, totals:spellLog.totals } };
+  }
+  function openStats(){ renderStats(); loadCfgFields(); $("statsModal").hidden=false; }
+  function closeStats(){ $("statsModal").hidden=true; }
+
+  if ($("btnStatsFab")) $("btnStatsFab").onclick = openStats;
+  if ($("sp-stats-close")) $("sp-stats-close").onclick = closeStats;
+  if ($("statsModal")) $("statsModal").addEventListener("click", function(e){ if (e.target===this) closeStats(); });
+  if ($("sp-gist-save")) $("sp-gist-save").onclick = function(){
+    var c = readCfgInputs();
+    setCfg(c);
+    gistStatus(c.gistId ? "配置已保存 ✓（Gist ID: "+c.gistId+"）" : "配置已保存 ✓（首次推送会自动新建 Gist）");
+  };
+  if ($("sp-gist-push")) $("sp-gist-push").onclick = async function(){
+    var c = readCfgInputs();
+    if (!c.token){ gistStatus("请先填写 GitHub Token", true); return; }
+    gistStatus("正在推送…");
+    try {
+      var p = buildPayload();
+      if (c.gistId){
+        try {
+          var g = await github("GET", "/gists/"+c.gistId, null, c.token);
+          if (g && g.files && g.files[GIST_FILE] && g.files[GIST_FILE].content){
+            var rj = JSON.parse(g.files[GIST_FILE].content);
+            if (rj && rj.reading) p.reading = rj.reading;
+          }
+        } catch(e){}
+        await github("PATCH", "/gists/"+c.gistId, { files: (function(){ var o={}; o[GIST_FILE]={content:JSON.stringify(p,null,2)}; return o; })() }, c.token);
+      } else {
+        var created = await github("POST", "/gists", {
+          description: "考研英语学习记录（阅读 + 拼写，自动同步）",
+          public: false,
+          files: (function(){ var o={}; o[GIST_FILE]={content:JSON.stringify(p,null,2)}; return o; })()
+        }, c.token);
+        if (created && created.id){ c.gistId = created.id; setCfg(c); if ($("sp-gist-id")) $("sp-gist-id").value = created.id; }
+      }
+      gistStatus("推送成功 ✓ " + new Date().toLocaleTimeString());
+    } catch(e){ gistStatus("推送失败：" + e.message, true); }
+  };
+  if ($("sp-gist-pull")) $("sp-gist-pull").onclick = async function(){
+    var c = readCfgInputs();
+    if (!c.token){ gistStatus("请先填写 GitHub Token", true); return; }
+    if (!c.gistId){ gistStatus("请先填写 Gist ID（或先推送一次自动创建）", true); return; }
+    gistStatus("正在拉取…");
+    try {
+      var g = await github("GET", "/gists/"+c.gistId, null, c.token);
+      if (!g || !g.files || !g.files[GIST_FILE] || !g.files[GIST_FILE].content) throw new Error("Gist 中没有 "+GIST_FILE);
+      var rj = JSON.parse(g.files[GIST_FILE].content);
+      if (rj && rj.spelling){
+        var sp = rj.spelling;
+        if (sp.items) Object.keys(sp.items).forEach(function(k){ spellLog.items[k] = sp.items[k]; });
+        if (sp.words) Object.keys(sp.words).forEach(function(k){ spellLog.words[k] = sp.words[k]; });
+        if (sp.totals) spellLog.totals = sp.totals;
+        saveSpellLog(); renderStats();
+        if (state.view === "practice") renderPractice(); else renderHome();
+      }
+      gistStatus("拉取成功 ✓ " + new Date().toLocaleTimeString());
+    } catch(e){ gistStatus("拉取失败：" + e.message, true); }
+  };
 
   renderHome();
 })();

@@ -970,6 +970,37 @@ header {
 .timer-pop-title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 #timer-display { font-family: monospace; font-size: 15px; font-weight: 800; color: var(--text-main); }
 
+/* ===== Records popover + per-question notes ===== */
+.icon-wrap.records-wrap { position: relative; }
+.records-popover {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 320;
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.14);
+  padding: 12px 14px; width: 340px; max-width: calc(100vw - 24px);
+}
+.rec-section-title { font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: .08em; margin: 12px 0 6px; }
+.rec-section-title:first-of-type { margin-top: 0; }
+.rec-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.rec-stat { background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: 8px; padding: 7px 9px; }
+.rec-stat .k { font-size: 10.5px; color: var(--text-muted); }
+.rec-stat .v { font-size: 16px; font-weight: 800; color: var(--text-main); font-variant-numeric: tabular-nums; }
+.gist-row { display: flex; margin-top: 6px; }
+.gist-row input { flex: 1; border: 1px solid var(--border-color); border-radius: 7px; padding: 6px 8px; font-size: 12px; font-family: inherit; background: #fffdf8; color: var(--text-main); min-width: 0; }
+.gist-row input:focus { outline: none; border-color: var(--accent-color); }
+.rec-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.rec-status { font-size: 11px; color: var(--text-muted); margin-top: 7px; line-height: 1.6; word-break: break-all; }
+.q-note { border-top: 1px dashed var(--border-color); margin-top: 12px; padding-top: 9px; }
+.q-note-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 12px; color: var(--text-muted); }
+.q-note-time { font-family: monospace; font-size: 11.5px; white-space: nowrap; }
+.q-note-input { width: 100%; margin-top: 6px; border: 1px solid var(--border-color); border-radius: 8px; padding: 7px 10px; font-family: inherit; font-size: 13px; line-height: 1.65; resize: vertical; min-height: 34px; background: #fffdf8; color: var(--text-main); box-sizing: border-box; }
+.q-note-input:focus { outline: none; border-color: var(--accent-color); }
+.q-note.saved .q-note-label { color: var(--accent-color); font-weight: 700; }
+.q-status-ok { color: var(--success-color); font-weight: 700; }
+.q-status-bad { color: var(--danger-color); font-weight: 700; }
+@media (max-width: 900px) {
+  .records-popover { position: fixed; left: 8px; right: 8px; top: 48px; width: auto; max-width: none; max-height: 74vh; overflow-y: auto; }
+}
+
 </style>
 </head>
 <body>
@@ -994,6 +1025,36 @@ header {
       </div>
     </div>
     <button id="btn-directory" class="icon-btn" title="目录" aria-label="目录"><span>📑</span></button>
+
+    <div class="icon-wrap records-wrap">
+      <button id="btn-records" class="icon-btn" title="学习记录 / 笔记 / Gist 同步" aria-label="学习记录">📝</button>
+      <div id="records-popover" class="records-popover" hidden>
+        <div class="pop-title">学习记录</div>
+        <div class="rec-section-title">本篇</div>
+        <div class="rec-stats">
+          <div class="rec-stat"><div class="k">已答</div><div class="v" id="rec-p-answered">0 / 5</div></div>
+          <div class="rec-stat"><div class="k">正确率</div><div class="v" id="rec-p-acc">--</div></div>
+          <div class="rec-stat"><div class="k">正确 / 错误</div><div class="v" id="rec-p-cw">0 / 0</div></div>
+          <div class="rec-stat"><div class="k">累计用时</div><div class="v" id="rec-p-time">0:00</div></div>
+        </div>
+        <div class="rec-section-title">全部 17 篇</div>
+        <div class="rec-stats">
+          <div class="rec-stat"><div class="k">已答</div><div class="v" id="rec-g-answered">0 / 85</div></div>
+          <div class="rec-stat"><div class="k">正确率</div><div class="v" id="rec-g-acc">--</div></div>
+          <div class="rec-stat"><div class="k">正确 / 错误</div><div class="v" id="rec-g-cw">0 / 0</div></div>
+          <div class="rec-stat"><div class="k">累计用时</div><div class="v" id="rec-g-time">0:00</div></div>
+        </div>
+        <div class="rec-section-title">GitHub Gist 同步</div>
+        <div class="gist-row"><input id="gist-token" type="password" placeholder="GitHub Token（gist 权限）" autocomplete="off"></div>
+        <div class="gist-row"><input id="gist-id" type="text" placeholder="Gist ID（留空则首次推送自动新建）" autocomplete="off"></div>
+        <div class="rec-actions">
+          <button id="btn-gist-save" class="btn-tool">保存配置</button>
+          <button id="btn-gist-pull" class="btn-tool">⬇ 拉取</button>
+          <button id="btn-gist-push" class="btn-tool">⬆ 推送</button>
+        </div>
+        <div id="gist-status" class="rec-status">数据默认只存在本机浏览器；填写 Gist 后可跨设备同步。</div>
+      </div>
+    </div>
 <div class="icon-wrap settings-wrap">
       <button id="btn-settings" class="icon-btn" title="设置：模式与字号" aria-label="设置">⚙</button>
       <div id="settings-popover" class="settings-popover" hidden>
@@ -1705,5 +1766,315 @@ populateSelect('all');
   });
 })();
 </script>
+<script>
+(function(){
+  'use strict';
+  var NOTES_LS = 'kaoyan_reading_notes_v1';
+  var LOG_LS = 'kaoyan_reading_log_v1';
+  var CFG_LS = 'kaoyan_gist_config';
+  var GIST_FILE = 'kaoyan-study-data.json';
+  var readingNotes = {}, readingLog = {};
+  try { readingNotes = JSON.parse(localStorage.getItem(NOTES_LS) || '{}') || {}; } catch(e) { readingNotes = {}; }
+  try { readingLog = JSON.parse(localStorage.getItem(LOG_LS) || '{}') || {}; } catch(e) { readingLog = {}; }
+  var passageSeenAt = 0, qSeenAt = {}, qObs = null;
+
+  function saveNotes(){ try { localStorage.setItem(NOTES_LS, JSON.stringify(readingNotes)); } catch(e){} }
+  function saveLog(){ try { localStorage.setItem(LOG_LS, JSON.stringify(readingLog)); } catch(e){} }
+  function fmtDur(ms){
+    ms = Math.max(0, ms || 0);
+    var s = Math.round(ms / 1000);
+    if (s < 60) return s + ' 秒';
+    var m = Math.floor(s / 60); s = s % 60;
+    return m + ' 分 ' + (s < 10 ? '0' : '') + s + ' 秒';
+  }
+  function clock(ms){ var s = Math.round((ms || 0) / 1000); var m = Math.floor(s / 60); s = s % 60; return m + ':' + (s < 10 ? '0' : '') + s; }
+
+  function computePassage(item){
+    var answered = 0, correct = 0, time = 0;
+    var map = readingLog[item.id] || {};
+    item.questions.forEach(function(q){
+      var r = map[q.q_num];
+      if (r && r.answer){ answered++; if (r.correct) correct++; time += r.timeMs || 0; }
+    });
+    return { answered: answered, correct: correct, time: time, total: item.questions.length, acc: answered ? Math.round(correct / answered * 100) : 0 };
+  }
+  function computeGlobal(){
+    var answered = 0, correct = 0, time = 0, total = 0, passages = 0;
+    (typeof READING_DATA !== 'undefined' ? READING_DATA : []).forEach(function(item){
+      total += item.questions.length;
+      var s = computePassage(item);
+      answered += s.answered; correct += s.correct; time += s.time;
+      if (s.answered) passages++;
+    });
+    return { answered: answered, correct: correct, time: time, total: total, passages: passages, acc: answered ? Math.round(correct / answered * 100) : 0 };
+  }
+
+  function renderRecords(){
+    var item = (typeof filteredData !== 'undefined' ? filteredData : [])[currentIndex];
+    var ps = item ? computePassage(item) : { answered:0, correct:0, time:0, total:0, acc:0 };
+    var gs = computeGlobal();
+    function set(id, v){ var el = document.getElementById(id); if (el) el.textContent = v; }
+    set('rec-p-answered', ps.answered + ' / ' + ps.total);
+    set('rec-p-acc', ps.answered ? ps.acc + '%' : '--');
+    set('rec-p-cw', ps.correct + ' / ' + (ps.answered - ps.correct));
+    set('rec-p-time', clock(ps.time));
+    set('rec-g-answered', gs.answered + ' / ' + gs.total);
+    set('rec-g-acc', gs.answered ? gs.acc + '%' : '--');
+    set('rec-g-cw', gs.correct + ' / ' + (gs.answered - gs.correct));
+    set('rec-g-time', clock(gs.time));
+  }
+
+  function refreshQuestionMeta(){
+    var item = (typeof filteredData !== 'undefined' ? filteredData : [])[currentIndex];
+    if (!item) return;
+    var map = readingLog[item.id] || {};
+    item.questions.forEach(function(q){
+      var el = document.getElementById('q-meta-' + q.q_num);
+      if (!el) return;
+      var r = map[q.q_num];
+      var t = '用时 --';
+      if (r && r.timeMs) t = '用时 ' + fmtDur(r.timeMs);
+      var s = ' · 未作答';
+      if (r && r.answer){
+        if (typeof mode !== 'undefined' && mode === 'analysis'){
+          s = r.correct ? ' · <span class="q-status-ok">✔ 正确</span>' : ' · <span class="q-status-bad">✘ 错误</span>';
+        } else {
+          s = ' · 已作答';
+        }
+      }
+      el.innerHTML = t + s;
+    });
+  }
+
+  function addNoteBlocks(item){
+    item.questions.forEach(function(q){
+      var card = document.getElementById('q-card-' + q.q_num);
+      if (!card) return;
+      var nk = item.id + '::' + q.q_num;
+      var wrap = document.createElement('div');
+      wrap.className = 'q-note';
+      var head = document.createElement('div');
+      head.className = 'q-note-head';
+      head.innerHTML = '<span class="q-note-label">📝 本题笔记</span><span class="q-note-time" id="q-meta-' + q.q_num + '">用时 -- · 未作答</span>';
+      var ta = document.createElement('textarea');
+      ta.className = 'q-note-input';
+      ta.rows = 2;
+      ta.placeholder = '记录本题错因、定位句、生词…（自动保存）';
+      ta.value = readingNotes[nk] || '';
+      ta.addEventListener('input', function(){
+        readingNotes[nk] = ta.value; saveNotes();
+        wrap.classList.toggle('saved', !!ta.value.trim());
+      });
+      if (ta.value.trim()) wrap.classList.add('saved');
+      wrap.appendChild(head);
+      wrap.appendChild(ta);
+      card.appendChild(wrap);
+    });
+    if (qObs){ qObs.disconnect(); qObs = null; }
+    if ('IntersectionObserver' in window){
+      qObs = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if (en.isIntersecting){
+            var qn = parseInt(en.target.getAttribute('data-q'), 10);
+            if (qn && !qSeenAt[qn]) qSeenAt[qn] = Date.now();
+            qObs.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.35 });
+      var cards = document.querySelectorAll('.q-card');
+      for (var i = 0; i < cards.length; i++){
+        var qn2 = parseInt((cards[i].id || '').replace('q-card-', ''), 10);
+        if (qn2) cards[i].setAttribute('data-q', qn2);
+        qObs.observe(cards[i]);
+      }
+    }
+  }
+
+  function afterLoad(){
+    var item = (typeof filteredData !== 'undefined' ? filteredData : [])[currentIndex];
+    if (!item) return;
+    passageSeenAt = Date.now(); qSeenAt = {};
+    var map = readingLog[item.id] || {};
+    var restored = false;
+    item.questions.forEach(function(q){
+      var r = map[q.q_num];
+      if (r && r.answer && !userAnswers[item.id + '_' + q.q_num]){
+        userAnswers[item.id + '_' + q.q_num] = r.answer; restored = true;
+      }
+    });
+    if (restored){ try { updateAnswerUI(); } catch(e){} }
+    addNoteBlocks(item);
+    refreshQuestionMeta();
+    renderRecords();
+  }
+
+  var _origLoad = loadCurrentText;
+  if (typeof _origLoad === 'function'){
+    loadCurrentText = function(){ var r = _origLoad.apply(null, arguments); afterLoad(); return r; };
+  }
+  var _origSelect = selectOption;
+  if (typeof _origSelect === 'function'){
+    selectOption = function(itemId, qNum, letter){
+      var item = (typeof filteredData !== 'undefined' ? filteredData : [])[currentIndex];
+      var q = null;
+      if (item && item.id === itemId){ item.questions.forEach(function(x){ if (x.q_num === qNum) q = x; }); }
+      var prev = (readingLog[itemId] || {})[qNum] || {};
+      var now = Date.now();
+      var start = qSeenAt[qNum] || passageSeenAt || now;
+      var rec = {
+        answer: letter,
+        correct: !!(q && letter === q.answer),
+        timeMs: prev.timeMs || Math.max(0, now - start),
+        answeredAt: new Date().toISOString(),
+        attempts: (prev.attempts || 0) + 1
+      };
+      if (!readingLog[itemId]) readingLog[itemId] = {};
+      readingLog[itemId][qNum] = rec;
+      saveLog();
+      _origSelect.apply(null, arguments);
+      refreshQuestionMeta();
+      renderRecords();
+    };
+  }
+  var _origStats = updateStats;
+  if (typeof _origStats === 'function'){
+    updateStats = function(){ var r = _origStats.apply(null, arguments); refreshQuestionMeta(); renderRecords(); return r; };
+  }
+
+  var resetBtn = document.getElementById('btn-reset-answers');
+  if (resetBtn){
+    resetBtn.addEventListener('click', function(){
+      setTimeout(function(){
+        var item = (typeof filteredData !== 'undefined' ? filteredData : [])[currentIndex];
+        if (!item) return;
+        var any = false;
+        item.questions.forEach(function(q){ if (userAnswers[item.id + '_' + q.q_num]) any = true; });
+        if (!any){
+          delete readingLog[item.id]; saveLog();
+          qSeenAt = {}; passageSeenAt = Date.now();
+          refreshQuestionMeta(); renderRecords();
+        }
+      }, 40);
+    });
+  }
+
+  var btnRecords = document.getElementById('btn-records');
+  var recPop = document.getElementById('records-popover');
+  function getCfg(){ try { return JSON.parse(localStorage.getItem(CFG_LS) || '{}') || {}; } catch(e){ return {}; } }
+  function setCfg(c){ try { localStorage.setItem(CFG_LS, JSON.stringify(c)); } catch(e){} }
+  function gistStatus(t, err){
+    var el = document.getElementById('gist-status');
+    if (el){ el.textContent = t; el.style.color = err ? 'var(--danger-color)' : 'var(--text-muted)'; }
+  }
+  function loadCfgFields(){
+    var c = getCfg();
+    var t = document.getElementById('gist-token'), g = document.getElementById('gist-id');
+    if (t && c.token) t.value = c.token;
+    if (g && c.gistId) g.value = c.gistId;
+  }
+  async function github(method, path, body, token){
+    var res = await fetch('https://api.github.com' + path, {
+      method: method,
+      headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    if (!res.ok){
+      var msg = '';
+      try { var j = await res.json(); msg = j.message || ''; } catch(e){}
+      throw new Error(res.status + (msg ? ' ' + msg : ''));
+    }
+    if (res.status === 204) return null;
+    return res.json();
+  }
+  function buildPayload(){
+    return { app: 'kaoyan-english-n-in-one', version: 1, updatedAt: new Date().toISOString(), reading: { notes: readingNotes, log: readingLog } };
+  }
+  function readInputs(){
+    var c = getCfg();
+    var tok = ((document.getElementById('gist-token').value) || c.token || '').trim();
+    var gid = ((document.getElementById('gist-id').value) || c.gistId || '').trim();
+    return { token: tok, gistId: gid };
+  }
+
+  if (btnRecords && recPop){
+    btnRecords.addEventListener('click', function(e){
+      e.stopPropagation();
+      recPop.hidden = !recPop.hidden;
+      btnRecords.classList.toggle('active', !recPop.hidden);
+      if (!recPop.hidden){ renderRecords(); loadCfgFields(); }
+    });
+    document.addEventListener('click', function(e){
+      if (!recPop.hidden && !recPop.contains(e.target) && !btnRecords.contains(e.target)){
+        recPop.hidden = true; btnRecords.classList.remove('active');
+      }
+    });
+  }
+
+  var btnSaveCfg = document.getElementById('btn-gist-save');
+  if (btnSaveCfg) btnSaveCfg.addEventListener('click', function(){
+    var r = readInputs();
+    if (!r.token){ gistStatus('请填写 GitHub Token（需 gist 权限）', true); return; }
+    setCfg({ token: r.token, gistId: r.gistId, filename: GIST_FILE });
+    gistStatus('✅ 配置已保存在本机浏览器' + (r.gistId ? '' : '（Gist ID 留空，首次推送会自动新建）'));
+  });
+
+  var btnPull = document.getElementById('btn-gist-pull');
+  if (btnPull) btnPull.addEventListener('click', async function(){
+    var r = readInputs();
+    if (!r.token || !r.gistId){ gistStatus('拉取需要 Token 和 Gist ID', true); return; }
+    gistStatus('正在拉取…');
+    try {
+      var g = await github('GET', '/gists/' + r.gistId, null, r.token);
+      var f = g.files && g.files[GIST_FILE];
+      if (!f || !f.content) throw new Error('Gist 中没有 ' + GIST_FILE);
+      var data = JSON.parse(f.content);
+      if (data.reading){
+        if (data.reading.notes) Object.keys(data.reading.notes).forEach(function(k){ readingNotes[k] = data.reading.notes[k]; });
+        if (data.reading.log) Object.keys(data.reading.log).forEach(function(k){ readingLog[k] = data.reading.log[k]; });
+        saveNotes(); saveLog();
+      }
+      _origLoad.call(null);
+      afterLoad();
+      setCfg({ token: r.token, gistId: r.gistId, filename: GIST_FILE });
+      gistStatus('✅ 已拉取并合并' + (data.updatedAt ? '（远端更新于 ' + new Date(data.updatedAt).toLocaleString() + '）' : ''));
+    } catch(e){ gistStatus('拉取失败：' + e.message, true); }
+  });
+
+  var btnPush = document.getElementById('btn-gist-push');
+  if (btnPush) btnPush.addEventListener('click', async function(){
+    var r = readInputs();
+    if (!r.token){ gistStatus('推送需要 GitHub Token（需 gist 权限）', true); return; }
+    gistStatus('正在推送…');
+    try {
+      var p = buildPayload();
+      var gid = r.gistId;
+      if (gid){
+        try {
+          var g = await github('GET', '/gists/' + gid, null, r.token);
+          var f = g.files && g.files[GIST_FILE];
+          if (f && f.content){ var rj = JSON.parse(f.content); if (rj && rj.spelling) p.spelling = rj.spelling; }
+        } catch(e){}
+        var body = { files: {} };
+        body.files[GIST_FILE] = { content: JSON.stringify(p, null, 2) };
+        await github('PATCH', '/gists/' + gid, body, r.token);
+      } else {
+        var createBody = { description: '考研英语学习记录（阅读 + 拼写，自动同步）', public: false, files: {} };
+        createBody.files[GIST_FILE] = { content: JSON.stringify(p, null, 2) };
+        var created = await github('POST', '/gists', createBody, r.token);
+        gid = created.id;
+        var gidInput = document.getElementById('gist-id');
+        if (gidInput) gidInput.value = gid;
+      }
+      setCfg({ token: r.token, gistId: gid, filename: GIST_FILE });
+      renderRecords();
+      gistStatus('✅ 已推送（' + new Date().toLocaleTimeString() + '）');
+    } catch(e){ gistStatus('推送失败：' + e.message, true); }
+  });
+
+  loadCfgFields();
+  afterLoad();
+})();
+</script>
+
 </body>
 </html>
