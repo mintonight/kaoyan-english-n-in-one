@@ -196,7 +196,13 @@ header {
 .dir-item:hover { border-color: var(--border-strong); background: #fff; }
 .dir-item.active { border-color: var(--accent-border); background: var(--accent-light); }
 .dir-item-title { font-size: 13.5px; font-weight: 700; color: var(--text-main); line-height: 1.4; }
-.dir-item-meta { font-size: 11.5px; color: var(--text-muted); }
+.dir-item-meta { font-size: 11.5px; color: var(--text-muted); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.dir-dispute-tag {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 10.5px; font-weight: 700; color: var(--accent-color);
+  background: #fbf4e8; border: 1px solid var(--accent-border);
+  padding: 1px 6px; border-radius: 99px;
+}
 
 /* Records Popover */
 .records-popover { width: 320px; max-width: calc(100vw - 24px); z-index: 320; max-height: 82vh; overflow-y: auto; }
@@ -278,12 +284,20 @@ header {
 }
 .q-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow-md); }
 .q-card.current { border-color: var(--accent-border); box-shadow: 0 0 0 2px var(--accent-light), var(--shadow-md); }
+.q-card.q-card-disputed { border-color: var(--accent-border); }
 .q-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.q-badges { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; flex-shrink: 0; }
 .q-num-badge {
   background: var(--bg-subtle); color: var(--accent-color); border: 1px solid var(--accent-border);
   font-weight: 700; font-size: 12.5px; padding: 3px 10px; border-radius: 7px; flex-shrink: 0;
   font-variant-numeric: tabular-nums;
 }
+.q-dispute-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #fbf4e8; color: var(--accent-color); border: 1px solid var(--accent-border);
+  font-weight: 700; font-size: 11px; padding: 2px 7px; border-radius: 6px; white-space: nowrap;
+}
+.q-dispute-badge svg { width: 12px; height: 12px; }
 .q-stem { font-size: 15px; font-weight: 600; color: var(--text-main); line-height: 1.55; flex: 1; }
 
 .options-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
@@ -305,6 +319,14 @@ header {
 .option-item.correct .option-letter { background: var(--success-color) !important; border-color: var(--success-color) !important; color: #fff !important; }
 .option-item.wrong { border-color: var(--danger-color) !important; background: var(--danger-light) !important; }
 .option-item.wrong .option-letter { background: var(--danger-color) !important; border-color: var(--danger-color) !important; color: #fff !important; }
+.option-item.disputed-alt { border-color: var(--accent-color) !important; background: #fbf4e8 !important; }
+.option-item.disputed-alt .option-letter { background: var(--accent-color) !important; border-color: var(--accent-color) !important; color: #fff !important; }
+.opt-dispute-pill {
+  flex-shrink: 0; font-size: 11px; font-weight: 700; color: var(--accent-color);
+  background: rgba(168, 74, 12, 0.10); border: 1px solid var(--accent-border);
+  padding: 1px 7px; border-radius: 99px; margin-top: 2px; display: none;
+}
+.option-item.disputed-alt .opt-dispute-pill { display: inline-flex; align-items: center; }
 
 /* Analysis */
 .analysis-box {
@@ -328,8 +350,10 @@ header {
   background: rgba(255, 255, 255, 0.55); border-left: 3px solid rgba(120, 100, 80, 0.32); padding: 7px 10px; border-radius: 6px;
 }
 .opt-an-row.opt-an-right { background: var(--success-light); border-left-color: var(--success-color); }
+.opt-an-row.opt-an-alt { background: #fbf4e8; border-left-color: var(--accent-color); }
 .opt-an-letter { flex: 0 0 auto; font-weight: 700; color: var(--text-muted); min-width: 1.2em; }
 .opt-an-row.opt-an-right .opt-an-letter { color: var(--success-color); }
+.opt-an-row.opt-an-alt .opt-an-letter { color: var(--accent-color); }
 .opt-an-text { flex: 1 1 auto; }
 
 /* Per-question Notes */
@@ -347,6 +371,7 @@ header {
 .q-note.saved .q-note-label { color: var(--accent-color); font-weight: 700; }
 .q-status-ok { color: var(--success-color); font-weight: 700; display: inline-flex; align-items: center; gap: 3px; vertical-align: -1px; }
 .q-status-bad { color: var(--danger-color); font-weight: 700; display: inline-flex; align-items: center; gap: 3px; vertical-align: -1px; }
+.q-status-disputed { color: var(--accent-color); font-weight: 700; display: inline-flex; align-items: center; gap: 3px; vertical-align: -1px; }
 
 /* Word Popup */
 #word-popup {
@@ -669,8 +694,12 @@ header {
       var row = document.createElement('button');
       row.className = 'dir-item';
       row.dataset.idx = idx;
+      var disputedQs = (item.questions || []).filter(function (q) { return q.disputed; }).map(function (q) { return 'Q' + q.q_num; });
+      var disputeTag = disputedQs.length
+        ? '<span class="dir-dispute-tag">' + ic('alert-triangle', 11) + '含争议题 ' + disputedQs.join('/') + '</span>'
+        : '';
       row.innerHTML = '<span class="dir-item-title">' + item.text_num + ' · ' + item.title +
-        '</span><span class="dir-item-meta">' + item.exam + ' · ' + item.year + ' · ' + item.difficulty + '</span>';
+        '</span><span class="dir-item-meta"><span>' + item.exam + ' · ' + item.year + ' · ' + item.difficulty + '</span>' + disputeTag + '</span>';
       row.addEventListener('click', function () {
         closePopovers();
         currentIndex = idx;
@@ -741,9 +770,13 @@ header {
       var s = ' · 未作答';
       if (r) {
         if (mode === 'analysis') {
-          s = (r.answer === q.answer)
-            ? ' · <span class="q-status-ok">' + ic('check', 13) + '正确</span>'
-            : ' · <span class="q-status-bad">' + ic('x', 13) + '错误</span>';
+          if (r.answer === q.answer) {
+            s = ' · <span class="q-status-ok">' + ic('check', 13) + '正确</span>';
+          } else if (q.disputed && r.answer === q.answerAlt) {
+            s = ' · <span class="q-status-disputed">' + ic('alert-triangle', 13) + '争议答案</span>';
+          } else {
+            s = ' · <span class="q-status-bad">' + ic('x', 13) + '错误</span>';
+          }
         } else {
           s = ' · 已作答';
         }
@@ -797,19 +830,29 @@ header {
     qBox.innerHTML = '';
     item.questions.forEach(function (q) {
       var card = document.createElement('div');
-      card.className = 'q-card';
+      card.className = 'q-card' + (q.disputed ? ' q-card-disputed' : '');
       card.id = 'q-card-' + q.q_num;
       card.dataset.q = q.q_num;
 
       var qHeader = document.createElement('div');
       qHeader.className = 'q-header';
+      var badgesWrap = document.createElement('div');
+      badgesWrap.className = 'q-badges';
       var badge = document.createElement('span');
       badge.className = 'q-num-badge';
       badge.textContent = '第 ' + q.q_num + ' 题';
+      badgesWrap.appendChild(badge);
+      if (q.disputed) {
+        var dBadge = document.createElement('span');
+        dBadge.className = 'q-dispute-badge';
+        dBadge.title = '本题答案存在争议：主流 ' + q.answerPrimary + ' / 争议 ' + q.answerAlt;
+        dBadge.innerHTML = SVG_WARN + '<span>争议题</span>';
+        badgesWrap.appendChild(dBadge);
+      }
       var stem = document.createElement('div');
       stem.className = 'q-stem';
       stem.textContent = q.stem;
-      qHeader.appendChild(badge);
+      qHeader.appendChild(badgesWrap);
       qHeader.appendChild(stem);
       card.appendChild(qHeader);
 
@@ -831,6 +874,12 @@ header {
 
         optItem.appendChild(letterBadge);
         optItem.appendChild(optText);
+        if (q.disputed && letter === q.answerAlt) {
+          var dPill = document.createElement('span');
+          dPill.className = 'opt-dispute-pill';
+          dPill.textContent = '争议答案';
+          optItem.appendChild(dPill);
+        }
         optItem.addEventListener('click', function () {
           selectOption(item.id, q, letter);
         });
@@ -854,7 +903,9 @@ header {
         ['A', 'B', 'C', 'D'].forEach(function (L) {
           var txt = q.option_analysis[L] || '';
           if (!txt) return;
-          var cls = txt.indexOf('【正解】') === 0 ? 'opt-an-row opt-an-right' : 'opt-an-row';
+          var cls = txt.indexOf('【正解】') === 0
+            ? 'opt-an-row opt-an-right'
+            : (q.disputed && L === q.answerAlt ? 'opt-an-row opt-an-alt' : 'opt-an-row');
           optRows += '<div class="' + cls + '"><span class="opt-an-letter">' + L + '</span>' +
             '<span class="opt-an-text">' + txt + '</span></div>';
         });
@@ -871,9 +922,10 @@ header {
           '<div class="dispute-note">' + (q.disputeNote || '') + '</div></div>';
       }
       var ansLabel = q.disputed
-        ? '<span class="badge-ans badge-ans-disputed">' + q.answerPrimary + ' (争议)</span>'
+        ? '<span class="badge-ans badge-ans-disputed">' + q.answerPrimary + ' / 争议 ' + q.answerAlt + '</span>'
         : '<span class="badge-ans">' + q.answer + '</span>';
-      analysisBox.innerHTML = '<div class="analysis-header"><span>官方标准答案:</span>' + ansLabel + '</div>' +
+      var ansTitle = q.disputed ? '主流参考答案:' : '官方标准答案:';
+      analysisBox.innerHTML = '<div class="analysis-header"><span>' + ansTitle + '</span>' + ansLabel + '</div>' +
         disputedHtml + hintHtml;
       card.appendChild(analysisBox);
 
@@ -957,10 +1009,11 @@ header {
       ['A', 'B', 'C', 'D'].forEach(function (letter) {
         var optEl = $('opt-' + item.id + '-' + q.q_num + '-' + letter);
         if (!optEl) return;
-        optEl.classList.remove('selected', 'correct', 'wrong');
+        optEl.classList.remove('selected', 'correct', 'wrong', 'disputed-alt');
         if (chosen === letter) optEl.classList.add('selected');
         if (mode === 'analysis') {
           if (letter === q.answer) optEl.classList.add('correct');
+          else if (q.disputed && letter === q.answerAlt) optEl.classList.add('disputed-alt');
           else if (chosen === letter && chosen !== q.answer) optEl.classList.add('wrong');
         }
       });
