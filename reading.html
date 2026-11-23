@@ -80,8 +80,6 @@ header {
   gap: 14px;
   flex-shrink: 0;
   z-index: 25;
-  transition: margin-top .26s cubic-bezier(.4, 0, .2, 1);
-  will-change: margin-top;
 }
 
 .logo-group { display: flex; align-items: center; gap: 10px; position: relative; }
@@ -122,21 +120,18 @@ header {
 }
 .icon-btn:hover { color: var(--text-main); border-color: var(--border-strong); background: #fff; }
 .icon-btn.active { color: var(--accent-color); border-color: var(--accent-border); background: var(--accent-light); box-shadow: none; }
-
-.btn-nav {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--bg-card); border: 1px solid var(--border-color);
-  color: var(--text-muted); padding: 6px 14px; border-radius: 8px;
-  font-size: 13px; cursor: pointer; font-weight: 600; transition: all .15s;
-  font-family: inherit; box-shadow: var(--shadow-sm);
-}
-.btn-nav:hover { border-color: var(--border-strong); color: var(--text-main); background: #fff; }
-.btn-nav.primary {
+.icon-btn.primary {
   background: linear-gradient(180deg, #b85412 0%, #9a3e08 100%);
   color: #fff; border-color: rgba(120, 44, 4, 0.35);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 2px 8px -2px rgba(168, 74, 12, 0.45);
 }
-.btn-nav.primary:hover { filter: brightness(1.06); color: #fff; border-color: rgba(120, 44, 4, 0.45); }
+.icon-btn.primary:hover {
+  filter: brightness(1.06); color: #fff; border-color: rgba(120, 44, 4, 0.45);
+  background: linear-gradient(180deg, #b85412 0%, #9a3e08 100%);
+}
+.nav-divider {
+  width: 1px; height: 18px; background: var(--border-strong); margin: 0 2px; flex-shrink: 0;
+}
 
 .btn-tool {
   display: inline-flex; align-items: center; justify-content: center; gap: 5px;
@@ -230,7 +225,7 @@ header {
   flex: 1 1 auto; min-height: 0; display: flex; position: relative; overflow: hidden;
 }
 .left-pane {
-  width: 50%; min-width: 260px; max-width: calc(100% - 260px);
+  width: 70%; min-width: 260px; max-width: calc(100% - 260px);
   height: 100%; overflow-y: auto; background: var(--bg-pane);
   padding: 32px 42px 48px; font-family: var(--font-family-serif);
   font-size: var(--font-size-base); line-height: var(--line-height-base);
@@ -362,17 +357,6 @@ header {
 #word-popup .wp-title { display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--accent-color); font-size: 13.5px; margin-bottom: 4px; }
 #word-popup .wp-trans { color: var(--text-main); }
 
-/* Bottom Bar */
-.bottom-bar {
-  background: var(--bg-header);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid var(--border-color);
-  padding: 9px 22px; display: flex; align-items: center; justify-content: space-between;
-  font-size: 13px; flex-shrink: 0;
-}
-.bottom-actions { display: flex; align-items: center; gap: 8px; }
-
 /* Responsive */
 @media (max-width: 900px) {
   header { padding: 7px 12px; gap: 6px; min-height: 48px; }
@@ -385,7 +369,7 @@ header {
   .main-layout { flex-direction: column; }
   .left-pane {
     width: 100% !important; max-width: none !important; min-width: 0 !important;
-    flex: 0 0 50%; height: auto !important; min-height: 80px;
+    flex: 0 0 70%; height: auto !important; min-height: 80px;
     -webkit-overflow-scrolling: touch; padding: 16px 16px 20px !important;
   }
   .right-pane {
@@ -402,7 +386,6 @@ header {
   .splitter-handle { width: 42px !important; height: 3px !important; border-radius: 99px !important; }
   .directory-panel { width: calc(100vw - 16px); max-width: calc(100vw - 16px); }
   .records-popover { position: fixed; left: 8px; right: 8px; top: 52px; width: auto; max-width: none; max-height: 76vh; }
-  .bottom-bar { padding: 8px 12px; }
 }
 
 @media (max-width: 480px) {
@@ -410,6 +393,7 @@ header {
   .logo-home { font-size: 11px; padding: 3px 7px; }
   .logo-badge { font-size: 11px; padding: 3px 7px; }
   .nav-controls { gap: 5px; }
+  .nav-divider { margin: 0; height: 16px; }
   header .icon-btn { width: 30px; height: 28px; }
   .left-pane { padding: 14px 12px !important; }
   .right-pane { padding: 12px 8px !important; }
@@ -510,6 +494,14 @@ header {
         </div>
       </div>
     </div>
+
+    <span class="nav-divider" aria-hidden="true"></span>
+    <button id="btn-check-all" class="icon-btn primary" title="核对答案" aria-label="核对答案">
+      <i data-lucide="check" data-size="16" data-stroke="2.2" class="ic"></i>
+    </button>
+    <button id="btn-reset-answers" class="icon-btn" title="清空当前篇章答题记录" aria-label="清空">
+      <i data-lucide="rotate-ccw" data-size="16" class="ic"></i>
+    </button>
   </div>
 </header>
 
@@ -526,25 +518,12 @@ header {
     <div id="paragraphs-container"></div>
   </div>
 
-  <div class="splitter" id="splitter" title="拖拽调节分栏比例（双击复位 50%）">
+  <div class="splitter" id="splitter" title="拖拽调节分栏比例（双击复位 70%）">
     <div class="splitter-handle"></div>
   </div>
 
   <div class="right-pane" id="questions-pane">
     <div id="questions-container"></div>
-  </div>
-</div>
-
-<div class="bottom-bar">
-  <div class="bottom-actions">
-    <button id="btn-check-all" class="btn-nav primary">
-      <i data-lucide="check" data-size="14" data-stroke="2.2" class="ic-sm"></i>
-      <span>核对答案</span>
-    </button>
-    <button id="btn-reset-answers" class="btn-nav">
-      <i data-lucide="rotate-ccw" data-size="14" class="ic-sm"></i>
-      <span>清空</span>
-    </button>
   </div>
 </div>
 
@@ -591,7 +570,6 @@ header {
   var qObs = null;
 
   // DOM refs
-  var header = $('app-header');
   var passagePane = $('passage-pane');
   var workspace = $('workspace');
   var splitter = $('splitter');
@@ -723,7 +701,7 @@ header {
     var answered = 0, correct = 0, time = 0;
     item.questions.forEach(function (q) {
       var r = getActiveRecord(item.id, q.q_num);
-      if (r) { answered++; if (r.correct) correct++; time += r.timeMs || 0; }
+      if (r) { answered++; if (r.answer === q.answer) correct++; time += r.timeMs || 0; }
     });
     return { answered: answered, correct: correct, time: time, total: item.questions.length, acc: answered ? Math.round(correct / answered * 100) : 0 };
   }
@@ -763,7 +741,7 @@ header {
       var s = ' · 未作答';
       if (r) {
         if (mode === 'analysis') {
-          s = r.correct
+          s = (r.answer === q.answer)
             ? ' · <span class="q-status-ok">' + ic('check', 13) + '正确</span>'
             : ' · <span class="q-status-bad">' + ic('x', 13) + '错误</span>';
         } else {
@@ -1143,11 +1121,11 @@ header {
 
   splitter.addEventListener('dblclick', function () {
     if (isMobileLayout()) {
-      passagePane.style.flex = '0 0 50%';
+      passagePane.style.flex = '0 0 70%';
       passagePane.style.width = '100%';
     } else {
       passagePane.style.flex = '0 0 auto';
-      passagePane.style.width = '50%';
+      passagePane.style.width = '70%';
     }
   });
   window.addEventListener('resize', function () {
@@ -1179,35 +1157,6 @@ header {
       if (q) scrollToQuestion(q.q_num);
     }
   });
-
-  /* ---------- Header Auto-Collapse on Scroll ---------- */
-  (function () {
-    var lastMap = new WeakMap();
-    function setHidden(v) {
-      var cur = header.dataset.autoHidden === '1';
-      if (cur === v) return;
-      header.dataset.autoHidden = v ? '1' : '0';
-      header.style.marginTop = v ? (-header.offsetHeight) + 'px' : '0px';
-    }
-    document.addEventListener('scroll', function (e) {
-      var t = e.target;
-      var sc = (t === document || t === window) ? (document.scrollingElement || document.documentElement) : t;
-      if (!sc || typeof sc.scrollTop !== 'number') return;
-      // 避免滚动目录/记录弹层时误把顶栏收起
-      if (header.contains(sc)) return;
-      var y = sc.scrollTop;
-      var prev = lastMap.has(sc) ? lastMap.get(sc) : y;
-      lastMap.set(sc, y);
-      var dy = y - prev;
-      if (Math.abs(dy) < 6) return;
-      if (y <= 6) { setHidden(false); return; }
-      if (dy > 0 && y > 40) setHidden(true);
-      else if (dy < 0) setHidden(false);
-    }, true);
-    window.addEventListener('resize', function () {
-      if (header.dataset.autoHidden === '1') header.style.marginTop = (-header.offsetHeight) + 'px';
-    });
-  })();
 
   /* ---------- Background Sync Live Update ---------- */
   window.addEventListener('kaoyan:data-synced', function (ev) {
