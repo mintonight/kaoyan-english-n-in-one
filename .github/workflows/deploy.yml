@@ -24,7 +24,7 @@ jobs:
       - name: Prepare site directory
         run: |
           mkdir -p _site
-          cp index.html reading.html spelling.html sync.js pwa.js sw.js manifest.webmanifest README.md _site/
+          cp index.html reading.html spelling.html translation.html sync.js pwa.js sw.js manifest.webmanifest README.md _site/
           cp -r data icons _site/
           touch _site/.nojekyll
 
