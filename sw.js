@@ -1,13 +1,15 @@
-const CACHE_NAME = 'kaoyan-n-in-one-v8';
+const CACHE_NAME = 'kaoyan-n-in-one-v9';
 const PRECACHE_URLS = [
   './',
   './index.html',
   './reading.html',
   './spelling.html',
+  './translation.html',
   './sync.js',
   './pwa.js',
   './data/reading-data.js',
   './data/spelling-data.js',
+  './data/translation-data.js',
   './manifest.webmanifest',
   './icons/lucide.js',
   './icons/icon.svg',

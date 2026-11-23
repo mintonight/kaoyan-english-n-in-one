@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#faf6f0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>翻译研习 · 2021–2026 考研英语（二）真题与语法方法 | 考研英语 N IN ONE</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<style>
+:root{
+  --bg:#f4eee5; --card:#fdfbf8; --subtle:#f6f0e6; --header:rgba(250,246,240,.90);
+  --ink:#1f1914; --muted:#675b4f; --light:#9c8f80;
+  --line:rgba(45,34,22,.10); --line-strong:rgba(45,34,22,.16);
+  --accent:#a84a0c; --accent-hover:#8b3b07;
+  --accent-soft:rgba(168,74,12,.08); --accent-border:rgba(168,74,12,.24);
+  --ok:#166534; --ok-soft:#edf7f1; --ok-border:#c5e4d1;
+  --warn:#b42318; --warn-soft:#fdf2f1; --warn-border:#f3c9c5;
+  --blue:#24528a; --blue-soft:#eef4fa; --blue-border:rgba(36,82,138,.18);
+  --serif:"Georgia","Cambria","Times New Roman",Times,"Noto Serif SC",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+  --shadow-sm:0 1px 2px rgba(31,25,20,.04);
+  --shadow-md:0 1px 2px rgba(31,25,20,.04),0 10px 26px -14px rgba(45,30,14,.14);
+  --shadow-lg:0 4px 12px rgba(31,25,20,.06),0 22px 46px -18px rgba(45,30,14,.22);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:
+    radial-gradient(1100px 480px at 50% -140px,#fbf6ee 0,rgba(251,246,238,0) 72%),
+    var(--bg);
+  color:var(--ink); min-height:100vh;
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+[hidden]{display:none !important}
+svg.lucide,svg.ic{flex-shrink:0;display:block}
+
+/* Topbar (aligned with reading.html & spelling.html) */
+.topnav{
+  position:sticky; top:0; z-index:60; background:var(--header);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  transition:transform .26s cubic-bezier(.4,0,.2,1); will-change:transform;
+}
+.topnav-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 20px;min-height:54px}
+.nav-brand{display:flex;align-items:center;gap:10px;min-width:0}
+.nav-home{
+  display:inline-flex;align-items:center;gap:5px;
+  color:var(--muted);text-decoration:none;font-size:12.5px;font-weight:600;
+  padding:5px 10px;border:1px solid var(--line);border-radius:8px;
+  background:var(--card);white-space:nowrap;transition:all .15s;box-shadow:var(--shadow-sm);
+}
+.nav-home:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
+.nb-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(180deg,#2d2219 0%,#1d1610 100%);
+  color:#fdf6ec;font-weight:700;font-size:12.5px;padding:5px 11px;
+  border-radius:8px;letter-spacing:.04em;white-space:nowrap;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:inset 0 1px 0 rgba(255,232,200,.14),0 1px 3px rgba(24,16,10,.18);
+}
+.nb-badge-dot{width:6px;height:6px;border-radius:50%;background:#e59a4b;flex-shrink:0}
+.nb-sub{font-size:12px;color:var(--light);letter-spacing:.1em;font-weight:500;white-space:nowrap}
+.net-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;color:var(--accent);background:var(--accent-soft);
+  border:1px solid var(--accent-border);padding:3px 9px;border-radius:99px;font-weight:600;white-space:nowrap;
+}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-links a{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;
+  border:1px solid var(--line);background:var(--card);
+  padding:6px 12px;border-radius:8px;transition:all .15s;white-space:nowrap;box-shadow:var(--shadow-sm);
+}
+.nav-links a:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
+
+/* Page & Hero */
+.page{max-width:1060px;margin:0 auto;padding:42px 22px 88px}
+.brand{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11.5px;letter-spacing:.18em;color:var(--accent);font-weight:600;
+  padding:4px 12px;border-radius:99px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow-sm);
+}
+.brand-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.75}
+h1{font-size:clamp(24px,3.4vw,34px);margin:14px 0 10px;letter-spacing:-.02em;line-height:1.22;font-weight:800}
+.lead{margin:0;color:var(--muted);font-size:13.8px;line-height:1.85;max-width:780px}
+
+/* Primary 2-Block Switcher */
+.main-tabs{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  margin:26px 0 24px;
+}
+.main-tab{
+  display:flex;align-items:center;gap:13px;text-align:left;
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:15px 18px;cursor:pointer;font-family:inherit;color:var(--ink);
+  box-shadow:var(--shadow-sm);transition:all .18s ease;position:relative;overflow:hidden;
+}
+.main-tab:hover{border-color:var(--line-strong);background:#fff;transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.main-tab.active{
+  border-color:var(--accent-border);
+  background:linear-gradient(180deg,#fffdf9 0%,#fbf3e7 100%);
+  box-shadow:0 0 0 2px var(--accent-soft),var(--shadow-md);
+}
+.main-tab.active::before{
+  content:"";position:absolute;top:0;left:18px;right:18px;height:2.5px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+}
+.mt-ico{
+  width:42px;height:42px;border-radius:11px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--subtle);border:1px solid var(--line);color:var(--muted);transition:all .18s;
+}
+.main-tab.active .mt-ico{background:var(--accent-soft);border-color:var(--accent-border);color:var(--accent)}
+.mt-title{font-size:15.5px;font-weight:750;color:var(--ink);line-height:1.3}
+.mt-sub{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.45}
+
+/* Block 1: Year Selector Strip */
+.year-strip{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:20px;
+}
+.year-pill{
+  position:relative;text-align:left;
+  background:var(--card);border:1px solid var(--line);border-radius:13px;
+  padding:11px 13px;cursor:pointer;font-family:inherit;color:var(--ink);
+  box-shadow:var(--shadow-sm);transition:all .16s ease;
+}
+.year-pill:hover{border-color:var(--line-strong);background:#fff;transform:translateY(-1px)}
+.year-pill.active{
+  border-color:var(--accent);background:var(--accent-soft);
+  box-shadow:0 0 0 1px var(--accent-border);
+}
+.yp-top{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.yp-year{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.year-pill.active .yp-year{color:var(--accent)}
+.yp-dot{width:7px;height:7px;border-radius:50%;background:var(--ok);flex-shrink:0}
+.yp-topic{
+  font-size:11.8px;color:var(--muted);margin-top:5px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+/* Passage Header Card */
+.exam-head{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:20px 24px;box-shadow:var(--shadow-sm);margin-bottom:18px;
+}
+.eh-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.eh-title-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.eh-title{margin:0;font-size:20px;font-weight:800;letter-spacing:-.015em;color:var(--ink)}
+.pill{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:99px;
+  background:var(--subtle);border:1px solid var(--line);color:var(--muted);white-space:nowrap;
+}
+.pill.accent{color:var(--accent);background:var(--accent-soft);border-color:var(--accent-border)}
+.pill.blue{color:var(--blue);background:var(--blue-soft);border-color:var(--blue-border)}
+.pill.ok{color:var(--ok);background:var(--ok-soft);border-color:var(--ok-border)}
+.eh-summary{margin:10px 0 12px;font-size:13.5px;color:var(--muted);line-height:1.75}
+.eh-highlights{display:flex;flex-wrap:wrap;gap:7px}
+.eh-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* Segmented Switch */
+.seg{
+  display:inline-flex;background:var(--subtle);border:1px solid var(--line);
+  border-radius:10px;padding:3px;gap:3px;
+}
+.seg button{
+  display:inline-flex;align-items:center;gap:5px;
+  border:0;background:transparent;color:var(--muted);
+  font-family:inherit;font-size:12.5px;font-weight:650;
+  padding:6px 12px;border-radius:7px;cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.seg button:hover{color:var(--ink)}
+.seg button.active{background:var(--card);color:var(--accent);box-shadow:var(--shadow-sm)}
+
+.tbtn{
+  display:inline-flex;align-items:center;gap:6px;
+  border:1px solid var(--line);background:var(--card);color:var(--muted);
+  font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:9px;
+  cursor:pointer;font-family:inherit;transition:all .15s;box-shadow:var(--shadow-sm);white-space:nowrap;
+}
+.tbtn:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
+.tbtn.active{color:var(--accent);border-color:var(--accent-border);background:var(--accent-soft)}
+.tbtn.primary{
+  background:linear-gradient(180deg,#b85412 0%,#9a3e08 100%);
+  color:#fff;border-color:rgba(120,44,4,.35);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 2px 8px -2px rgba(168,74,12,.45);
+}
+.tbtn.primary:hover{filter:brightness(1.06);color:#fff}
+
+/* Practice Split Layout (Full-Passage Mode) */
+.practice-grid{
+  display:grid;grid-template-columns:1.08fr .92fr;gap:18px;align-items:start;
+}
+.panel-card{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:22px 24px;box-shadow:var(--shadow-md);
+}
+.panel-label{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-bottom:14px;padding-bottom:11px;border-bottom:1px solid var(--line);
+}
+.panel-label-title{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:13.5px;font-weight:750;color:var(--ink);
+}
+.panel-label-title svg{color:var(--accent)}
+.directions-box{
+  font-size:12px;color:var(--muted);background:var(--subtle);border:1px solid var(--line);
+  border-radius:10px;padding:9px 12px;margin-bottom:16px;line-height:1.65;
+}
+.directions-box b{color:var(--ink)}
+.en-para{
+  font-family:var(--serif);font-size:16.5px;line-height:1.9;color:#241e18;
+  margin:0 0 16px;text-align:justify;
+}
+.en-para:last-child{margin-bottom:0}
+.para-badge{
+  font-family:var(--sans);font-size:10.5px;font-weight:700;
+  color:var(--light);background:var(--subtle);border:1px solid var(--line);
+  border-radius:5px;padding:1px 6px;margin-right:7px;vertical-align:1px;user-select:none;
+}
+
+.draft-area{
+  width:100%;min-height:240px;resize:vertical;
+  font-family:var(--sans);font-size:14.8px;line-height:1.85;
+  color:var(--ink);background:#fff;
+  border:1px solid var(--line-strong);border-radius:12px;
+  padding:14px 15px;outline:none;transition:border-color .15s,box-shadow .15s;
+}
+.draft-area:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.draft-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  margin-top:12px;font-size:12px;color:var(--light);font-variant-numeric:tabular-nums;
+}
+.draft-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+.ref-box{
+  margin-top:16px;padding:16px 18px;border-radius:14px;
+  background:var(--subtle);border:1px solid var(--accent-border);border-left:3px solid var(--accent);
+}
+.ref-title{
+  font-size:12px;font-weight:750;letter-spacing:.08em;color:var(--accent);margin-bottom:10px;
+}
+.ref-para{margin:0 0 10px;font-size:14.2px;line-height:1.85;color:var(--ink)}
+.ref-para:last-child{margin-bottom:0}
+
+/* Sentence-by-Sentence Mode */
+.sent-toolbar{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.sent-list{display:flex;flex-direction:column;gap:14px}
+.sent-card{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:18px 22px;box-shadow:var(--shadow-sm);transition:border-color .16s;
+}
+.sent-card:hover{border-color:var(--line-strong)}
+.sent-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.sent-num{
+  font-size:11.5px;font-weight:800;color:var(--accent);
+  background:var(--accent-soft);border:1px solid var(--accent-border);
+  padding:2px 9px;border-radius:99px;font-variant-numeric:tabular-nums;
+}
+.sent-tags{display:flex;flex-wrap:wrap;gap:6px}
+.stag{
+  font-size:11.5px;font-weight:600;color:var(--blue);
+  background:var(--blue-soft);border:1px solid var(--blue-border);
+  padding:2px 9px;border-radius:99px;cursor:pointer;font-family:inherit;
+  transition:all .14s;
+}
+.stag:hover{background:#dfeaf7;border-color:var(--blue);transform:translateY(-1px)}
+.sent-en{
+  font-family:var(--serif);font-size:17px;line-height:1.85;color:#201a14;margin:0 0 12px;
+}
+.vocab-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.vchip{
+  display:inline-flex;align-items:baseline;gap:5px;flex-wrap:wrap;
+  font-size:12px;background:var(--subtle);border:1px solid var(--line);
+  border-radius:9px;padding:4px 10px;line-height:1.5;
+}
+.vchip.has-tip{border-color:var(--accent-border);background:#fbf5eb}
+.vchip b{font-family:var(--serif);color:var(--ink);font-size:12.5px}
+.vchip span{color:var(--muted)}
+.vchip em{font-style:normal;font-size:11px;color:var(--accent);font-weight:600}
+.sent-note{
+  font-size:13px;line-height:1.75;color:var(--muted);
+  background:var(--subtle);border-radius:10px;padding:10px 13px;margin-bottom:11px;
+  border:1px solid var(--line);
+}
+.sent-note b{color:var(--ink)}
+.sent-cn-wrap{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+  padding:11px 14px;border-radius:11px;
+  background:var(--ok-soft);border:1px solid var(--ok-border);
+}
+.sent-cn-wrap.masked{
+  background:var(--subtle);border-color:var(--line);cursor:pointer;
+}
+.sent-cn-text{font-size:14.2px;line-height:1.8;color:#173522;flex:1}
+.sent-cn-wrap.masked .sent-cn-text{color:var(--light);font-size:13px}
+.sent-cn-toggle{
+  border:0;background:transparent;color:var(--muted);font-size:12px;font-weight:600;
+  cursor:pointer;font-family:inherit;white-space:nowrap;padding:2px 4px;
+}
+.sent-cn-toggle:hover{color:var(--accent)}
+
+/* Block 2: Grammar Analysis & Methodology */
+.subnav{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;
+}
+.subnav button{
+  display:inline-flex;align-items:center;gap:6px;
+  border:1px solid var(--line);background:var(--card);color:var(--muted);
+  font-family:inherit;font-size:12.5px;font-weight:650;
+  padding:7px 13px;border-radius:99px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow-sm);
+}
+.subnav button:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
+.subnav button.active{color:var(--accent);border-color:var(--accent-border);background:var(--accent-soft)}
+
+.g-sec{margin-bottom:32px}
+.g-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line);
+}
+.g-head h2{
+  display:inline-flex;align-items:center;gap:8px;
+  margin:0;font-size:18px;font-weight:800;letter-spacing:-.01em;color:var(--ink);
+}
+.g-head h2 svg{color:var(--accent)}
+.g-head span{font-size:12.5px;color:var(--light)}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.kpi{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:15px 16px;box-shadow:var(--shadow-sm);
+}
+.kpi-k{font-size:11.5px;color:var(--light);font-weight:600}
+.kpi-v{font-size:17px;font-weight:800;color:var(--accent);margin:5px 0 6px;letter-spacing:-.01em}
+.kpi-d{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* Interactive Frequency Bar Chart */
+.freq-card{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:18px 22px;box-shadow:var(--shadow-sm);
+}
+.freq-list{display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.freq-row{
+  display:grid;grid-template-columns:126px 1fr 72px;gap:12px;align-items:center;
+  padding:6px 8px;border-radius:10px;cursor:pointer;transition:background .14s;border:1px solid transparent;
+  background:transparent;width:100%;text-align:left;font-family:inherit;
+}
+.freq-row:hover{background:var(--subtle);border-color:var(--line)}
+.freq-row.active{background:var(--accent-soft);border-color:var(--accent-border)}
+.freq-name{font-size:13px;font-weight:700;color:var(--ink)}
+.freq-bar-track{height:9px;background:var(--subtle);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.freq-bar-fill{height:100%;background:linear-gradient(90deg,#c96a1c,#a84a0c);border-radius:99px;transition:width .35s ease}
+.freq-num{font-size:12px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;font-weight:650}
+.freq-matches{
+  margin-top:14px;padding-top:14px;border-top:1px dashed var(--line-strong);
+  display:flex;flex-direction:column;gap:8px;
+}
+.fm-item{
+  background:var(--subtle);border:1px solid var(--line);border-radius:10px;padding:10px 13px;
+}
+.fm-en{font-family:var(--serif);font-size:14.2px;color:var(--ink);line-height:1.7}
+.fm-cn{font-size:12.8px;color:var(--muted);margin-top:4px;line-height:1.65}
+
+/* Grammar Structure Cards */
+.struct-list{display:flex;flex-direction:column;gap:16px}
+@keyframes flashRing{0%{box-shadow:0 0 0 4px rgba(168,74,12,.35)}100%{box-shadow:var(--shadow-sm)}}
+.struct-card{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:20px 22px;box-shadow:var(--shadow-sm);scroll-margin-top:76px;
+}
+.struct-card.flash{animation:flashRing 1.4s ease-out}
+.sc-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.sc-title{margin:0;font-size:16px;font-weight:800;color:var(--ink)}
+.sc-pattern{
+  display:inline-block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12px;color:var(--blue);background:var(--blue-soft);border:1px solid var(--blue-border);
+  padding:4px 10px;border-radius:8px;margin-bottom:10px;
+}
+.sc-rule{
+  font-size:13.5px;line-height:1.8;color:var(--ink);
+  background:var(--subtle);border-left:3px solid var(--accent);
+  border-radius:0 10px 10px 0;padding:10px 14px;margin-bottom:14px;
+}
+.sc-examples{display:flex;flex-direction:column;gap:10px}
+.ex-box{
+  border:1px solid var(--line);border-radius:11px;padding:12px 14px;background:#fff;
+}
+.ex-head{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.ex-en{font-family:var(--serif);font-size:14.8px;line-height:1.72;color:#221c16}
+.ex-cn{font-size:13.5px;line-height:1.72;color:var(--ok);margin-top:5px;font-weight:500}
+.ex-point{font-size:12.2px;color:var(--muted);margin-top:5px;line-height:1.6}
+
+/* Tricky Vocab Table */
+.vocab-search{
+  width:100%;max-width:300px;
+  border:1px solid var(--line-strong);border-radius:9px;padding:7px 12px;
+  font-size:12.5px;font-family:inherit;background:#fff;color:var(--ink);outline:none;
+}
+.vocab-search:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.table-wrap{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  overflow-x:auto;box-shadow:var(--shadow-sm);
+}
+table.vtable{width:100%;border-collapse:collapse;font-size:13px;min-width:620px}
+table.vtable th{
+  text-align:left;padding:11px 14px;font-size:11.5px;font-weight:750;letter-spacing:.04em;
+  color:var(--muted);background:var(--subtle);border-bottom:1px solid var(--line);
+}
+table.vtable td{padding:11px 14px;border-top:1px solid var(--line);vertical-align:top;line-height:1.6}
+table.vtable tbody tr:hover{background:#fbf7f1}
+.vt-term{font-family:var(--serif);font-weight:700;font-size:14px;color:var(--ink)}
+.vt-lit{color:var(--warn);text-decoration:line-through;opacity:.82}
+.vt-ctx{color:var(--ok);font-weight:700}
+
+/* Methods: 4 Steps, Pitfalls, Scoring, Routine */
+.step-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.step-card{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:18px 20px;box-shadow:var(--shadow-sm);
+}
+.step-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.step-no{
+  font-family:var(--serif);font-style:italic;font-size:20px;font-weight:800;color:var(--accent);
+}
+.step-card h3{margin:0 0 7px;font-size:15.5px;font-weight:750;color:var(--ink)}
+.step-desc{margin:0 0 10px;font-size:13px;color:var(--muted);line-height:1.7}
+.step-tips{margin:0;padding-left:18px;font-size:12.8px;color:var(--ink);line-height:1.75}
+.step-tips li{margin-bottom:4px}
+
+.pitfall-list{display:flex;flex-direction:column;gap:12px}
+.pitfall-card{
+  background:var(--card);border:1px solid var(--line);border-radius:15px;
+  padding:16px 18px;box-shadow:var(--shadow-sm);
+}
+.pf-title{font-size:14.5px;font-weight:750;color:var(--ink);margin-bottom:10px}
+.pf-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pf-bad,.pf-good{border-radius:10px;padding:10px 13px;font-size:12.8px;line-height:1.7}
+.pf-bad{background:var(--warn-soft);border:1px solid var(--warn-border);color:#7a1c15}
+.pf-good{background:var(--ok-soft);border:1px solid var(--ok-border);color:#144928}
+.pf-tag{font-weight:800;margin-right:5px}
+
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.band-row{
+  display:flex;flex-direction:column;gap:3px;padding:10px 0;border-top:1px solid var(--line);
+}
+.band-row:first-child{border-top:0;padding-top:0}
+.band-range{font-size:13.5px;font-weight:750;color:var(--accent)}
+.band-desc{font-size:12.8px;color:var(--muted);line-height:1.65}
+
+.foot{margin-top:34px;text-align:center;color:var(--light);font-size:12.5px}
+
+@media (max-width:920px){
+  .year-strip{grid-template-columns:repeat(3,1fr)}
+  .practice-grid,.kpi-grid,.step-grid,.pf-cols,.score-grid{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .nb-sub{display:none}
+  .topnav-inner{padding:8px 12px;min-height:48px}
+  .nav-home,.nb-badge{font-size:11.5px;padding:4px 8px}
+  .nav-links a{padding:5px 9px;font-size:12px}
+  .page{padding:26px 14px 70px}
+  .main-tabs{grid-template-columns:1fr}
+  .year-strip{grid-template-columns:repeat(2,1fr);gap:8px}
+  .panel-card,.exam-head,.sent-card,.struct-card{padding:16px 15px;border-radius:14px}
+  .freq-row{grid-template-columns:96px 1fr 58px;gap:8px}
+}
+</style>
+</head>
+<body>
+<nav class="topnav"><div class="topnav-inner">
+  <div class="nav-brand">
+    <a class="nav-home" href="index.html" title="返回首页">
+      <svg class="lucide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      <span>首页</span>
+    </a>
+    <span class="nb-badge"><span class="nb-badge-dot" aria-hidden="true"></span>翻译研习</span>
+    <span class="nb-sub">英语二 2021–2026</span>
+    <span class="net-pill" data-net-badge hidden>离线模式</span>
+  </div>
+  <div class="nav-links">
+    <a href="reading.html">
+      <svg class="lucide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+      <span>阅读练习</span>
+    </a>
+    <a href="spelling.html">
+      <svg class="lucide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/></svg>
+      <span>拼写练习</span>
+    </a>
+  </div>
+</div></nav>
+
+<main class="page">
+  <header>
+    <div class="brand"><span class="brand-dot" aria-hidden="true"></span>SECTION III · TRANSLATION · 15 POINTS</div>
+    <h1>考研英语（二）近六年翻译研习</h1>
+    <p class="lead">完整收录 2021–2026 年考研英语（二）全部 6 篇翻译真题（共 48 句），分为「近六年真题」与「句型语法分析 &amp; 做题方法」两大板块：支持全篇计时自测、草稿多端同步、逐句结构拆解，并系统归纳近六年高频语法结构、熟词僻义与高分做题方法。</p>
+  </header>
+
+  <div class="main-tabs" role="tablist" aria-label="翻译模块切换">
+    <button class="main-tab active" id="tab-exams" role="tab" aria-selected="true">
+      <div class="mt-ico" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+      </div>
+      <div>
+        <div class="mt-title">一、近六年真题（2021–2026）</div>
+        <div class="mt-sub">6 篇完整英文原题 · 全篇计时自测 &amp; 逐句精析对照</div>
+      </div>
+    </button>
+    <button class="main-tab" id="tab-guide" role="tab" aria-selected="false">
+      <div class="mt-ico" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+      </div>
+      <div>
+        <div class="mt-title">二、句型语法分析 &amp; 做题方法</div>
+        <div class="mt-sub">高频考点统计 · 八大核心结构 · 熟词僻义 · 考场四步法</div>
+      </div>
+    </button>
+  </div>
+
+  <!-- BLOCK 1: 2021-2026 AUTHENTIC EXAMS -->
+  <section id="panel-exams">
+    <div class="year-strip" id="year-strip"></div>
+    <div class="exam-head" id="exam-head"></div>
+
+    <!-- Full-passage practice view -->
+    <div id="view-full" class="practice-grid">
+      <div class="panel-card" id="full-source"></div>
+      <div class="panel-card" id="full-draft-card">
+        <div class="panel-label">
+          <span class="panel-label-title">
+            <svg class="lucide" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg>
+            <span>我的译文草稿</span>
+          </span>
+          <span id="draft-saved-hint" style="font-size:11.5px;color:var(--light)">自动保存</span>
+        </div>
+        <textarea id="draft-textarea" class="draft-area" placeholder="在这里写下你的整篇中文译文（建议 20–25 分钟内独立完成，写完再点下方对照参考译文）…"></textarea>
+        <div class="draft-bar">
+          <span id="draft-count">已写 0 字</span>
+          <div class="draft-actions">
+            <button class="tbtn" id="btn-clear-draft">清空草稿</button>
+            <button class="tbtn primary" id="btn-toggle-ref">展开参考译文</button>
+          </div>
+        </div>
+        <div id="full-ref-box" class="ref-box" hidden></div>
+      </div>
+    </div>
+
+    <!-- Sentence-by-sentence analysis view -->
+    <div id="view-sentences" hidden>
+      <div class="sent-toolbar">
+        <span style="font-size:12.5px;color:var(--muted)">点击蓝色语法标签可直接跳转到「句型语法分析」对应精讲；隐藏译文可做口译自测。</span>
+        <button class="tbtn" id="btn-mask-all">隐藏全部译文</button>
+      </div>
+      <div class="sent-list" id="sent-list"></div>
+    </div>
+  </section>
+
+  <!-- BLOCK 2: SYNTAX ANALYSIS & METHODOLOGY -->
+  <section id="panel-guide" hidden>
+    <div class="subnav" id="guide-subnav">
+      <button class="active" data-jump="sec-overview">考点频次统计</button>
+      <button data-jump="sec-structures">八大核心句子结构</button>
+      <button data-jump="sec-vocab">熟词僻义速查表</button>
+      <button data-jump="sec-methods">高分做题方法 &amp; 避坑</button>
+    </div>
+
+    <div class="g-sec" id="sec-overview">
+      <div class="g-head">
+        <h2>
+          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+          <span>近六年命题全景 &amp; 高频语法统计</span>
+        </h2>
+        <span>基于 2021–2026 全部 6 篇、48 句真题实时统计</span>
+      </div>
+      <div class="kpi-grid" id="kpi-grid"></div>
+      <div class="freq-card">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap">
+          <strong style="font-size:14.5px">高频句型与语法出现频次（点击条目查看对应真题原句）</strong>
+          <span style="font-size:12px;color:var(--light)">单位：出现句数</span>
+        </div>
+        <div class="freq-list" id="freq-list"></div>
+        <div class="freq-matches" id="freq-matches" hidden></div>
+      </div>
+    </div>
+
+    <div class="g-sec" id="sec-structures">
+      <div class="g-head">
+        <h2>
+          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+          <span>近六年八大核心考察句子结构与语法</span>
+        </h2>
+        <span>每类均附真题原句、译法口诀与采分点拆解</span>
+      </div>
+      <div class="struct-list" id="struct-list"></div>
+    </div>
+
+    <div class="g-sec" id="sec-vocab">
+      <div class="g-head">
+        <h2>
+          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+          <span>近六年熟词僻义 &amp; 高频难点词速查</span>
+        </h2>
+        <input type="search" id="vocab-search" class="vocab-search" placeholder="搜索词汇、年份或释义…">
+      </div>
+      <div class="table-wrap">
+        <table class="vtable">
+          <thead>
+            <tr>
+              <th style="width:72px">年份</th>
+              <th style="width:185px">词汇 / 短语</th>
+              <th style="width:140px">常见字面义（避坑）</th>
+              <th style="width:170px">真题语境译法</th>
+              <th>语境线索与记忆提示</th>
+            </tr>
+          </thead>
+          <tbody id="vocab-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="g-sec" id="sec-methods">
+      <div class="g-head">
+        <h2>
+          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/></svg>
+          <span>高分做题方法、避坑指南与训练闭环</span>
+        </h2>
+        <span>针对考研英语（二）15 分整篇分档阅卷规律</span>
+      </div>
+      <div class="step-grid" id="method-steps"></div>
+
+      <h3 style="margin:26px 0 12px;font-size:16px;font-weight:800;color:var(--ink)">五大高频失分坑 &amp; 考场急救策略</h3>
+      <div class="pitfall-list" id="method-pitfalls"></div>
+
+      <h3 style="margin:26px 0 12px;font-size:16px;font-weight:800;color:var(--ink)">15 分评分分档 &amp; 日常三遍精翻法</h3>
+      <div class="score-grid" id="method-scoring"></div>
+    </div>
+  </section>
+
+  <footer class="foot" id="foot-info">2021–2026 考研英语（二）Section III Translation · 译文草稿本地自动保存并支持 GitHub Gist 多端同步</footer>
+</main>
+
+<script src="data/translation-data.js"></script>
+<script src="icons/lucide.js"></script>
+<script src="sync.js"></script>
+<script src="pwa.js" defer></script>
+<script>
+(function () {
+  'use strict';
+
+  var DATA = window.TRANSLATION_DATA || { YEARS: [], ANALYSIS: {}, METHODS: {} };
+  var YEARS = DATA.YEARS || [];
+  var ANALYSIS = DATA.ANALYSIS || {};
+  var METHODS = DATA.METHODS || {};
+  var Sync = window.KaoyanSync;
+
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+  var drafts = Sync && Sync.loadTranslationDrafts ? Sync.loadTranslationDrafts() : {};
+  var state = {
+    mainTab: 'exams',      // 'exams' | 'guide'
+    yearId: YEARS[0] ? YEARS[0].id : '',
+    examMode: 'full',      // 'full' | 'sentences'
+    refVisible: false,
+    maskAll: false,
+    unmasked: {},          // sentence index -> true when revealed while maskAll is true
+    selectedFreq: '',
+    timerSec: 25 * 60,
+    timerRunning: false,
+    timerId: null
+  };
+
+  function currentExam() {
+    for (var i = 0; i < YEARS.length; i++) if (YEARS[i].id === state.yearId) return YEARS[i];
+    return YEARS[0] || null;
+  }
+
+  function hasDraft(id) {
+    return !!(drafts[id] && String(drafts[id].text || '').trim());
+  }
+
+  function saveDraft(id, text) {
+    drafts[id] = { text: text, updatedAt: Date.now() };
+    if (Sync && Sync.saveTranslationDrafts) {
+      Sync.saveTranslationDrafts(drafts);
+      Sync.markDirty();
+    }
+    updateYearStripDots();
+  }
+
+  function fmtTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = sec % 60;
+    return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function stopTimer() {
+    if (state.timerId) { clearInterval(state.timerId); state.timerId = null; }
+    state.timerRunning = false;
+  }
+
+  function toggleTimer() {
+    if (state.timerRunning) {
+      stopTimer();
+    } else {
+      if (state.timerSec <= 0) state.timerSec = 25 * 60;
+      state.timerRunning = true;
+      state.timerId = setInterval(function () {
+        if (state.timerSec > 0) state.timerSec--;
+        else stopTimer();
+        var el = $('btn-timer');
+        if (el) el.textContent = (state.timerRunning ? '暂停 ' : '计时 ') + fmtTime(state.timerSec);
+      }, 1000);
+    }
+    var btn = $('btn-timer');
+    if (btn) {
+      btn.classList.toggle('active', state.timerRunning);
+      btn.textContent = (state.timerRunning ? '暂停 ' : '计时 ') + fmtTime(state.timerSec);
+    }
+  }
+
+  function resetTimer() {
+    stopTimer();
+    state.timerSec = 25 * 60;
+    var btn = $('btn-timer');
+    if (btn) {
+      btn.classList.remove('active');
+      btn.textContent = '计时 25:00';
+    }
+  }
+
+  /* ---------- Primary Tab Switching ---------- */
+  function setMainTab(tab) {
+    state.mainTab = tab;
+    var isExams = tab === 'exams';
+    $('tab-exams').classList.toggle('active', isExams);
+    $('tab-exams').setAttribute('aria-selected', isExams ? 'true' : 'false');
+    $('tab-guide').classList.toggle('active', !isExams);
+    $('tab-guide').setAttribute('aria-selected', !isExams ? 'true' : 'false');
+    $('panel-exams').hidden = !isExams;
+    $('panel-guide').hidden = isExams;
+  }
+
+  /* ---------- Block 1: Year Strip & Exam Workspace ---------- */
+  function renderYearStrip() {
+    var html = YEARS.map(function (y) {
+      var active = y.id === state.yearId ? ' active' : '';
+      var done = hasDraft(y.id) ? '<span class="yp-dot" title="已写译文草稿"></span>' : '';
+      return '<button class="year-pill' + active + '" data-year-id="' + esc(y.id) + '">' +
+        '<div class="yp-top"><span class="yp-year">' + y.year + '</span>' + done + '</div>' +
+        '<div class="yp-topic">' + esc(y.topic) + '</div></button>';
+    }).join('');
+    $('year-strip').innerHTML = html;
+  }
+
+  function updateYearStripDots() {
+    renderYearStrip();
+  }
+
+  function renderExam() {
+    var ex = currentExam();
+    if (!ex) return;
+    renderYearStrip();
+
+    var stars = '';
+    for (var s = 0; s < 5; s++) stars += s < ex.difficulty ? '★' : '☆';
+
+    $('exam-head').innerHTML =
+      '<div class="eh-top">' +
+        '<div>' +
+          '<div class="eh-title-row">' +
+            '<h2 class="eh-title">' + ex.year + ' 年真题 · ' + esc(ex.topic) + '</h2>' +
+            '<span class="pill accent">' + esc(ex.category) + '</span>' +
+            '<span class="pill">' + ex.wordCount + ' 词 · ' + ex.sentences.length + ' 句</span>' +
+            '<span class="pill" title="综合难度">难度 ' + stars + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="eh-controls">' +
+          '<div class="seg" role="tablist" aria-label="练习模式">' +
+            '<button id="mode-full" class="' + (state.examMode === 'full' ? 'active' : '') + '">全篇自测</button>' +
+            '<button id="mode-sent" class="' + (state.examMode === 'sentences' ? 'active' : '') + '">逐句精析</button>' +
+          '</div>' +
+          '<button class="tbtn' + (state.timerRunning ? ' active' : '') + '" id="btn-timer" title="点击开始/暂停 25 分钟考场倒计时">' +
+            (state.timerRunning ? '暂停 ' : '计时 ') + fmtTime(state.timerSec) +
+          '</button>' +
+          '<button class="tbtn" id="btn-timer-reset" title="重置计时器">重置</button>' +
+        '</div>' +
+      '</div>' +
+      '<p class="eh-summary">' + esc(ex.summary) + '</p>' +
+      '<div class="eh-highlights">' +
+        (ex.highlights || []).map(function (h) { return '<span class="pill blue">' + esc(h) + '</span>'; }).join('') +
+      '</div>';
+
+    $('mode-full').onclick = function () { state.examMode = 'full'; renderExam(); };
+    $('mode-sent').onclick = function () { state.examMode = 'sentences'; renderExam(); };
+    $('btn-timer').onclick = toggleTimer;
+    $('btn-timer-reset').onclick = resetTimer;
+
+    var isFull = state.examMode === 'full';
+    $('view-full').hidden = !isFull;
+    $('view-sentences').hidden = isFull;
+
+    if (isFull) renderFullView(ex);
+    else renderSentencesView(ex);
+  }
+
+  function renderFullView(ex) {
+    var parasHtml = ex.paragraphs.map(function (p, i) {
+      return '<p class="en-para"><span class="para-badge">P' + (i + 1) + '</span>' + esc(p) + '</p>';
+    }).join('');
+    $('full-source').innerHTML =
+      '<div class="panel-label">' +
+        '<span class="panel-label-title">' +
+          '<svg class="lucide" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><path d="M8 11h8"/><path d="M8 7h6"/></svg>' +
+          '<span>' + ex.year + ' 年英语（二）真题原文</span>' +
+        '</span>' +
+        '<span style="font-size:12px;color:var(--light)">15 分 · 建议用时 20–25 分钟</span>' +
+      '</div>' +
+      '<div class="directions-box"><b>46. Directions:</b> Translate the following text into Chinese. Write your translation on the ANSWER SHEET. (15 points)</div>' +
+      parasHtml;
+
+    var ta = $('draft-textarea');
+    var savedText = (drafts[ex.id] && drafts[ex.id].text) ? drafts[ex.id].text : '';
+    ta.value = savedText;
+    updateDraftCount(savedText);
+
+    var refBox = $('full-ref-box');
+    refBox.innerHTML =
+      '<div class="ref-title">参考译文（整篇流畅版）</div>' +
+      ex.fullTranslation.map(function (p, i) {
+        return '<p class="ref-para"><span class="para-badge">P' + (i + 1) + '</span>' + esc(p) + '</p>';
+      }).join('');
+    refBox.hidden = !state.refVisible;
+    $('btn-toggle-ref').textContent = state.refVisible ? '收起参考译文' : '展开参考译文';
+  }
+
+  function updateDraftCount(text) {
+    var clean = String(text || '').replace(/\s+/g, '');
+    $('draft-count').textContent = '已写 ' + clean.length + ' 字';
+  }
+
+  function renderSentencesView(ex) {
+    $('btn-mask-all').textContent = state.maskAll ? '显示全部译文' : '隐藏全部译文';
+    var html = ex.sentences.map(function (s, idx) {
+      var tagsHtml = (s.structures || []).map(function (st) {
+        return '<button class="stag" data-jump-struct="' + esc(st) + '" title="点击查看「' + esc(st) + '」专项精讲">' + esc(st) + '</button>';
+      }).join('');
+      var vocabHtml = (s.vocab || []).length
+        ? '<div class="vocab-row">' + s.vocab.map(function (v) {
+            return '<div class="vchip' + (v.tip ? ' has-tip' : '') + '"><b>' + esc(v.term) + '</b><span>' + esc(v.meaning) + '</span>' +
+              (v.tip ? '<em>· ' + esc(v.tip) + '</em>' : '') + '</div>';
+          }).join('') + '</div>'
+        : '';
+      var isMasked = state.maskAll && !state.unmasked[idx];
+      return '<article class="sent-card">' +
+        '<div class="sent-head"><span class="sent-num">第 ' + (idx + 1) + ' / ' + ex.sentences.length + ' 句</span>' +
+        '<div class="sent-tags">' + tagsHtml + '</div></div>' +
+        '<p class="sent-en">' + esc(s.en) + '</p>' +
+        vocabHtml +
+        '<div class="sent-note"><b>结构与译法点拨：</b>' + esc(s.analysis) + '</div>' +
+        '<div class="sent-cn-wrap' + (isMasked ? ' masked' : '') + '" data-sent-idx="' + idx + '">' +
+          '<div class="sent-cn-text">' + (isMasked ? '译文已隐藏 — 点击此处查看参考译文' : esc(s.cn)) + '</div>' +
+          (state.maskAll ? '<button class="sent-cn-toggle" data-sent-idx="' + idx + '">' + (isMasked ? '显示' : '隐藏') + '</button>' : '') +
+        '</div>' +
+      '</article>';
+    }).join('');
+    $('sent-list').innerHTML = html;
+  }
+
+  /* ---------- Block 2: Grammar Analysis & Methods ---------- */
+  function tagToGrammarId(tag) {
+    var map = {
+      '省略关系词': '定语从句',
+      '介词短语后置定语': '非谓语后置定语',
+      '动名词结构': '非谓语后置定语',
+      '省略结构': '状语从句',
+      '无灵主语': '被动语态转换',
+      '破折号与插入语': 'with复合结构',
+      '特殊句式': '被动语态转换'
+    };
+    return map[tag] || tag;
+  }
+
+  function computeStructureStats() {
+    var counts = Object.create(null);
+    var matches = Object.create(null);
+    YEARS.forEach(function (y) {
+      (y.sentences || []).forEach(function (s) {
+        (s.structures || []).forEach(function (st) {
+          if (st === '简单主干') return;
+          counts[st] = (counts[st] || 0) + 1;
+          if (!matches[st]) matches[st] = [];
+          matches[st].push({ year: y.year, topic: y.topic, en: s.en, cn: s.cn });
+        });
+      });
+    });
+    var list = Object.keys(counts).map(function (k) { return { name: k, count: counts[k], items: matches[k] }; });
+    list.sort(function (a, b) { return b.count - a.count; });
+    return list;
+  }
+
+  var cachedFreqStats = computeStructureStats();
+
+  function renderFreqList() {
+    var max = cachedFreqStats.length ? cachedFreqStats[0].count : 1;
+    $('freq-list').innerHTML = cachedFreqStats.map(function (item) {
+      var pct = Math.max(8, Math.round(item.count / max * 100));
+      var active = state.selectedFreq === item.name ? ' active' : '';
+      return '<button class="freq-row' + active + '" data-freq="' + esc(item.name) + '">' +
+        '<span class="freq-name">' + esc(item.name) + '</span>' +
+        '<span class="freq-bar-track"><span class="freq-bar-fill" style="width:' + pct + '%"></span></span>' +
+        '<span class="freq-num">' + item.count + ' 句</span></button>';
+    }).join('');
+
+    var box = $('freq-matches');
+    if (!state.selectedFreq) { box.hidden = true; box.innerHTML = ''; return; }
+    var found = null;
+    for (var i = 0; i < cachedFreqStats.length; i++) if (cachedFreqStats[i].name === state.selectedFreq) { found = cachedFreqStats[i]; break; }
+    if (!found) { box.hidden = true; return; }
+    box.hidden = false;
+    box.innerHTML =
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">' +
+        '<span style="font-size:13px;font-weight:750;color:var(--accent)">「' + esc(found.name) + '」真题原句（共 ' + found.items.length + ' 句）</span>' +
+        '<button class="tbtn" id="btn-close-freq" style="padding:4px 10px;font-size:12px">收起</button>' +
+      '</div>' +
+      found.items.map(function (it) {
+        return '<div class="fm-item"><div class="fm-en"><span class="pill accent" style="margin-right:7px">' + it.year + '</span>' + esc(it.en) + '</div>' +
+          '<div class="fm-cn">' + esc(it.cn) + '</div></div>';
+      }).join('');
+    var closeBtn = $('btn-close-freq');
+    if (closeBtn) closeBtn.onclick = function () { state.selectedFreq = ''; renderFreqList(); };
+  }
+
+  function renderVocabTable(query) {
+    var q = String(query || '').trim().toLowerCase();
+    var rows = (ANALYSIS.trickyVocab || []).filter(function (v) {
+      if (!q) return true;
+      return String(v.year).indexOf(q) !== -1 ||
+        v.term.toLowerCase().indexOf(q) !== -1 ||
+        v.literal.toLowerCase().indexOf(q) !== -1 ||
+        v.context.toLowerCase().indexOf(q) !== -1 ||
+        v.note.toLowerCase().indexOf(q) !== -1;
+    });
+    if (!rows.length) {
+      $('vocab-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--light);padding:20px">未匹配到相关词汇</td></tr>';
+      return;
+    }
+    $('vocab-tbody').innerHTML = rows.map(function (v) {
+      return '<tr>' +
+        '<td><span class="pill accent">' + v.year + '</span></td>' +
+        '<td class="vt-term">' + esc(v.term) + '</td>' +
+        '<td class="vt-lit">' + esc(v.literal) + '</td>' +
+        '<td class="vt-ctx">' + esc(v.context) + '</td>' +
+        '<td style="color:var(--muted)">' + esc(v.note) + '</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  function renderGuide() {
+    $('kpi-grid').innerHTML = (ANALYSIS.overview || []).map(function (k) {
+      return '<div class="kpi"><div class="kpi-k">' + esc(k.label) + '</div>' +
+        '<div class="kpi-v">' + esc(k.value) + '</div>' +
+        '<div class="kpi-d">' + esc(k.desc) + '</div></div>';
+    }).join('');
+
+    renderFreqList();
+
+    $('struct-list').innerHTML = (ANALYSIS.structures || []).map(function (sc) {
+      return '<article class="struct-card" id="grammar-' + esc(sc.id) + '">' +
+        '<div class="sc-top"><h3 class="sc-title">' + esc(sc.title) + '</h3><span class="pill accent">' + esc(sc.frequency) + '</span></div>' +
+        '<div class="sc-pattern">' + esc(sc.pattern) + '</div>' +
+        '<div class="sc-rule">' + esc(sc.rule) + '</div>' +
+        '<div class="sc-examples">' + (sc.examples || []).map(function (ex) {
+          return '<div class="ex-box">' +
+            '<div class="ex-head"><span class="pill blue">' + ex.year + ' 年真题</span></div>' +
+            '<div class="ex-en">' + esc(ex.en) + '</div>' +
+            '<div class="ex-cn">' + esc(ex.cn) + '</div>' +
+            '<div class="ex-point"><b>要点：</b>' + esc(ex.point) + '</div>' +
+          '</div>';
+        }).join('') + '</div>' +
+      '</article>';
+    }).join('');
+
+    renderVocabTable('');
+
+    $('method-steps').innerHTML = (METHODS.steps || []).map(function (st) {
+      return '<div class="step-card">' +
+        '<div class="step-top"><span class="step-no">STEP ' + esc(st.step) + '</span><span class="pill">' + esc(st.time) + '</span></div>' +
+        '<h3>' + esc(st.title) + '</h3>' +
+        '<p class="step-desc">' + esc(st.desc) + '</p>' +
+        '<ul class="step-tips">' + (st.tips || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' +
+      '</div>';
+    }).join('');
+
+    $('method-pitfalls').innerHTML = (METHODS.pitfalls || []).map(function (pf, i) {
+      return '<div class="pitfall-card">' +
+        '<div class="pf-title">' + (i + 1) + '. ' + esc(pf.title) + '</div>' +
+        '<div class="pf-cols">' +
+          '<div class="pf-bad"><span class="pf-tag">常见失分：</span>' + esc(pf.bad) + '</div>' +
+          '<div class="pf-good"><span class="pf-tag">高分改法：</span>' + esc(pf.good) + '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    var sc = METHODS.scoring || {};
+    $('method-scoring').innerHTML =
+      '<div class="panel-card" style="box-shadow:var(--shadow-sm)">' +
+        '<div class="panel-label"><span class="panel-label-title"><span>评分分档标准</span></span><span class="pill accent">' + esc(sc.total || '15 分') + '</span></div>' +
+        (sc.bands || []).map(function (b) {
+          return '<div class="band-row"><div class="band-range">' + esc(b.range) + '</div><div class="band-desc">' + esc(b.desc) + '</div></div>';
+        }).join('') +
+      '</div>' +
+      '<div class="panel-card" style="box-shadow:var(--shadow-sm)">' +
+        '<div class="panel-label"><span class="panel-label-title"><span>日常提分 · 三遍精翻闭环</span></span><span class="pill ok">强烈推荐</span></div>' +
+        (sc.routine || []).map(function (r) {
+          return '<div class="band-row"><div class="band-range" style="color:var(--ok)">' + esc(r.phase) + '</div><div class="band-desc">' + esc(r.detail) + '</div></div>';
+        }).join('') +
+      '</div>';
+  }
+
+  function jumpToGrammar(tag) {
+    var gid = tagToGrammarId(tag);
+    setMainTab('guide');
+    var el = $('grammar-' + gid);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el.classList.remove('flash');
+      void el.offsetWidth;
+      el.classList.add('flash');
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  /* ---------- Event Bindings ---------- */
+  $('tab-exams').onclick = function () { setMainTab('exams'); };
+  $('tab-guide').onclick = function () { setMainTab('guide'); };
+
+  $('year-strip').addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('.year-pill') : null;
+    if (!btn || !btn.dataset.yearId) return;
+    if (btn.dataset.yearId === state.yearId) return;
+    state.yearId = btn.dataset.yearId;
+    state.refVisible = false;
+    state.unmasked = {};
+    renderExam();
+  });
+
+  var draftTimer = null;
+  $('draft-textarea').addEventListener('input', function () {
+    var ex = currentExam();
+    if (!ex) return;
+    var val = this.value;
+    updateDraftCount(val);
+    $('draft-saved-hint').textContent = '保存中…';
+    clearTimeout(draftTimer);
+    draftTimer = setTimeout(function () {
+      saveDraft(ex.id, val);
+      $('draft-saved-hint').textContent = '已保存 ' + new Date().toLocaleTimeString();
+    }, 350);
+  });
+
+  $('btn-clear-draft').onclick = function () {
+    var ex = currentExam();
+    if (!ex) return;
+    if (!$('draft-textarea').value.trim()) return;
+    if (!window.confirm('确定清空 ' + ex.year + ' 年的译文草稿吗？')) return;
+    $('draft-textarea').value = '';
+    updateDraftCount('');
+    saveDraft(ex.id, '');
+    $('draft-saved-hint').textContent = '已清空';
+  };
+
+  $('btn-toggle-ref').onclick = function () {
+    state.refVisible = !state.refVisible;
+    $('full-ref-box').hidden = !state.refVisible;
+    this.textContent = state.refVisible ? '收起参考译文' : '展开参考译文';
+  };
+
+  $('btn-mask-all').onclick = function () {
+    state.maskAll = !state.maskAll;
+    state.unmasked = {};
+    var ex = currentExam();
+    if (ex) renderSentencesView(ex);
+  };
+
+  $('sent-list').addEventListener('click', function (e) {
+    var stag = e.target.closest ? e.target.closest('.stag') : null;
+    if (stag && stag.dataset.jumpStruct) {
+      jumpToGrammar(stag.dataset.jumpStruct);
+      return;
+    }
+    var wrap = e.target.closest ? e.target.closest('[data-sent-idx]') : null;
+    if (wrap && state.maskAll) {
+      var idx = wrap.getAttribute('data-sent-idx');
+      state.unmasked[idx] = !state.unmasked[idx];
+      var ex = currentExam();
+      if (ex) renderSentencesView(ex);
+    }
+  });
+
+  $('freq-list').addEventListener('click', function (e) {
+    var row = e.target.closest ? e.target.closest('.freq-row') : null;
+    if (!row || !row.dataset.freq) return;
+    state.selectedFreq = (state.selectedFreq === row.dataset.freq) ? '' : row.dataset.freq;
+    renderFreqList();
+  });
+
+  $('guide-subnav').addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('button[data-jump]') : null;
+    if (!btn) return;
+    var btns = $('guide-subnav').querySelectorAll('button');
+    for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('active', btns[i] === btn);
+    var target = $(btn.dataset.jump);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  $('vocab-search').addEventListener('input', function () {
+    renderVocabTable(this.value);
+  });
+
+  window.addEventListener('kaoyan:data-synced', function (ev) {
+    if (!ev.detail || !ev.detail.localChanged) return;
+    drafts = Sync && Sync.loadTranslationDrafts ? Sync.loadTranslationDrafts() : {};
+    renderExam();
+  });
+
+  /* ---------- Topnav Auto-Collapse on Scroll ---------- */
+  (function () {
+    var hd = document.querySelector('.topnav'); if (!hd) return;
+    var last = window.scrollY || document.documentElement.scrollTop || 0, hidden = false;
+    function set(v) { if (v === hidden) return; hidden = v; hd.style.transform = v ? 'translateY(-100%)' : ''; }
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY || document.documentElement.scrollTop || 0;
+      var dy = y - last; last = y;
+      if (Math.abs(dy) < 6) return;
+      if (y <= 8) { set(false); return; }
+      if (dy > 0 && y > 50) set(true); else if (dy < 0) set(false);
+    }, { passive: true });
+  })();
+
+  renderGuide();
+  renderExam();
+})();
+</script>
+</body>
+</html>

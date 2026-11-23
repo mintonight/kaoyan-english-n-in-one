@@ -6,11 +6,12 @@
     LOG: 'kaoyan_reading_log_v1',
     SP_RES: 'zaowen-word-spell-v5',
     SP_LOG: 'piviaa-wseyrsmh-weo-j8',
+    TR_DRAFTS: 'kaoyan_translation_drafts_v1',
     CFG: 'kaoyan_gist_config',
     DEV: 'kaoyan_device_id'
   };
   var GIST_FILE = 'kaoyan-study-data.json';
-  var GIST_DESC = '考研英语学习记录（阅读 + 拼写，多端同步）';
+  var GIST_DESC = '考研英语学习记录（阅读 + 拼写 + 翻译，多端同步）';
 
   var inFlight = null;
   var debounceTimer = null;
@@ -305,6 +306,14 @@
     return normalizeSpelling(readLS(KEYS.SP_LOG, {}), readLS(KEYS.SP_RES, {}), 1);
   }
 
+  function loadTranslationDrafts() {
+    return normalizeNotes(readLS(KEYS.TR_DRAFTS, {}), 1);
+  }
+
+  function saveTranslationDrafts(drafts) {
+    writeLS(KEYS.TR_DRAFTS, drafts);
+  }
+
   function saveSpellingNormalized(sp) {
     recomputeSpellingDerived(sp);
     writeLS(KEYS.SP_RES, sp.results);
@@ -334,6 +343,9 @@
         totals: sp.totals,
         results: sp.results,
         resetAt: sp.resetAt || 0
+      },
+      translation: {
+        drafts: loadTranslationDrafts()
       }
     };
   }
@@ -345,12 +357,14 @@
         version: 2,
         updatedAt: '',
         reading: { notes: {}, log: {} },
-        spelling: normalizeSpelling({}, {}, 0)
+        spelling: normalizeSpelling({}, {}, 0),
+        translation: { drafts: {} }
       };
     }
     var ts = toTs(raw.updatedAt, 1);
     var r = (raw.reading && typeof raw.reading === 'object') ? raw.reading : {};
     var s = (raw.spelling && typeof raw.spelling === 'object') ? raw.spelling : {};
+    var t = (raw.translation && typeof raw.translation === 'object') ? raw.translation : {};
     return {
       app: 'kaoyan-english-n-in-one',
       version: 2,
@@ -359,7 +373,10 @@
         notes: normalizeNotes(r.notes, ts),
         log: normalizeReadingLog(r.log, ts)
       },
-      spelling: normalizeSpelling(s, s.results || {}, ts)
+      spelling: normalizeSpelling(s, s.results || {}, ts),
+      translation: {
+        drafts: normalizeNotes(t.drafts, ts)
+      }
     };
   }
 
@@ -533,7 +550,10 @@
         notes: mergeNotes(loc.reading.notes, rem.reading.notes),
         log: mergeReadingLog(loc.reading.log, rem.reading.log)
       },
-      spelling: mergeSpelling(loc.spelling, rem.spelling)
+      spelling: mergeSpelling(loc.spelling, rem.spelling),
+      translation: {
+        drafts: mergeNotes(loc.translation.drafts, rem.translation.drafts)
+      }
     };
   }
 
@@ -546,13 +566,14 @@
 
   function contentFingerprint(payload) {
     var norm = normalizePayload(payload);
-    return canonicalString({ reading: norm.reading, spelling: norm.spelling });
+    return canonicalString({ reading: norm.reading, spelling: norm.spelling, translation: norm.translation });
   }
 
   function persistMergedPayload(merged) {
     saveReadingNotes(merged.reading.notes);
     saveReadingLog(merged.reading.log);
     saveSpellingNormalized(merged.spelling);
+    saveTranslationDrafts((merged.translation && merged.translation.drafts) || {});
   }
 
   /* ---------- GitHub Gist API ---------- */
@@ -768,7 +789,7 @@
 
   function importBackup(jsonText) {
     var parsed = JSON.parse(jsonText);
-    if (!parsed || typeof parsed !== 'object' || (!parsed.reading && !parsed.spelling)) {
+    if (!parsed || typeof parsed !== 'object' || (!parsed.reading && !parsed.spelling && !parsed.translation)) {
       throw new Error('不是有效的考研英语备份文件');
     }
     var merged = mergePayloads(buildLocalPayload(), parsed);
@@ -935,6 +956,8 @@
     saveReadingLog: saveReadingLog,
     loadSpellingNormalized: loadSpellingNormalized,
     saveSpellingNormalized: saveSpellingNormalized,
+    loadTranslationDrafts: loadTranslationDrafts,
+    saveTranslationDrafts: saveTranslationDrafts,
     recomputeSpellingDerived: recomputeSpellingDerived,
     buildLocalPayload: buildLocalPayload,
     normalizePayload: normalizePayload,
