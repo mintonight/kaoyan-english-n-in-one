@@ -307,7 +307,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
   <header id="hero">
     <div class="brand"><span class="brand-dot" aria-hidden="true"></span>SPELLING · 看中文写英文</div>
     <h1>作文句子 &amp; 主题词拼写</h1>
-    <p class="lead">先选一组练习：作文整句，或历年真题/必备主题词。每条横线填一个英文单词，标点不用输入；按空格或回车逐词确认——写对变绿、写错变红、没填是灰色。「按住显示答案」按住才显示，松开即恢复你写的内容；重点句子或易错词可点击「收藏」归入收藏分类专项练习。主题词整理自《英语二历年主题词汇总及拓展》。</p>
+    <p class="lead">先选一组练习：作文整句，或历年真题/必备主题词。每条横线填一个英文单词，标点不用输入；按空格或回车逐词确认——写对变绿、写错变红、没填是灰色。「按住显示答案」按住才显示，松开后自动清空当前单词以便重新完整拼写；重点句子或易错词可点击「收藏」归入收藏分类专项练习。主题词整理自《英语二历年主题词汇总及拓展》。</p>
     <p class="hstats" id="hstats"></p>
   </header>
 
@@ -328,7 +328,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
       <div class="sentence" id="sentence"></div>
       <div class="tools">
         <button class="tbtn" id="btnSpeak"><i data-lucide="volume-2" data-size="14"></i><span>朗读答案</span></button>
-        <button class="tbtn" id="btnReveal" title="按住显示答案，松开恢复你输入的内容"><i data-lucide="eye" data-size="14"></i><span>按住显示答案</span></button>
+        <button class="tbtn" id="btnReveal" title="按住显示答案，松开后清空当前单词以便重新拼写"><i data-lucide="eye" data-size="14"></i><span>按住显示答案</span></button>
         <button class="tbtn" id="btnClear"><i data-lucide="eraser" data-size="14"></i><span>清空本句</span></button>
         <button class="tbtn" id="btnFav" aria-pressed="false"><svg class="lucide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg><span id="btnFavText">收藏</span></button>
       </div>
@@ -661,6 +661,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
     state.originals = state.words.slice();
     state.revealed = false;
     state.allOk = false;
+    lastFocusedInput = null;
 
     $('metaLeft').textContent = (set.isFav && it._setName) ? (set.name + ' · 来自 ' + it._setName) : set.name;
     $('metaRight').textContent = '第 ' + (state.pos + 1) + ' / ' + set.items.length + ' 项 · ' + state.words.length + ' 个单词';
@@ -706,8 +707,8 @@ button:disabled{opacity:.38;cursor:not-allowed}
           else if (r === 'empty') { focusNext(inp); }
         }
       });
-      inp.addEventListener('blur', function () { commit(inp); maybeComplete(); });
-      inp.addEventListener('focus', function () { if (inp.value) inp.select(); });
+      inp.addEventListener('blur', function () { if (holdActive) return; commit(inp); maybeComplete(); });
+      inp.addEventListener('focus', function () { lastFocusedInput = inp; if (inp.value) inp.select(); });
     });
   }
 
@@ -802,11 +803,21 @@ button:disabled{opacity:.38;cursor:not-allowed}
   }
 
   /* ---------- Hold to Reveal ---------- */
-  var holdActive = false, holdSnapshot = null, holdFb = null;
+  var holdActive = false, holdSnapshot = null, holdFb = null, holdTargetInp = null, holdHadFocus = false, lastFocusedInput = null;
+  function resolveCurrentInput(list) {
+    var active = document.activeElement;
+    if (active && list.indexOf(active) !== -1) return active;
+    if (lastFocusedInput && list.indexOf(lastFocusedInput) !== -1) return lastFocusedInput;
+    for (var i = 0; i < list.length; i++) if (!list[i].classList.contains('good')) return list[i];
+    return list[0] || null;
+  }
   function showAnswerHold() {
     if (holdActive || state.view !== 'practice') return;
     holdActive = true;
-    holdSnapshot = inputs().map(function (inp) {
+    var list = inputs();
+    holdHadFocus = !!(document.activeElement && list.indexOf(document.activeElement) !== -1);
+    holdTargetInp = resolveCurrentInput(list);
+    holdSnapshot = list.map(function (inp) {
       return { inp: inp, value: inp.value, cls: inp.className, width: inp.style.width };
     });
     var fb = $('feedback');
@@ -818,19 +829,37 @@ button:disabled{opacity:.38;cursor:not-allowed}
       s.inp.classList.add('ghost');
     });
     fb.className = 'feedback show';
-    fb.innerHTML = '<div class="fb-note">按住中显示答案…松开立刻恢复你已填写的内容。</div>';
+    fb.innerHTML = '<div class="fb-note">按住中显示答案…松开后将清空当前单词，方便重新完整拼写。</div>';
     $('btnReveal').classList.add('holding');
   }
   function hideAnswerHold() {
     if (!holdActive) return;
     holdActive = false;
+    var target = holdTargetInp;
+    var shouldFocus = holdHadFocus;
+    holdTargetInp = null;
+    holdHadFocus = false;
     if (holdSnapshot) {
-      holdSnapshot.forEach(function (s) { s.inp.value = s.value; s.inp.className = s.cls; s.inp.style.width = s.width; });
+      holdSnapshot.forEach(function (s) {
+        if (s.inp === target) {
+          s.inp.value = '';
+          s.inp.className = 'winput';
+          fit(s.inp);
+          state.allOk = false;
+        } else {
+          s.inp.value = s.value;
+          s.inp.className = s.cls;
+          s.inp.style.width = s.width;
+        }
+      });
       holdSnapshot = null;
     }
     var fb = $('feedback');
     if (holdFb) { fb.className = holdFb.cls; fb.innerHTML = holdFb.html; holdFb = null; }
     $('btnReveal').classList.remove('holding');
+    if (target && (shouldFocus || window.innerWidth > 640)) {
+      try { target.focus(); } catch (e) {}
+    }
   }
 
   function clearSentence() {
@@ -891,7 +920,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
   /* ---------- Shortcuts ---------- */
   var DEFAULT_KEYS = { reveal: '`', check: 'ctrl+enter', prev: 'alt+arrowleft', next: 'alt+arrowright', clear: 'alt+x', speak: 'alt+r', fav: 'alt+s', home: 'alt+h' };
   var ACTIONS = [
-    { id: 'reveal', name: '按住显示答案', desc: '按住生效，松开恢复' },
+    { id: 'reveal', name: '按住显示答案', desc: '按住生效，松开后清空当前单词以便重拼' },
     { id: 'check', name: '检查本句', desc: '批改整句，全部正确记入掌握' },
     { id: 'prev', name: '上一句', desc: '回到上一项' },
     { id: 'next', name: '下一句 / 下一组', desc: '进入下一项，本组最后一项进入下一组' },
@@ -936,7 +965,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
       return '<kbd>' + prettyKey(bindings[id]) + '</kbd> ' + actionById(id).name;
     });
     $('keyHint').innerHTML = '快捷键：' + items.join(' · ') + ' · 点右下角「快捷键」自定义';
-    $('btnReveal').title = '按住显示答案（' + prettyKey(bindings.reveal) + '，按住生效）';
+    $('btnReveal').title = '按住显示答案（' + prettyKey(bindings.reveal) + '，松开后清空当前单词）';
     $('btnCheck').title = '检查本句（' + prettyKey(bindings.check) + '）';
     $('btnPrev').title = '上一句（' + prettyKey(bindings.prev) + '）';
     $('btnNext').title = '下一句 / 下一组（' + prettyKey(bindings.next) + '）';
