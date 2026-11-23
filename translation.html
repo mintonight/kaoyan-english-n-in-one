@@ -88,15 +88,15 @@ svg.lucide,svg.ic{flex-shrink:0;display:block}
 .brand-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.75}
 h1{font-size:clamp(24px,3.4vw,34px);margin:12px 0 0;letter-spacing:-.02em;line-height:1.22;font-weight:800}
 
-/* Primary 3-Block Switcher */
+/* Primary 4-Block Switcher */
 .main-tabs{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:11px;
   margin:20px 0 22px;
 }
 .main-tab{
-  display:flex;align-items:center;gap:12px;text-align:left;
-  background:var(--card);border:1px solid var(--line);border-radius:16px;
-  padding:14px 16px;cursor:pointer;font-family:inherit;color:var(--ink);
+  display:flex;align-items:center;gap:11px;text-align:left;
+  background:var(--card);border:1px solid var(--line);border-radius:15px;
+  padding:13px 14px;cursor:pointer;font-family:inherit;color:var(--ink);
   box-shadow:var(--shadow-sm);transition:all .18s ease;position:relative;overflow:hidden;
 }
 .main-tab:hover{border-color:var(--line-strong);background:#fff;transform:translateY(-1px);box-shadow:var(--shadow-md)}
@@ -106,17 +106,26 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:12px 0 0;letter-spacing:-.02em;line-h
   box-shadow:0 0 0 2px var(--accent-soft),var(--shadow-md);
 }
 .main-tab.active::before{
-  content:"";position:absolute;top:0;left:18px;right:18px;height:2.5px;
+  content:"";position:absolute;top:0;left:16px;right:16px;height:2.5px;
   background:linear-gradient(90deg,transparent,var(--accent),transparent);
 }
+.main-tab.warn-tab.active{
+  border-color:var(--warn-border);
+  background:linear-gradient(180deg,#fffdfd 0%,#fdf2f1 100%);
+  box-shadow:0 0 0 2px rgba(180,35,24,.10),var(--shadow-md);
+}
+.main-tab.warn-tab.active::before{
+  background:linear-gradient(90deg,transparent,var(--warn),transparent);
+}
 .mt-ico{
-  width:42px;height:42px;border-radius:11px;flex-shrink:0;
+  width:38px;height:38px;border-radius:10px;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
   background:var(--subtle);border:1px solid var(--line);color:var(--muted);transition:all .18s;
 }
 .main-tab.active .mt-ico{background:var(--accent-soft);border-color:var(--accent-border);color:var(--accent)}
-.mt-title{font-size:15.5px;font-weight:750;color:var(--ink);line-height:1.3}
-.mt-sub{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.45}
+.main-tab.warn-tab .mt-ico{color:var(--warn);background:var(--warn-soft);border-color:var(--warn-border)}
+.mt-title{font-size:14.5px;font-weight:750;color:var(--ink);line-height:1.3}
+.mt-sub{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.4}
 
 /* Block 1: Year Selector Strip */
 .year-strip{
@@ -440,12 +449,63 @@ table.vtable tbody tr:hover{background:#fbf7f1}
   background:var(--card);border:1px solid var(--line);border-radius:15px;
   padding:16px 18px;box-shadow:var(--shadow-sm);
 }
-.pf-title{font-size:14.5px;font-weight:750;color:var(--ink);margin-bottom:10px}
+.pf-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.pf-title{font-size:14.5px;font-weight:750;color:var(--ink);margin:0}
+.pill.warn{color:var(--warn);background:var(--warn-soft);border-color:var(--warn-border)}
 .pf-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .pf-bad,.pf-good{border-radius:10px;padding:10px 13px;font-size:12.8px;line-height:1.7}
 .pf-bad{background:var(--warn-soft);border:1px solid var(--warn-border);color:#7a1c15}
 .pf-good{background:var(--ok-soft);border:1px solid var(--ok-border);color:#144928}
 .pf-tag{font-weight:800;margin-right:5px}
+
+/* Block 4: Error Clinic & Pre-Submit Checklist */
+.clinic-filters{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.cf-btn{
+  border:1px solid var(--line);background:var(--card);color:var(--muted);
+  font-family:inherit;font-size:12px;font-weight:650;
+  padding:5px 12px;border-radius:99px;cursor:pointer;transition:all .14s;
+}
+.cf-btn:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
+.cf-btn.active{color:var(--warn);border-color:var(--warn-border);background:var(--warn-soft)}
+.clinic-list{display:flex;flex-direction:column;gap:14px}
+.clinic-card{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:18px 20px;box-shadow:var(--shadow-sm);
+}
+.clinic-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.clinic-badges{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.clinic-trap{font-size:12px;color:var(--muted);font-weight:600}
+.clinic-en{
+  font-family:var(--serif);font-size:15.2px;line-height:1.78;color:#221c16;
+  background:var(--subtle);border:1px solid var(--line);border-radius:10px;
+  padding:10px 13px;margin:0 0 11px;
+}
+.clinic-reason{
+  margin-top:10px;padding:9px 13px;border-radius:10px;
+  background:#fbf6ee;border:1px solid var(--accent-border);
+  font-size:12.6px;line-height:1.72;color:var(--muted);
+}
+.clinic-reason b{color:var(--accent)}
+
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.check-card{
+  display:flex;align-items:flex-start;gap:11px;text-align:left;width:100%;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:14px 16px;cursor:pointer;font-family:inherit;color:var(--ink);
+  box-shadow:var(--shadow-sm);transition:all .16s ease;
+}
+.check-card:hover{border-color:var(--line-strong);background:#fff}
+.check-card.done{background:var(--ok-soft);border-color:var(--ok-border)}
+.check-box{
+  width:20px;height:20px;border-radius:6px;flex-shrink:0;margin-top:1px;
+  border:1.5px solid var(--line-strong);background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;color:transparent;transition:all .15s;
+}
+.check-card.done .check-box{background:var(--ok);border-color:var(--ok);color:#fff}
+.check-title{font-size:13.5px;font-weight:750;color:var(--ink);line-height:1.5}
+.check-card.done .check-title{color:#144928}
+.check-detail{font-size:12.3px;color:var(--muted);margin-top:4px;line-height:1.65}
 
 .score-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .band-row{
@@ -457,10 +517,10 @@ table.vtable tbody tr:hover{background:#fbf7f1}
 
 .foot{margin-top:34px;text-align:center;color:var(--light);font-size:12.5px}
 
-@media (max-width:920px){
-  .main-tabs{grid-template-columns:1fr;gap:10px}
+@media (max-width:960px){
+  .main-tabs{grid-template-columns:repeat(2,1fr);gap:10px}
   .year-strip{grid-template-columns:repeat(3,1fr)}
-  .practice-grid,.kpi-grid,.step-grid,.pf-cols,.score-grid{grid-template-columns:1fr}
+  .practice-grid,.kpi-grid,.step-grid,.pf-cols,.score-grid,.check-grid{grid-template-columns:1fr}
 }
 @media (max-width:640px){
   .nb-sub{display:none}
@@ -470,7 +530,7 @@ table.vtable tbody tr:hover{background:#fbf7f1}
   .page{padding:26px 14px 70px}
   .main-tabs{grid-template-columns:1fr}
   .year-strip{grid-template-columns:repeat(2,1fr);gap:8px}
-  .panel-card,.exam-head,.sent-card,.struct-card{padding:16px 15px;border-radius:14px}
+  .panel-card,.exam-head,.sent-card,.struct-card,.clinic-card{padding:16px 15px;border-radius:14px}
   .freq-row{grid-template-columns:96px 1fr 58px;gap:8px}
 }
 </style>
@@ -507,29 +567,38 @@ table.vtable tbody tr:hover{background:#fbf7f1}
   <div class="main-tabs" role="tablist" aria-label="翻译模块切换">
     <button class="main-tab active" id="tab-exams" role="tab" aria-selected="true">
       <div class="mt-ico" aria-hidden="true">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
       </div>
       <div>
         <div class="mt-title">一、近六年真题</div>
-        <div class="mt-sub">2021–2026 原题 · 自测与逐句精析</div>
+        <div class="mt-sub">2021–2026 真题自测</div>
       </div>
     </button>
     <button class="main-tab" id="tab-grammar" role="tab" aria-selected="false">
       <div class="mt-ico" aria-hidden="true">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
       </div>
       <div>
         <div class="mt-title">二、句型语法分析</div>
-        <div class="mt-sub">高频考点统计 · 八大核心句子结构</div>
+        <div class="mt-sub">高频统计 · 八大结构</div>
       </div>
     </button>
     <button class="main-tab" id="tab-methods" role="tab" aria-selected="false">
       <div class="mt-ico" aria-hidden="true">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/></svg>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/></svg>
       </div>
       <div>
-        <div class="mt-title">三、做题方法 &amp; 避坑</div>
-        <div class="mt-sub">考场四步法 · 熟词僻义 · 评分分档</div>
+        <div class="mt-title">三、高分做题方法</div>
+        <div class="mt-sub">四步法 · 评分与闭环</div>
+      </div>
+    </button>
+    <button class="main-tab warn-tab" id="tab-pitfalls" role="tab" aria-selected="false">
+      <div class="mt-ico" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+      </div>
+      <div>
+        <div class="mt-title">四、常见错误避坑</div>
+        <div class="mt-sub">错译诊所 · 熟词僻义</div>
       </div>
     </button>
   </div>
@@ -610,12 +679,10 @@ table.vtable tbody tr:hover{background:#fbf7f1}
     </div>
   </section>
 
-  <!-- BLOCK 3: METHODOLOGY, PITFALLS & TRICKY VOCAB -->
+  <!-- BLOCK 3: POSITIVE METHODOLOGY -->
   <section id="panel-methods" hidden>
     <div class="subnav" data-subnav>
       <button class="active" data-jump="sec-steps">考场四步法</button>
-      <button data-jump="sec-pitfalls">五大高频避坑</button>
-      <button data-jump="sec-vocab">熟词僻义速查</button>
       <button data-jump="sec-scoring">评分与精翻闭环</button>
     </div>
 
@@ -630,13 +697,52 @@ table.vtable tbody tr:hover{background:#fbf7f1}
       <div class="step-grid" id="method-steps"></div>
     </div>
 
-    <div class="g-sec" id="sec-pitfalls">
+    <div class="g-sec" id="sec-scoring">
       <div class="g-head">
         <h2>
-          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-          <span>五大高频失分坑 &amp; 考场急救策略</span>
+          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+          <span>15 分评分分档 &amp; 日常三遍精翻法</span>
         </h2>
-        <span>常见直译误区与高分改写对照</span>
+        <span>踩准档位标准，稳拿 11–13+ 分</span>
+      </div>
+      <div class="score-grid" id="method-scoring"></div>
+    </div>
+  </section>
+
+  <!-- BLOCK 4: COMMON MISTAKES & ANTI-PITFALL ZONE -->
+  <section id="panel-pitfalls" hidden>
+    <div class="subnav" data-subnav>
+      <button class="active" data-jump="sec-clinic">真题错译诊所</button>
+      <button data-jump="sec-errors">八大高频错误</button>
+      <button data-jump="sec-vocab">熟词僻义避坑</button>
+      <button data-jump="sec-checklist">考场红线自查</button>
+    </div>
+
+    <div class="g-sec" id="sec-clinic">
+      <div class="g-head">
+        <h2>
+          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--warn)"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          <span>真题错译诊所（2021–2026 高频翻车句会诊）</span>
+        </h2>
+        <span>从真实失分案例反推避坑规律，比纯背方法更直击痛点</span>
+      </div>
+      <div class="clinic-filters" id="clinic-filters">
+        <button class="cf-btn active" data-clinic-cat="全部">全部（10 例）</button>
+        <button class="cf-btn" data-clinic-cat="词义翻车">词义翻车</button>
+        <button class="cf-btn" data-clinic-cat="句法拆错">句法拆错</button>
+        <button class="cf-btn" data-clinic-cat="语序翻译腔">语序翻译腔</button>
+        <button class="cf-btn" data-clinic-cat="逻辑与指代">逻辑与指代</button>
+      </div>
+      <div class="clinic-list" id="clinic-list"></div>
+    </div>
+
+    <div class="g-sec" id="sec-errors">
+      <div class="g-head">
+        <h2>
+          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--warn)"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <span>八大高频失分错误 &amp; 考场急救策略</span>
+        </h2>
+        <span>踩中任意两条就可能从一档跌入二三档</span>
       </div>
       <div class="pitfall-list" id="method-pitfalls"></div>
     </div>
@@ -645,7 +751,7 @@ table.vtable tbody tr:hover{background:#fbf7f1}
       <div class="g-head">
         <h2>
           <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
-          <span>近六年熟词僻义 &amp; 高频难点词速查</span>
+          <span>近六年熟词僻义避坑速查表</span>
         </h2>
         <input type="search" id="vocab-search" class="vocab-search" placeholder="搜索词汇、年份或释义…">
       </div>
@@ -665,15 +771,15 @@ table.vtable tbody tr:hover{background:#fbf7f1}
       </div>
     </div>
 
-    <div class="g-sec" id="sec-scoring">
+    <div class="g-sec" id="sec-checklist">
       <div class="g-head">
         <h2>
-          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
-          <span>15 分评分分档 &amp; 日常三遍精翻法</span>
+          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span>交卷前 6 条防扣分红线自查清单</span>
         </h2>
-        <span>踩准档位标准，稳拿 11–13+ 分</span>
+        <span id="checklist-prog">写完译文后逐条勾选排查（已查 0 / 6）</span>
       </div>
-      <div class="score-grid" id="method-scoring"></div>
+      <div class="check-grid" id="checklist-grid"></div>
     </div>
   </section>
 
@@ -688,10 +794,11 @@ table.vtable tbody tr:hover{background:#fbf7f1}
 (function () {
   'use strict';
 
-  var DATA = window.TRANSLATION_DATA || { YEARS: [], ANALYSIS: {}, METHODS: {} };
+  var DATA = window.TRANSLATION_DATA || { YEARS: [], ANALYSIS: {}, METHODS: {}, PITFALLS: {} };
   var YEARS = DATA.YEARS || [];
   var ANALYSIS = DATA.ANALYSIS || {};
   var METHODS = DATA.METHODS || {};
+  var PITFALLS = DATA.PITFALLS || {};
   var Sync = window.KaoyanSync;
 
   function $(id) { return document.getElementById(id); }
@@ -699,13 +806,15 @@ table.vtable tbody tr:hover{background:#fbf7f1}
 
   var drafts = Sync && Sync.loadTranslationDrafts ? Sync.loadTranslationDrafts() : {};
   var state = {
-    mainTab: 'exams',      // 'exams' | 'grammar' | 'methods'
+    mainTab: 'exams',      // 'exams' | 'grammar' | 'methods' | 'pitfalls'
     yearId: YEARS[0] ? YEARS[0].id : '',
     examMode: 'full',      // 'full' | 'sentences'
     refVisible: false,
     maskAll: false,
     unmasked: {},          // sentence index -> true when revealed while maskAll is true
     selectedFreq: '',
+    clinicCat: '全部',
+    checkedItems: {},
     timerSec: 25 * 60,
     timerRunning: false,
     timerId: null
@@ -773,7 +882,7 @@ table.vtable tbody tr:hover{background:#fbf7f1}
   /* ---------- Primary Tab Switching ---------- */
   function setMainTab(tab) {
     state.mainTab = tab;
-    var tabs = ['exams', 'grammar', 'methods'];
+    var tabs = ['exams', 'grammar', 'methods', 'pitfalls'];
     for (var i = 0; i < tabs.length; i++) {
       var k = tabs[i];
       var active = tab === k;
@@ -1034,15 +1143,21 @@ table.vtable tbody tr:hover{background:#fbf7f1}
       '</div>';
     }).join('');
 
-    $('method-pitfalls').innerHTML = (METHODS.pitfalls || []).map(function (pf, i) {
+    $('method-pitfalls').innerHTML = (PITFALLS.errors || METHODS.pitfalls || []).map(function (pf, i) {
       return '<div class="pitfall-card">' +
-        '<div class="pf-title">' + (i + 1) + '. ' + esc(pf.title) + '</div>' +
+        '<div class="pf-head">' +
+          '<h3 class="pf-title">' + (i + 1) + '. ' + esc(pf.title) + '</h3>' +
+          (pf.risk ? '<span class="pill warn">' + esc(pf.risk) + '</span>' : '') +
+        '</div>' +
         '<div class="pf-cols">' +
-          '<div class="pf-bad"><span class="pf-tag">常见失分：</span>' + esc(pf.bad) + '</div>' +
-          '<div class="pf-good"><span class="pf-tag">高分改法：</span>' + esc(pf.good) + '</div>' +
+          '<div class="pf-bad"><span class="pf-tag">常见错法：</span>' + esc(pf.bad) + '</div>' +
+          '<div class="pf-good"><span class="pf-tag">避坑改法：</span>' + esc(pf.good) + '</div>' +
         '</div>' +
       '</div>';
     }).join('');
+
+    renderClinic();
+    renderChecklist();
 
     var sc = METHODS.scoring || {};
     $('method-scoring').innerHTML =
@@ -1058,6 +1173,46 @@ table.vtable tbody tr:hover{background:#fbf7f1}
           return '<div class="band-row"><div class="band-range" style="color:var(--ok)">' + esc(r.phase) + '</div><div class="band-desc">' + esc(r.detail) + '</div></div>';
         }).join('') +
       '</div>';
+  }
+
+  function renderClinic() {
+    var list = PITFALLS.clinic || [];
+    var filtered = state.clinicCat === '全部'
+      ? list
+      : list.filter(function (c) { return c.category === state.clinicCat; });
+    $('clinic-list').innerHTML = filtered.map(function (c) {
+      return '<article class="clinic-card">' +
+        '<div class="clinic-top">' +
+          '<div class="clinic-badges">' +
+            '<span class="pill accent">' + c.year + ' 年真题</span>' +
+            '<span class="pill warn">' + esc(c.category) + '</span>' +
+            '<span class="pill">' + esc(c.severity) + '</span>' +
+          '</div>' +
+          '<span class="clinic-trap">陷阱点：' + esc(c.trap) + '</span>' +
+        '</div>' +
+        '<p class="clinic-en">' + esc(c.en) + '</p>' +
+        '<div class="pf-cols">' +
+          '<div class="pf-bad"><span class="pf-tag">✗ 常见错译：</span>' + esc(c.wrong) + '</div>' +
+          '<div class="pf-good"><span class="pf-tag">✓ 高分改写：</span>' + esc(c.right) + '</div>' +
+        '</div>' +
+        '<div class="clinic-reason"><b>病因诊断：</b>' + esc(c.reason) + '</div>' +
+      '</article>';
+    }).join('');
+  }
+
+  function renderChecklist() {
+    var items = PITFALLS.checklist || [];
+    var doneCount = 0;
+    $('checklist-grid').innerHTML = items.map(function (it, idx) {
+      var done = !!state.checkedItems[idx];
+      if (done) doneCount++;
+      return '<button class="check-card' + (done ? ' done' : '') + '" data-check-idx="' + idx + '">' +
+        '<span class="check-box" aria-hidden="true">' + (done ? '✓' : '') + '</span>' +
+        '<div><div class="check-title">' + (idx + 1) + '. ' + esc(it.title) + '</div>' +
+        '<div class="check-detail">' + esc(it.detail) + '</div></div>' +
+      '</button>';
+    }).join('');
+    $('checklist-prog').textContent = '写完译文后逐条勾选排查（已查 ' + doneCount + ' / ' + items.length + '）';
   }
 
   function jumpToGrammar(tag) {
@@ -1078,6 +1233,24 @@ table.vtable tbody tr:hover{background:#fbf7f1}
   $('tab-exams').onclick = function () { setMainTab('exams'); };
   $('tab-grammar').onclick = function () { setMainTab('grammar'); };
   $('tab-methods').onclick = function () { setMainTab('methods'); };
+  $('tab-pitfalls').onclick = function () { setMainTab('pitfalls'); };
+
+  $('clinic-filters').addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('button[data-clinic-cat]') : null;
+    if (!btn) return;
+    state.clinicCat = btn.dataset.clinicCat;
+    var btns = $('clinic-filters').querySelectorAll('button');
+    for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('active', btns[i] === btn);
+    renderClinic();
+  });
+
+  $('checklist-grid').addEventListener('click', function (e) {
+    var card = e.target.closest ? e.target.closest('[data-check-idx]') : null;
+    if (!card) return;
+    var idx = card.getAttribute('data-check-idx');
+    state.checkedItems[idx] = !state.checkedItems[idx];
+    renderChecklist();
+  });
 
   $('year-strip').addEventListener('click', function (e) {
     var btn = e.target.closest ? e.target.closest('.year-pill') : null;

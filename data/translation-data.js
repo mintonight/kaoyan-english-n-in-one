@@ -950,5 +950,168 @@ window.TRANSLATION_DATA = {
         { phase: '第三遍 · 遮盖口译巩固', detail: '次日打开逐句精析点击「隐藏全部译文」，只看英文流畅口译一遍；重点把近 6 年反复考的定语从句、非谓语和无灵主语练成条件反射。' }
       ]
     }
+  },
+
+  PITFALLS: {
+    clinic: [
+      {
+        year: 2026,
+        category: '词义翻车',
+        severity: '高频扣分',
+        trap: 'wearables / attributed to / them 指代',
+        en: 'Different cultures have their norms and expectations regarding dress, which can influence the types of clothing people wear and the meanings attributed to them.',
+        wrong: '不同文化对衣服有规范和期望，这影响人们穿的服装类型和归因于他们的意思。（且前文把 wearables 译成“智能可穿戴设备”）',
+        reason: '①脱离上下文套用科技热词，把 wearables 错译成“可穿戴设备”；②attributed to 机械死译“归因于”，未结合 meanings 译出“赋予……的含义”；③them 误译为“他们”，实际指代前文 clothing。',
+        right: '不同文化对着装有着各自的规范和期待，这会影响人们穿着的衣物类型，以及赋予这些衣物的含义。'
+      },
+      {
+        year: 2026,
+        category: '词义翻车',
+        severity: '高频扣分',
+        trap: 'understated 望文生义 & 被动腔',
+        en: 'Whether we’re choosing bold, colorful outfits or understated, minimalist styles, our dress choices convey messages about who we are and how we want to be perceived.',
+        wrong: '无论我们选择大胆多彩的衣服或少说的极简风格，我们的穿着选择传达关于我们是谁以及我们想怎么被感知的信息。',
+        reason: '①understated 按字面拆成“少说的”，忽略了与前文 bold, colorful 的反义对照关系；②how we want to be perceived 硬译“怎么被感知”，属于典型翻译腔。',
+        right: '无论我们选择大胆艳丽的服饰，还是低调简约的风格，我们的着装选择都在传递着关于我们是谁、以及希望被他人如何看待的信息。'
+      },
+      {
+        year: 2025,
+        category: '词义翻车',
+        severity: '重灾区 · 扣 1–2 分',
+        trap: '无灵主语 saw + gap + there',
+        en: 'Long gaps there saw increased connection.',
+        wrong: '那里的长缺口看见了增加的连接。',
+        reason: '全篇最易全句翻车的一句！①gap 未承接前文 pause/silence 译为“停顿”；②there 未还原为“在朋友的对话中”；③无灵主语动词 saw 死译“看见”，造成主谓搭配荒诞。',
+        right: '在朋友的对话中，长停顿反而增进了彼此的联结。'
+      },
+      {
+        year: 2025,
+        category: '语序翻译腔',
+        severity: '拉低档位',
+        trap: 'be followed by 硬加“被”字',
+        en: 'Long gaps between strangers are likely to be followed by a change in topic.',
+        wrong: '陌生人之间的长停顿很可能被一个话题的改变所跟随。',
+        reason: '英文被动 be followed by + 抽象名词 a change in topic 直接逐字硬译，出现“被……所跟随”“一个……的”等浓重翻译腔，直接影响整篇分档印象。',
+        right: '陌生人之间的长停顿之后，往往会随之转换话题。'
+      },
+      {
+        year: 2024,
+        category: '句法拆错',
+        severity: '重灾区 · 扣 1.5–2 分',
+        trap: '长并列接错对象 + produce 误作动词',
+        en: 'They also provide an opportunity to talk to the people responsible for growing or raising your food, support your local economy and pick up fresh seasonal produce—all at the same time.',
+        wrong: '它们还提供了机会去和负责种植、养殖食物、支持当地经济并挑选新鲜季节性生产的人交谈。',
+        reason: '①最致命的句法张冠李戴：没看出 support 和 pick up 是与 to talk 并列（省去 to），误接在 responsible for 后面；②produce 受 fresh seasonal 修饰必是名词“农产品”，译成“生产”逻辑全崩。',
+        right: '它们还提供了一个机会，让你可以与负责种植或养殖食物的人交谈、支持当地经济，并选购新鲜的时令农产品——这一切都能同时实现。'
+      },
+      {
+        year: 2024,
+        category: '词义翻车',
+        severity: '高频扣分',
+        trap: 'cut out / secure / on sale',
+        en: 'By cutting out the middlemen, the farmers secure more profit for their efforts. … you’re sure to find different produce on sale.',
+        wrong: '通过切掉中间人，农民保护了他们努力的更多安全利润。……你一定能找到打折促销的不同产品。',
+        reason: '①cut out 直译“切掉”生硬；②secure 作动词搭配 profit 意为“获得/确保得到”，绝非“安全/保护”；③on sale 在农贸市集语境意为“在售/出售”，并非超市“打折促销”。',
+        right: '通过省去中间商，农民能为自己的辛勤付出赢得更多利润。……你一定能看到各式各样的时令农产品在售。'
+      },
+      {
+        year: 2023,
+        category: '语序翻译腔',
+        severity: '拉低档位',
+        trap: '连续被动语态 + 省略结构',
+        en: 'Although poetry can be written down, even when written it is usually created to be performed out loud.',
+        wrong: '虽然诗歌能被写下来，即使当被写的时候，它通常被创造来被大声表演。',
+        reason: '单句连用 4 个“被”字！英语因主语是物（poetry）才被迫用被动，汉语只需转为主动或无主句；even when [it is] written 是状语省略，译为“即使落笔成文”才自然。',
+        right: '尽管诗歌可以写下来，但即使落笔成文，通常也是为了大声朗诵演绎而创作的。'
+      },
+      {
+        year: 2022,
+        category: '句法拆错',
+        severity: '重灾区 · 扣 1–2 分',
+        trap: '宾从套 what 主语从句 + come to life',
+        en: '…mean that what you start out trying to achieve may not come to life the way that you expected.',
+        wrong: '……意味着什么你开始尝试去实现可能不会来到生命中在你期待的路上。',
+        reason: '①把 what 误当疑问词“什么”，没划出 what ... achieve 整体作从句主语的右边界（在 may not 之前）；②come to life 死译“来到生命”；③the way that... 误译“在路上”而非“以……的方式”。',
+        right: '……意味着你起初想要达到的效果，可能不会以你预期的方式呈现出来。'
+      },
+      {
+        year: 2022,
+        category: '句法拆错',
+        severity: '高频扣分',
+        trap: '省略关系词定从 + present 熟词僻义',
+        en: 'You also quickly learn to adapt and come up with creative solutions to the problems the painting presents…',
+        wrong: '你也很快学会适应，并想出有创意的方法解决这些问题，这幅画展示了……',
+        reason: 'the problems 和 the painting 两个名词紧挨着，中间藏着省略的关系词 that！没认出来就会把定语从句强行断开；同时 present 意为“带来/呈现（问题）”，不是“赠送”。',
+        right: '你还会迅速学会适应，并对画作带来的问题想出富有创意的解决办法……'
+      },
+      {
+        year: 2021,
+        category: '逻辑与指代',
+        severity: '重灾区 · 扣 1–2 分',
+        trap: '句首 While 误译“当” + 同位语从句硬前置',
+        en: 'While that may well be true, researchers have also recently found… / it is often due to a misplaced anxiety that they might not want to talk to us.',
+        wrong: '当那可能是真的时，研究者也发现…… / 这经常是因为一个放错地方的他们可能不想和我们说话的焦虑。',
+        reason: '①句首 While 引导让步状语从句，后文有 also 呼应，错译“当……时”直接破坏转折逻辑；②misplaced 直译“放错地方的”不通；③that 同位语从句硬压在“焦虑”前面，读起来极其拗口。',
+        right: '尽管这很可能没错，但研究人员最近也发现…… / 这往往是源于一种不必要的焦虑，担心对方可能不想和我们说话。'
+      }
+    ],
+    errors: [
+      {
+        title: '死译熟词僻义，脱离语境望文生义',
+        risk: '出现率极高 · 年年必考',
+        bad: '看到 produce 就译“生产”、secure 译“安全”、saw 译“看见”、celebrate 译“庆祝”、on sale 译“打折”。',
+        good: '先看词性与前后搭配（如 seasonal produce 必为名词“农产品”，secure profit 必为动词“获得”），再放回整段主题里检验逻辑是否通顺，不通立刻联想引申义。'
+      },
+      {
+        title: '句法边界划错，并列或修饰“张冠李戴”',
+        risk: '重灾区 · 单句易扣 1.5–2 分',
+        bad: '看不出两个名词紧挨时省略了关系词 that（2022/2026）；或把 and 后的并列动词错接到从句/介词短语上（2024）。',
+        good: '遇到 and / or 先往后看词性，再往前找同层级兄弟项；遇到“名词 + 名词 + 动词”立刻警惕省略关系词定语从句，先括出修饰范围再动笔。'
+      },
+      {
+        title: '死守“的”字，把长定语/同位语堆成“火车头”',
+        risk: '拉低整体档位',
+        bad: '“……一个放错地方的他们可能不想和我们说话的焦虑”“……超过了2秒的在对话期间的停顿的频率……”',
+        good: '超过 8–10 字的后置定语、非限制性定语从句、同位语从句果断后置拆句（用“即…… / 这…… / 这种……”衔接），拆成汉语流水短句更易进第一档。'
+      },
+      {
+        title: '见被动就硬加“被”字，翻译腔过重',
+        risk: '拉低整体档位',
+        bad: '“诗歌通常被创作来被大声表演”“长停顿可能被一个话题改变所跟随”“我们想如何被感知”。',
+        good: '汉语少用“被”：优先转无主句、主动句，或用“得到 / 受到 / 得以 / 为……而 / 随之”化解，除非原文明确强调“遭受”或动作承受者。'
+      },
+      {
+        title: '无灵主语硬直译，主谓搭配荒诞',
+        risk: '近年高频新趋势（2025/2026）',
+        bad: '“长停顿看见了增加的连接”“对话停顿带来了联结感下降”。',
+        good: '英语常用时间/地点/抽象名词作主语（see / witness / bring / find），译成汉语时把无灵主语转为“在……中 / 当……时”作状语，动词转为“出现 / 增进 / 发生”。'
+      },
+      {
+        title: '逻辑连词误判，因果/让步/转折颠倒',
+        risk: '直接破坏句意',
+        bad: '把句首表让步的 While 译成“当……时”（2021）；把表转折的 yet 漏译；把表“是否/无论”的 whether...or... 译成“如果”。',
+        good: '动笔前先圈出句中所有逻辑信号词（While / Although / Yet / However / Whether / So...that），先定整句逻辑骨架，再填词义血肉。'
+      },
+      {
+        title: '代词指代偷懒照抄“它/它们/这/那里”',
+        risk: '语义模糊扣印象分',
+        bad: '满篇都是“这有助于理解它们”“那里的长停顿”“赋予它们的意义”，阅卷老师读不清指代对象。',
+        good: '英语靠代词衔接，汉语靠实词复现：前文距离较远或一出现歧义的 them / this / there / doing so，直接还原为具体名词（如“诗歌”“衣物”“在朋友的对话中”）。'
+      },
+      {
+        title: '遇生词直接留白、或时间失控卷面涂改',
+        risk: '考场硬伤',
+        bad: '遇到 understated、flattered、middlemen 直接空着不写；或翻译耗 40 分钟挤占作文时间，边写边涂成一团。',
+        good: '生词三招急救：①看并列/反义词推义；②拆词根词缀；③用安全上位词兜底，绝不留白！全篇严控 20–25 分钟，先在题干旁切分顺通一整句再落笔答题卡。'
+      }
+    ],
+    checklist: [
+      { title: '是否消灭了多余的“被”字和连续 3 个以上的“的”字？', detail: '脱离英文默读一遍中文：凡是一口气读不顺的长定语或生硬“被”字句，立刻拆成两个短句或转主动。' },
+      { title: '所有“眼熟但怪怪的词”是否已按语境校对词性？', detail: '重点复查一词多义/熟词僻义（如 produce、secure、saw、present、gap、on sale），确认译法放进全段讲得通。' },
+      { title: '转折、让步、否定词有没有漏译或反译？', detail: '盯紧 While、Although、However、Yet、rarely、not just、rather than，逻辑一反整句掉档。' },
+      { title: '长句里的 and / or 并列项有没有接错主语或介词？', detail: '回看全篇最长的 2 句话，核对并列动词、省略关系词定语从句和非谓语修饰对象是否准确。' },
+      { title: '模糊代词（it / them / this / there）是否需要还原？', detail: '如果脱离前一句单独读这句，看不出“它们 / 那里”指什么，就果断替换成具体名词。' },
+      { title: '有无漏句、漏词、专有名词/数字笔误？', detail: '逐句核对句子总数（通常 6–10 句），检查数字（如 2 seconds、18th century）、地名和人名拼写。' }
+    ]
   }
 };
