@@ -79,25 +79,24 @@ svg.lucide,svg.ic{flex-shrink:0;display:block}
 .nav-links a:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
 
 /* Page & Hero */
-.page{max-width:1060px;margin:0 auto;padding:42px 22px 88px}
+.page{max-width:1060px;margin:0 auto;padding:36px 22px 84px}
 .brand{
   display:inline-flex;align-items:center;gap:7px;
   font-size:11.5px;letter-spacing:.18em;color:var(--accent);font-weight:600;
   padding:4px 12px;border-radius:99px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow-sm);
 }
 .brand-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.75}
-h1{font-size:clamp(24px,3.4vw,34px);margin:14px 0 10px;letter-spacing:-.02em;line-height:1.22;font-weight:800}
-.lead{margin:0;color:var(--muted);font-size:13.8px;line-height:1.85;max-width:780px}
+h1{font-size:clamp(24px,3.4vw,34px);margin:12px 0 0;letter-spacing:-.02em;line-height:1.22;font-weight:800}
 
-/* Primary 2-Block Switcher */
+/* Primary 3-Block Switcher */
 .main-tabs{
-  display:grid;grid-template-columns:1fr 1fr;gap:12px;
-  margin:26px 0 24px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+  margin:20px 0 22px;
 }
 .main-tab{
-  display:flex;align-items:center;gap:13px;text-align:left;
+  display:flex;align-items:center;gap:12px;text-align:left;
   background:var(--card);border:1px solid var(--line);border-radius:16px;
-  padding:15px 18px;cursor:pointer;font-family:inherit;color:var(--ink);
+  padding:14px 16px;cursor:pointer;font-family:inherit;color:var(--ink);
   box-shadow:var(--shadow-sm);transition:all .18s ease;position:relative;overflow:hidden;
 }
 .main-tab:hover{border-color:var(--line-strong);background:#fff;transform:translateY(-1px);box-shadow:var(--shadow-md)}
@@ -322,7 +321,7 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:14px 0 10px;letter-spacing:-.02em;lin
 .subnav button:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
 .subnav button.active{color:var(--accent);border-color:var(--accent-border);background:var(--accent-soft)}
 
-.g-sec{margin-bottom:32px}
+.g-sec{margin-bottom:32px;scroll-margin-top:76px}
 .g-head{
   display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;
   margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line);
@@ -459,6 +458,7 @@ table.vtable tbody tr:hover{background:#fbf7f1}
 .foot{margin-top:34px;text-align:center;color:var(--light);font-size:12.5px}
 
 @media (max-width:920px){
+  .main-tabs{grid-template-columns:1fr;gap:10px}
   .year-strip{grid-template-columns:repeat(3,1fr)}
   .practice-grid,.kpi-grid,.step-grid,.pf-cols,.score-grid{grid-template-columns:1fr}
 }
@@ -502,7 +502,6 @@ table.vtable tbody tr:hover{background:#fbf7f1}
   <header>
     <div class="brand"><span class="brand-dot" aria-hidden="true"></span>SECTION III · TRANSLATION · 15 POINTS</div>
     <h1>考研英语（二）近六年翻译研习</h1>
-    <p class="lead">完整收录 2021–2026 年考研英语（二）全部 6 篇翻译真题（共 48 句），分为「近六年真题」与「句型语法分析 &amp; 做题方法」两大板块：支持全篇计时自测、草稿多端同步、逐句结构拆解，并系统归纳近六年高频语法结构、熟词僻义与高分做题方法。</p>
   </header>
 
   <div class="main-tabs" role="tablist" aria-label="翻译模块切换">
@@ -511,17 +510,26 @@ table.vtable tbody tr:hover{background:#fbf7f1}
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
       </div>
       <div>
-        <div class="mt-title">一、近六年真题（2021–2026）</div>
-        <div class="mt-sub">6 篇完整英文原题 · 全篇计时自测 &amp; 逐句精析对照</div>
+        <div class="mt-title">一、近六年真题</div>
+        <div class="mt-sub">2021–2026 原题 · 自测与逐句精析</div>
       </div>
     </button>
-    <button class="main-tab" id="tab-guide" role="tab" aria-selected="false">
+    <button class="main-tab" id="tab-grammar" role="tab" aria-selected="false">
       <div class="mt-ico" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
       </div>
       <div>
-        <div class="mt-title">二、句型语法分析 &amp; 做题方法</div>
-        <div class="mt-sub">高频考点统计 · 八大核心结构 · 熟词僻义 · 考场四步法</div>
+        <div class="mt-title">二、句型语法分析</div>
+        <div class="mt-sub">高频考点统计 · 八大核心句子结构</div>
+      </div>
+    </button>
+    <button class="main-tab" id="tab-methods" role="tab" aria-selected="false">
+      <div class="mt-ico" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/></svg>
+      </div>
+      <div>
+        <div class="mt-title">三、做题方法 &amp; 避坑</div>
+        <div class="mt-sub">考场四步法 · 熟词僻义 · 评分分档</div>
       </div>
     </button>
   </div>
@@ -564,13 +572,11 @@ table.vtable tbody tr:hover{background:#fbf7f1}
     </div>
   </section>
 
-  <!-- BLOCK 2: SYNTAX ANALYSIS & METHODOLOGY -->
-  <section id="panel-guide" hidden>
-    <div class="subnav" id="guide-subnav">
+  <!-- BLOCK 2: SYNTAX & GRAMMAR ANALYSIS -->
+  <section id="panel-grammar" hidden>
+    <div class="subnav" data-subnav>
       <button class="active" data-jump="sec-overview">考点频次统计</button>
       <button data-jump="sec-structures">八大核心句子结构</button>
-      <button data-jump="sec-vocab">熟词僻义速查表</button>
-      <button data-jump="sec-methods">高分做题方法 &amp; 避坑</button>
     </div>
 
     <div class="g-sec" id="sec-overview">
@@ -602,6 +608,38 @@ table.vtable tbody tr:hover{background:#fbf7f1}
       </div>
       <div class="struct-list" id="struct-list"></div>
     </div>
+  </section>
+
+  <!-- BLOCK 3: METHODOLOGY, PITFALLS & TRICKY VOCAB -->
+  <section id="panel-methods" hidden>
+    <div class="subnav" data-subnav>
+      <button class="active" data-jump="sec-steps">考场四步法</button>
+      <button data-jump="sec-pitfalls">五大高频避坑</button>
+      <button data-jump="sec-vocab">熟词僻义速查</button>
+      <button data-jump="sec-scoring">评分与精翻闭环</button>
+    </div>
+
+    <div class="g-sec" id="sec-steps">
+      <div class="g-head">
+        <h2>
+          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/></svg>
+          <span>考场四步解题法</span>
+        </h2>
+        <span>针对考研英语（二）15 分整篇分档阅卷规律</span>
+      </div>
+      <div class="step-grid" id="method-steps"></div>
+    </div>
+
+    <div class="g-sec" id="sec-pitfalls">
+      <div class="g-head">
+        <h2>
+          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          <span>五大高频失分坑 &amp; 考场急救策略</span>
+        </h2>
+        <span>常见直译误区与高分改写对照</span>
+      </div>
+      <div class="pitfall-list" id="method-pitfalls"></div>
+    </div>
 
     <div class="g-sec" id="sec-vocab">
       <div class="g-head">
@@ -627,20 +665,14 @@ table.vtable tbody tr:hover{background:#fbf7f1}
       </div>
     </div>
 
-    <div class="g-sec" id="sec-methods">
+    <div class="g-sec" id="sec-scoring">
       <div class="g-head">
         <h2>
-          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/></svg>
-          <span>高分做题方法、避坑指南与训练闭环</span>
+          <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+          <span>15 分评分分档 &amp; 日常三遍精翻法</span>
         </h2>
-        <span>针对考研英语（二）15 分整篇分档阅卷规律</span>
+        <span>踩准档位标准，稳拿 11–13+ 分</span>
       </div>
-      <div class="step-grid" id="method-steps"></div>
-
-      <h3 style="margin:26px 0 12px;font-size:16px;font-weight:800;color:var(--ink)">五大高频失分坑 &amp; 考场急救策略</h3>
-      <div class="pitfall-list" id="method-pitfalls"></div>
-
-      <h3 style="margin:26px 0 12px;font-size:16px;font-weight:800;color:var(--ink)">15 分评分分档 &amp; 日常三遍精翻法</h3>
       <div class="score-grid" id="method-scoring"></div>
     </div>
   </section>
@@ -667,7 +699,7 @@ table.vtable tbody tr:hover{background:#fbf7f1}
 
   var drafts = Sync && Sync.loadTranslationDrafts ? Sync.loadTranslationDrafts() : {};
   var state = {
-    mainTab: 'exams',      // 'exams' | 'guide'
+    mainTab: 'exams',      // 'exams' | 'grammar' | 'methods'
     yearId: YEARS[0] ? YEARS[0].id : '',
     examMode: 'full',      // 'full' | 'sentences'
     refVisible: false,
@@ -741,13 +773,14 @@ table.vtable tbody tr:hover{background:#fbf7f1}
   /* ---------- Primary Tab Switching ---------- */
   function setMainTab(tab) {
     state.mainTab = tab;
-    var isExams = tab === 'exams';
-    $('tab-exams').classList.toggle('active', isExams);
-    $('tab-exams').setAttribute('aria-selected', isExams ? 'true' : 'false');
-    $('tab-guide').classList.toggle('active', !isExams);
-    $('tab-guide').setAttribute('aria-selected', !isExams ? 'true' : 'false');
-    $('panel-exams').hidden = !isExams;
-    $('panel-guide').hidden = isExams;
+    var tabs = ['exams', 'grammar', 'methods'];
+    for (var i = 0; i < tabs.length; i++) {
+      var k = tabs[i];
+      var active = tab === k;
+      $('tab-' + k).classList.toggle('active', active);
+      $('tab-' + k).setAttribute('aria-selected', active ? 'true' : 'false');
+      $('panel-' + k).hidden = !active;
+    }
   }
 
   /* ---------- Block 1: Year Strip & Exam Workspace ---------- */
@@ -1029,7 +1062,7 @@ table.vtable tbody tr:hover{background:#fbf7f1}
 
   function jumpToGrammar(tag) {
     var gid = tagToGrammarId(tag);
-    setMainTab('guide');
+    setMainTab('grammar');
     var el = $('grammar-' + gid);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1043,7 +1076,8 @@ table.vtable tbody tr:hover{background:#fbf7f1}
 
   /* ---------- Event Bindings ---------- */
   $('tab-exams').onclick = function () { setMainTab('exams'); };
-  $('tab-guide').onclick = function () { setMainTab('guide'); };
+  $('tab-grammar').onclick = function () { setMainTab('grammar'); };
+  $('tab-methods').onclick = function () { setMainTab('methods'); };
 
   $('year-strip').addEventListener('click', function (e) {
     var btn = e.target.closest ? e.target.closest('.year-pill') : null;
@@ -1115,14 +1149,19 @@ table.vtable tbody tr:hover{background:#fbf7f1}
     renderFreqList();
   });
 
-  $('guide-subnav').addEventListener('click', function (e) {
-    var btn = e.target.closest ? e.target.closest('button[data-jump]') : null;
-    if (!btn) return;
-    var btns = $('guide-subnav').querySelectorAll('button');
-    for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('active', btns[i] === btn);
-    var target = $(btn.dataset.jump);
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
+  var subnavs = document.querySelectorAll('[data-subnav]');
+  for (var si = 0; si < subnavs.length; si++) {
+    (function (nav) {
+      nav.addEventListener('click', function (e) {
+        var btn = e.target.closest ? e.target.closest('button[data-jump]') : null;
+        if (!btn) return;
+        var btns = nav.querySelectorAll('button');
+        for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('active', btns[i] === btn);
+        var target = $(btn.dataset.jump);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    })(subnavs[si]);
+  }
 
   $('vocab-search').addEventListener('input', function () {
     renderVocabTable(this.value);
