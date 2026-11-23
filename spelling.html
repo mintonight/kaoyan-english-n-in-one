@@ -330,7 +330,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
         <button class="tbtn" id="btnSpeak"><i data-lucide="volume-2" data-size="14"></i><span>朗读答案</span></button>
         <button class="tbtn" id="btnReveal" title="按住显示答案，松开恢复你输入的内容"><i data-lucide="eye" data-size="14"></i><span>按住显示答案</span></button>
         <button class="tbtn" id="btnClear"><i data-lucide="eraser" data-size="14"></i><span>清空本句</span></button>
-        <button class="tbtn" id="btnFav" aria-pressed="false"><i data-lucide="star" data-size="14"></i><span id="btnFavText">收藏</span></button>
+        <button class="tbtn" id="btnFav" aria-pressed="false"><svg class="lucide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg><span id="btnFavText">收藏</span></button>
       </div>
       <p class="keyhint" id="keyHint"></p>
       <div class="feedback" id="feedback"></div>
@@ -563,6 +563,14 @@ button:disabled{opacity:.38;cursor:not-allowed}
     if (list.length && window.innerWidth > 640) list[0].focus();
   }
 
+  var STAR_PATH = '<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>';
+  function starSvg(size) {
+    var fromLib = window.LucideIcons && window.LucideIcons.svg('star', { size: size });
+    if (fromLib) return fromLib;
+    var s = size || 14;
+    return '<svg class="lucide" width="' + s + '" height="' + s + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + STAR_PATH + '</svg>';
+  }
+
   /* ---------- Home ---------- */
   function renderHome() {
     state.view = 'home';
@@ -579,8 +587,8 @@ button:disabled{opacity:.38;cursor:not-allowed}
       GROUPS[1].ids.length + '</b> 年真题主题词 · <b>' + GROUPS[2].ids.length +
       '</b> 类必备主题词 ｜ 共 <b>' + totalItems + '</b> 个练习项 · 已掌握 <b>' + totalMastered + '</b> · 收藏 <b>' + favCount + '</b>';
 
-    var starIco = window.LucideIcons ? window.LucideIcons.svg('star', { size: 15 }) : '';
-    var starSmall = window.LucideIcons ? window.LucideIcons.svg('star', { size: 14 }) : '';
+    var starIco = starSvg(15);
+    var starSmall = starSvg(14);
     var html = '<div class="hsect"><div class="hhead"><h2>' + starIco + '<span>我的收藏</span></h2>' +
       '<span class="hdesc">' + (favCount ? ('练习时点击「收藏」自动归类到这里 · 共 ' + favCount + ' 项') : '练习时点击「收藏」自动归类到这里，方便专项复习') + '</span></div>';
     if (!favCount) {

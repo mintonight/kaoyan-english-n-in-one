@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kaoyan-n-in-one-v6';
+const CACHE_NAME = 'kaoyan-n-in-one-v7';
 const PRECACHE_URLS = [
   './',
   './index.html',
@@ -18,7 +18,12 @@ const PRECACHE_URLS = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(PRECACHE_URLS))
+      .then((cache) => Promise.all(
+        PRECACHE_URLS.map((u) => fetch(new Request(u, { cache: 'reload' })).then((res) => {
+          if (!res.ok) throw new Error('Precache failed: ' + u);
+          return cache.put(u, res);
+        }))
+      ))
       .then(() => self.skipWaiting())
   );
 });
