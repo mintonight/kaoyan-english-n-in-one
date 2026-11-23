@@ -90,9 +90,21 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:14px 0 10px;letter-spacing:-.02em;lin
 /* Deck Sections & Cards */
 .hsect{margin:36px 0 0}
 .hhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
-.hhead h2{font-size:17px;margin:0;letter-spacing:-.01em;font-weight:750;color:var(--ink)}
+.hhead h2{display:inline-flex;align-items:center;gap:7px;font-size:17px;margin:0;letter-spacing:-.01em;font-weight:750;color:var(--ink)}
+.hhead h2 svg{color:var(--accent)}
 .hdesc{font-size:12.5px;color:var(--light)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:13px}
+.fav-empty{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 18px;border-radius:15px;
+  background:rgba(253,251,248,.68);border:1px dashed var(--line-strong);
+  color:var(--muted);font-size:13px;line-height:1.7;
+}
+.fav-empty svg{color:var(--light);flex-shrink:0}
+.dcard.fav-card{border-color:var(--accent-border);background:linear-gradient(180deg,#fffdf9 0%,#fcf6ec 100%)}
+.dcard.fav-card .dname{display:inline-flex;align-items:center;gap:6px}
+.dcard.fav-card .dname svg{color:var(--accent);fill:var(--accent)}
+.dcard.fav-card .dcount{color:var(--accent);background:var(--accent-soft);border-color:var(--accent-border)}
 .dcard{
   position:relative;overflow:hidden;
   text-align:left;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:16px 17px 14px;
@@ -167,6 +179,9 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:14px 0 10px;letter-spacing:-.02em;lin
 }
 .tbtn:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
 .tbtn.holding{color:var(--accent);border-color:var(--accent-border);background:var(--accent-soft)}
+.tbtn.fav-active{color:var(--accent);border-color:var(--accent-border);background:var(--accent-soft)}
+.tbtn.fav-active:hover{color:var(--accent-hover);border-color:var(--accent);background:rgba(168,74,12,.13)}
+.tbtn.fav-active svg{fill:currentColor}
 #btnReveal{touch-action:none;user-select:none;-webkit-user-select:none}
 .feedback{margin-top:12px;font-size:14px;line-height:1.9;display:none;min-height:24px}
 .feedback.show{display:block}
@@ -292,7 +307,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
   <header id="hero">
     <div class="brand"><span class="brand-dot" aria-hidden="true"></span>SPELLING · 看中文写英文</div>
     <h1>作文句子 &amp; 主题词拼写</h1>
-    <p class="lead">先选一组练习：作文整句，或历年真题/必备主题词。每条横线填一个英文单词，标点不用输入；按空格或回车逐词确认——写对变绿、写错变红、没填是灰色。「按住显示答案」按住才显示，松开即恢复你写的内容。主题词整理自《英语二历年主题词汇总及拓展》。</p>
+    <p class="lead">先选一组练习：作文整句，或历年真题/必备主题词。每条横线填一个英文单词，标点不用输入；按空格或回车逐词确认——写对变绿、写错变红、没填是灰色。「按住显示答案」按住才显示，松开即恢复你写的内容；重点句子或易错词可点击「收藏」归入收藏分类专项练习。主题词整理自《英语二历年主题词汇总及拓展》。</p>
     <p class="hstats" id="hstats"></p>
   </header>
 
@@ -315,6 +330,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
         <button class="tbtn" id="btnSpeak"><i data-lucide="volume-2" data-size="14"></i><span>朗读答案</span></button>
         <button class="tbtn" id="btnReveal" title="按住显示答案，松开恢复你输入的内容"><i data-lucide="eye" data-size="14"></i><span>按住显示答案</span></button>
         <button class="tbtn" id="btnClear"><i data-lucide="eraser" data-size="14"></i><span>清空本句</span></button>
+        <button class="tbtn" id="btnFav" aria-pressed="false"><i data-lucide="star" data-size="14"></i><span id="btnFavText">收藏</span></button>
       </div>
       <p class="keyhint" id="keyHint"></p>
       <div class="feedback" id="feedback"></div>
@@ -384,16 +400,122 @@ button:disabled{opacity:.38;cursor:not-allowed}
     Sync.markDirty();
   }
 
-  var state = { view: 'home', setId: null, pos: 0, words: [], originals: [], revealed: false, allOk: false };
+  var state = { view: 'home', setId: null, activeSet: null, pos: 0, words: [], originals: [], revealed: false, allOk: false };
   function $(id) { return document.getElementById(id); }
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-  function curSet() { return BY_ID[state.setId]; }
+  function curSet() { return state.activeSet || BY_ID[state.setId] || null; }
   function curItem() { var s = curSet(); return s ? s.items[state.pos] : null; }
-  function key() { return state.setId + ':' + state.pos; }
+  function itemKey(set, pos) {
+    if (!set) return '';
+    var it = set.items && set.items[pos];
+    if (it && it._key) return it._key;
+    return set.id + ':' + pos;
+  }
+  function key() { return itemKey(curSet(), state.pos); }
   function masteredCount(set) {
     var n = 0;
-    for (var i = 0; i < set.items.length; i++) if (spell.results[set.id + ':' + i] === 'ok') n++;
+    for (var i = 0; i < set.items.length; i++) if (spell.results[itemKey(set, i)] === 'ok') n++;
     return n;
+  }
+  function isFavorited(k) {
+    return !!(spell.favorites && spell.favorites[k] && spell.favorites[k].starred);
+  }
+  function collectFavItems(allowedIds) {
+    var allow = null;
+    if (allowedIds) {
+      allow = Object.create(null);
+      allowedIds.forEach(function (id) { allow[id] = true; });
+    }
+    var out = [];
+    SETS.forEach(function (s) {
+      if (allow && !allow[s.id]) return;
+      for (var i = 0; i < s.items.length; i++) {
+        var k = s.id + ':' + i;
+        if (!isFavorited(k)) continue;
+        var it = s.items[i];
+        out.push({
+          part: it.part,
+          cn: it.cn,
+          en: it.en,
+          _key: k,
+          _setId: s.id,
+          _setName: s.name,
+          _group: s.group,
+          _pos: i
+        });
+      }
+    });
+    return out;
+  }
+  function summarizeFavSources(items) {
+    var names = [], seen = Object.create(null);
+    items.forEach(function (it) {
+      if (it._setName && !seen[it._setName]) {
+        seen[it._setName] = true;
+        names.push(it._setName);
+      }
+    });
+    if (!names.length) return '收藏的重点句子与主题词';
+    if (names.length <= 3) return '来自 ' + names.join('、');
+    return '来自 ' + names.slice(0, 3).join('、') + ' 等 ' + names.length + ' 组';
+  }
+  function buildFavSet(id) {
+    if (id === 'fav:all') {
+      var allItems = collectFavItems(null);
+      return {
+        id: 'fav:all',
+        name: '全部收藏',
+        group: '我的收藏',
+        sub: summarizeFavSources(allItems),
+        items: allItems,
+        isFav: true
+      };
+    }
+    var m = /^fav:g(\d+)$/.exec(id || '');
+    if (m) {
+      var gi = parseInt(m[1], 10);
+      var g = GROUPS[gi];
+      if (g) {
+        var gItems = collectFavItems(g.ids);
+        return {
+          id: id,
+          name: g.title,
+          group: '我的收藏',
+          sub: summarizeFavSources(gItems),
+          items: gItems,
+          isFav: true
+        };
+      }
+    }
+    return null;
+  }
+  function updateFavButton() {
+    var btn = $('btnFav');
+    if (!btn) return;
+    var k = key();
+    var starred = isFavorited(k);
+    btn.classList.toggle('fav-active', starred);
+    btn.setAttribute('aria-pressed', starred ? 'true' : 'false');
+    var label = $('btnFavText');
+    if (label) label.textContent = starred ? '已收藏' : '收藏';
+    btn.title = (starred ? '取消收藏' : '收藏本项') + '（' + prettyKey(bindings.fav) + '）';
+  }
+  function toggleFavorite() {
+    if (state.view !== 'practice') return;
+    var k = key();
+    if (!k) return;
+    if (!spell.favorites || typeof spell.favorites !== 'object') spell.favorites = {};
+    var cur = spell.favorites[k];
+    var nextStarred = !(cur && cur.starred);
+    var now = Date.now();
+    spell.favorites[k] = {
+      starred: nextStarred,
+      addedAt: nextStarred ? now : (cur && cur.addedAt ? cur.addedAt : 0),
+      updatedAt: now
+    };
+    saveSpell();
+    updateFavButton();
+    updateFooter();
   }
 
   function wordAt(str, i) {
@@ -444,17 +566,48 @@ button:disabled{opacity:.38;cursor:not-allowed}
   /* ---------- Home ---------- */
   function renderHome() {
     state.view = 'home';
+    state.activeSet = null;
     $('hero').style.display = 'block';
     $('practice').hidden = true;
     $('home').hidden = false;
 
     var totalItems = 0, totalMastered = 0;
     SETS.forEach(function (s) { totalItems += s.items.length; totalMastered += masteredCount(s); });
+    var allFavs = collectFavItems(null);
+    var favCount = allFavs.length;
     $('hstats').innerHTML = '<b>' + GROUPS[0].ids.length + '</b> 组作文句子 · <b>' +
       GROUPS[1].ids.length + '</b> 年真题主题词 · <b>' + GROUPS[2].ids.length +
-      '</b> 类必备主题词 ｜ 共 <b>' + totalItems + '</b> 个练习项 · 已掌握 <b>' + totalMastered + '</b>';
+      '</b> 类必备主题词 ｜ 共 <b>' + totalItems + '</b> 个练习项 · 已掌握 <b>' + totalMastered + '</b> · 收藏 <b>' + favCount + '</b>';
 
-    var html = '';
+    var starIco = window.LucideIcons ? window.LucideIcons.svg('star', { size: 15 }) : '';
+    var starSmall = window.LucideIcons ? window.LucideIcons.svg('star', { size: 14 }) : '';
+    var html = '<div class="hsect"><div class="hhead"><h2>' + starIco + '<span>我的收藏</span></h2>' +
+      '<span class="hdesc">' + (favCount ? ('练习时点击「收藏」自动归类到这里 · 共 ' + favCount + ' 项') : '练习时点击「收藏」自动归类到这里，方便专项复习') + '</span></div>';
+    if (!favCount) {
+      html += '<div class="fav-empty">' + starIco + '<span>暂无收藏内容。进入任意分组练习时，点击「收藏」按钮即可将重点句子或易错词加入这里，随时专门练习。</span></div>';
+    } else {
+      var favCards = [buildFavSet('fav:all')];
+      var nonEmptyGroupSets = [];
+      GROUPS.forEach(function (g, gi) {
+        var gs = buildFavSet('fav:g' + gi);
+        if (gs && gs.items.length) nonEmptyGroupSets.push(gs);
+      });
+      if (nonEmptyGroupSets.length >= 2) {
+        nonEmptyGroupSets.forEach(function (gs) { favCards.push(gs); });
+      }
+      html += '<div class="grid">';
+      favCards.forEach(function (fs) {
+        var m = masteredCount(fs), pct = fs.items.length ? (m / fs.items.length * 100) : 0;
+        html += '<button class="dcard fav-card" data-id="' + esc(fs.id) + '">' +
+          '<div class="dtop"><span class="dname">' + starSmall + '<span>' + esc(fs.name) + '</span></span><span class="dcount">' + fs.items.length + '</span></div>' +
+          '<div class="dsub">' + esc(fs.sub) + '</div>' +
+          '<div class="dbar"><span style="width:' + pct.toFixed(1) + '%"></span></div>' +
+          '<div class="dmeta">已掌握 ' + m + ' / ' + fs.items.length + '</div></button>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+
     GROUPS.forEach(function (g) {
       var groupItems = 0;
       g.ids.forEach(function (id) { groupItems += BY_ID[id].items.length; });
@@ -477,7 +630,10 @@ button:disabled{opacity:.38;cursor:not-allowed}
 
   /* ---------- Practice ---------- */
   function openSet(id) {
+    var target = (id && id.indexOf('fav:') === 0) ? buildFavSet(id) : (BY_ID[id] || null);
+    if (!target || !target.items.length) { renderHome(); return; }
     state.setId = id;
+    state.activeSet = target;
     state.pos = 0;
     state.view = 'practice';
     renderPractice();
@@ -498,7 +654,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
     state.revealed = false;
     state.allOk = false;
 
-    $('metaLeft').textContent = set.name;
+    $('metaLeft').textContent = (set.isFav && it._setName) ? (set.name + ' · 来自 ' + it._setName) : set.name;
     $('metaRight').textContent = '第 ' + (state.pos + 1) + ' / ' + set.items.length + ' 项 · ' + state.words.length + ' 个单词';
     $('partTag').textContent = it.part || '';
     $('partTag').style.display = it.part ? 'inline-block' : 'none';
@@ -506,6 +662,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
     $('sentence').innerHTML = buildSentence(it.en);
 
     refreshProgress();
+    updateFavButton();
     $('btnPrev').disabled = state.pos === 0;
     var isLastOfSet = state.pos + 1 >= set.items.length;
     var idx = SETS.indexOf(set);
@@ -690,7 +847,8 @@ button:disabled{opacity:.38;cursor:not-allowed}
   function updateFooter() {
     var total = 0, mastered = 0;
     SETS.forEach(function (s) { total += s.items.length; mastered += masteredCount(s); });
-    $('footStats').textContent = '全部 ' + SETS.length + ' 组 · ' + total + ' 项 · 已掌握 ' + mastered + ' 项';
+    var favCount = collectFavItems(null).length;
+    $('footStats').textContent = '全部 ' + SETS.length + ' 组 · ' + total + ' 项 · 已掌握 ' + mastered + ' 项 · 已收藏 ' + favCount + ' 项';
   }
 
   /* ---------- Speech Synthesis (prefers local offline voice when offline) ---------- */
@@ -723,7 +881,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
   }
 
   /* ---------- Shortcuts ---------- */
-  var DEFAULT_KEYS = { reveal: '`', check: 'ctrl+enter', prev: 'alt+arrowleft', next: 'alt+arrowright', clear: 'alt+x', speak: 'alt+r', home: 'alt+h' };
+  var DEFAULT_KEYS = { reveal: '`', check: 'ctrl+enter', prev: 'alt+arrowleft', next: 'alt+arrowright', clear: 'alt+x', speak: 'alt+r', fav: 'alt+s', home: 'alt+h' };
   var ACTIONS = [
     { id: 'reveal', name: '按住显示答案', desc: '按住生效，松开恢复' },
     { id: 'check', name: '检查本句', desc: '批改整句，全部正确记入掌握' },
@@ -731,6 +889,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
     { id: 'next', name: '下一句 / 下一组', desc: '进入下一项，本组最后一项进入下一组' },
     { id: 'clear', name: '清空本句', desc: '清空所有横线' },
     { id: 'speak', name: '朗读答案', desc: '朗读英文原句' },
+    { id: 'fav', name: '收藏 / 取消收藏', desc: '将当前句子或词组加入或移出收藏分类' },
     { id: 'home', name: '返回目录', desc: '回到目录页' }
   ];
   var KEY_LS = 'jotjzb-pspx-ktehg-keys';
@@ -773,6 +932,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
     $('btnCheck').title = '检查本句（' + prettyKey(bindings.check) + '）';
     $('btnPrev').title = '上一句（' + prettyKey(bindings.prev) + '）';
     $('btnNext').title = '下一句 / 下一组（' + prettyKey(bindings.next) + '）';
+    updateFavButton();
   }
   function renderKeyList() {
     var wrap = $('keyList'); wrap.innerHTML = '';
@@ -801,6 +961,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
     else if (id === 'next') goNext();
     else if (id === 'clear') clearSentence();
     else if (id === 'speak') { var it = curItem(); if (it) speak(it.en); }
+    else if (id === 'fav') toggleFavorite();
   }
   function shortcutAllowed(e, combo) {
     var t = e.target;
@@ -877,12 +1038,13 @@ button:disabled{opacity:.38;cursor:not-allowed}
     window.addEventListener('blur', hideAnswerHold);
   })();
   $('btnClear').onclick = clearSentence;
+  $('btnFav').onclick = toggleFavorite;
   $('btnCheck').onclick = checkAll;
   $('btnPrev').onclick = goPrev;
   $('btnNext').onclick = goNext;
   $('btnReset').onclick = function () {
-    if (!window.confirm('确定清除所有拼写练习记录吗？（云端同步时也会同步清空拼写记录）')) return;
-    spell = { items: {}, words: {}, totals: { checks: 0, itemOk: 0, itemBad: 0 }, results: {}, resetAt: Date.now() };
+    if (!window.confirm('确定清除所有拼写练习记录吗？（收藏夹会保留，云端同步时也会同步清空拼写记录）')) return;
+    spell = { items: {}, words: {}, favorites: spell.favorites || {}, totals: { checks: 0, itemOk: 0, itemBad: 0 }, results: {}, resetAt: Date.now() };
     saveSpell();
     renderStats();
     if (state.view === 'practice') renderPractice(); else renderHome();
@@ -935,7 +1097,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
     spell = Sync.loadSpellingNormalized();
     renderStats();
     if (state.view === 'home') renderHome();
-    else refreshProgress();
+    else { refreshProgress(); updateFavButton(); }
   });
 
   /* ---------- Topnav Auto-Collapse on Scroll ---------- */

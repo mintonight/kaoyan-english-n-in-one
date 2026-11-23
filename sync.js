@@ -136,6 +136,24 @@
     return sums;
   }
 
+  function normalizeFavorites(rawFavs, fallbackTs) {
+    var out = {};
+    if (!rawFavs || typeof rawFavs !== 'object') return out;
+    Object.keys(rawFavs).forEach(function (k) {
+      var f = rawFavs[k];
+      if (f === true) {
+        var ts = fallbackTs || 1;
+        out[k] = { starred: true, addedAt: ts, updatedAt: ts };
+      } else if (f && typeof f === 'object') {
+        var starred = !!f.starred;
+        var updatedAt = toTs(f.updatedAt, toTs(f.addedAt, fallbackTs || 1));
+        var addedAt = toTs(f.addedAt, starred ? updatedAt : 0);
+        out[k] = { starred: starred, addedAt: addedAt, updatedAt: updatedAt };
+      }
+    });
+    return out;
+  }
+
   function normalizeSpelling(rawLog, rawRes, fallbackTs) {
     var log = (rawLog && typeof rawLog === 'object') ? rawLog : {};
     var res = (rawRes && typeof rawRes === 'object') ? rawRes : {};
@@ -230,7 +248,8 @@
       };
     });
 
-    var out = { items: items, words: words, totals: { checks: 0, itemOk: 0, itemBad: 0 }, results: {}, resetAt: resetAt };
+    var favorites = normalizeFavorites(log.favorites, fallbackTs);
+    var out = { items: items, words: words, favorites: favorites, totals: { checks: 0, itemOk: 0, itemBad: 0 }, results: {}, resetAt: resetAt };
     recomputeSpellingDerived(out);
     return out;
   }
@@ -238,6 +257,7 @@
   function recomputeSpellingDerived(sp) {
     var itemOk = 0, itemBad = 0;
     var results = {};
+    if (!sp.favorites || typeof sp.favorites !== 'object') sp.favorites = {};
     Object.keys(sp.items).forEach(function (k) {
       var e = sp.items[k];
       if (e.byDev) {
@@ -291,6 +311,7 @@
     writeLS(KEYS.SP_LOG, {
       items: sp.items,
       words: sp.words,
+      favorites: sp.favorites || {},
       totals: sp.totals,
       resetAt: sp.resetAt || 0
     });
@@ -309,6 +330,7 @@
       spelling: {
         items: sp.items,
         words: sp.words,
+        favorites: sp.favorites || {},
         totals: sp.totals,
         results: sp.results,
         resetAt: sp.resetAt || 0
@@ -412,7 +434,29 @@
       var w = sp.words[wk];
       if ((w.updatedAt || 0) > resetAt) words[wk] = w;
     });
-    return { items: items, words: words, totals: { checks: 0, itemOk: 0, itemBad: 0 }, results: {}, resetAt: resetAt };
+    return { items: items, words: words, favorites: sp.favorites || {}, totals: { checks: 0, itemOk: 0, itemBad: 0 }, results: {}, resetAt: resetAt };
+  }
+
+  function mergeFavorites(fa, fb) {
+    var out = {};
+    var keys = Object.create(null);
+    Object.keys(fa || {}).forEach(function (k) { keys[k] = 1; });
+    Object.keys(fb || {}).forEach(function (k) { keys[k] = 1; });
+    Object.keys(keys).forEach(function (k) {
+      var a = fa && fa[k], b = fb && fb[k];
+      if (!a) { out[k] = { starred: !!b.starred, addedAt: b.addedAt || 0, updatedAt: b.updatedAt || 0 }; return; }
+      if (!b) { out[k] = { starred: !!a.starred, addedAt: a.addedAt || 0, updatedAt: a.updatedAt || 0 }; return; }
+      var ua = a.updatedAt || 0, ub = b.updatedAt || 0;
+      if (ub > ua) out[k] = { starred: !!b.starred, addedAt: b.addedAt || 0, updatedAt: ub };
+      else if (ua > ub) out[k] = { starred: !!a.starred, addedAt: a.addedAt || 0, updatedAt: ua };
+      else if (a.starred !== b.starred) {
+        var win = a.starred ? a : b;
+        out[k] = { starred: true, addedAt: win.addedAt || 0, updatedAt: ua };
+      } else {
+        out[k] = { starred: !!a.starred, addedAt: Math.max(a.addedAt || 0, b.addedAt || 0), updatedAt: ua };
+      }
+    });
+    return out;
   }
 
   function mergeSpelling(a, b) {
@@ -471,6 +515,7 @@
     return recomputeSpellingDerived({
       items: items,
       words: words,
+      favorites: mergeFavorites(fa.favorites, fb.favorites),
       totals: { checks: 0, itemOk: 0, itemBad: 0 },
       results: {},
       resetAt: resetAt
