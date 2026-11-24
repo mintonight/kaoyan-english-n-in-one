@@ -190,29 +190,27 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:14px 0 10px;letter-spacing:-.02em;lin
   display:inline-flex;align-items:center;gap:4px;
 }
 .prompt-body{
-  padding:0 18px 16px;border-top:1px solid var(--line);
+  padding:12px 18px 16px;border-top:1px solid var(--line);
 }
 .prompt-dir{
-  margin:12px 0;padding:10px 13px;border-radius:10px;
+  margin:0 0 12px;padding:10px 13px;border-radius:10px;
   background:var(--subtle);border:1px solid var(--line);
   font-family:Georgia,"Times New Roman",serif;font-size:13px;line-height:1.7;color:var(--muted);
 }
+.prompt-dir:last-child{margin-bottom:0}
 .prompt-dir b{font-family:inherit;color:var(--ink)}
-.pchart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-.pchart{
-  background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;
+.prompt-img-wrap{
+  display:flex;justify-content:center;
+  background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;
 }
-.pchart-title{font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:10px}
-.pchart-row{margin-bottom:8px}
-.pchart-row:last-child{margin-bottom:0}
-.pchart-meta{
-  display:flex;justify-content:space-between;align-items:baseline;gap:8px;
-  font-size:12px;line-height:1.45;margin-bottom:4px;
+.prompt-img{
+  display:block;max-width:100%;max-height:460px;width:auto;height:auto;
+  border-radius:6px;cursor:zoom-in;
 }
-.pchart-label{color:var(--muted)}
-.pchart-val{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
-.pchart-track{height:6px;background:var(--subtle);border-radius:99px;overflow:hidden}
-.pchart-fill{height:100%;background:linear-gradient(90deg,#c96a1c,#a84a0c);border-radius:99px}
+.prompt-img.zoomed{max-height:none;cursor:zoom-out}
+.prompt-note{
+  margin:0;font-size:12.5px;line-height:1.7;color:var(--muted);
+}
 
 .card{
   background:var(--card);border:1px solid var(--line);border-radius:20px;
@@ -1622,16 +1620,10 @@ button:disabled{opacity:.38;cursor:not-allowed}
     var p = resolvePrompt(set, it);
     if (!p) { box.hidden = true; box.innerHTML = ''; return; }
     box.hidden = false;
-    var chartsHtml = (p.charts || []).map(function (ch) {
-      var rowsHtml = (ch.rows || []).map(function (r) {
-        var pct = Math.max(4, Math.min(100, Number(r.pct) || 0));
-        return '<div class="pchart-row">' +
-          '<div class="pchart-meta"><span class="pchart-label">' + esc(r.label) + '</span><span class="pchart-val">' + esc(r.val) + '</span></div>' +
-          '<div class="pchart-track"><div class="pchart-fill" style="width:' + pct + '%"></div></div>' +
-        '</div>';
-      }).join('');
-      return '<div class="pchart"><div class="pchart-title">' + esc(ch.title) + '</div>' + rowsHtml + '</div>';
-    }).join('');
+    var imgHtml = p.image
+      ? '<div class="prompt-img-wrap"><img class="prompt-img" id="promptImg" src="' + esc(p.image) + '" alt="' + esc(p.title) + '" title="点击放大/还原"></div>'
+      : '';
+    var noteHtml = p.note ? '<p class="prompt-note">' + esc(p.note) + '</p>' : '';
     box.innerHTML =
       '<button type="button" class="prompt-head" id="btnTogglePrompt" aria-expanded="' + (state.promptOpen ? 'true' : 'false') + '">' +
         '<span class="prompt-title-wrap"><span class="prompt-badge">作文原题</span><span class="prompt-title">' + esc(p.title) + '</span></span>' +
@@ -1639,10 +1631,13 @@ button:disabled{opacity:.38;cursor:not-allowed}
       '</button>' +
       '<div class="prompt-body"' + (state.promptOpen ? '' : ' hidden') + '>' +
         (p.directions ? '<div class="prompt-dir"><b>Directions: </b>' + esc(p.directions) + '</div>' : '') +
-        (chartsHtml ? '<div class="pchart-grid">' + chartsHtml + '</div>' : '') +
+        imgHtml +
+        noteHtml +
       '</div>';
     var btn = $('btnTogglePrompt');
     if (btn) btn.onclick = function () { state.promptOpen = !state.promptOpen; renderEssayPrompt(curSet(), curItem()); };
+    var img = $('promptImg');
+    if (img) img.onclick = function () { img.classList.toggle('zoomed'); };
   }
 
   function openSet(id) {
