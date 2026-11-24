@@ -31,8 +31,8 @@
   --sheet-rule:rgba(207,85,59,.84);
   --sheet-ink:#141414;
   --sheet-lh:40px;
-  --sheet-font-size:21px;
-  --sheet-baseline:32px;
+  --sheet-font-size:23px;
+  --sheet-baseline:33px;
   --nav-h:54px;
 }
 *{box-sizing:border-box}
@@ -357,7 +357,8 @@ body.nav-hidden #practice.is-sheet .cn-float-wrap{top:10px}
   font-weight:400;
   line-height:var(--sheet-lh);
   color:var(--sheet-ink);
-  letter-spacing:.005em;
+  letter-spacing:.02em;
+  word-spacing:.08em;
   min-height:calc(var(--sheet-lh) * 25);
   background-image:repeating-linear-gradient(
     to bottom,
@@ -384,8 +385,8 @@ body.nav-hidden #practice.is-sheet .cn-float-wrap{top:10px}
 }
 .sheet-qnum{
   font-family:"Times New Roman",Times,Georgia,serif;
-  font-size:19px;font-weight:700;color:#151515;
-  margin-right:6px;letter-spacing:0;
+  font-size:20.5px;font-weight:700;color:#151515;
+  margin-right:7px;letter-spacing:0;
 }
 .sheet-vnum{
   font-family:"Times New Roman",Times,Georgia,serif;
@@ -406,13 +407,13 @@ body.nav-hidden #practice.is-sheet .cn-float-wrap{top:10px}
   transition:all .15s;
 }
 .sheet-pending:hover{color:var(--accent);background:var(--accent-soft)}
-.sheet-sent-gap{display:inline-block;width:.36em}
+.sheet-sent-gap{display:inline-block;width:.46em}
 .sheet-active{
   scroll-margin-top:168px;scroll-margin-bottom:110px;
 }
 
 /* Immersive Box-Free Handwriting Inputs on the Ruled Answer Sheet */
-.sheet-lines .sp{display:inline-block;width:.32em}
+.sheet-lines .sp{display:inline-block;width:.42em}
 .sheet-lines .punct{
   font-family:'ExamHand',Georgia,serif;
   color:var(--sheet-ink);padding:0;
@@ -425,7 +426,7 @@ body.nav-hidden #practice.is-sheet .cn-float-wrap{top:10px}
   font-weight:400;
   color:var(--sheet-ink);
   caret-color:#141414;
-  letter-spacing:.005em;
+  letter-spacing:.02em;
   background:transparent;
   border:0;
   border-radius:0;
@@ -499,7 +500,7 @@ body.nav-hidden #practice.is-sheet .cn-float-wrap{top:10px}
 .sheet-measure{
   position:fixed;top:-9999px;left:-9999px;visibility:hidden;pointer-events:none;white-space:pre;
   font-family:'ExamHand','Segoe Print','Comic Sans MS',cursive,sans-serif;
-  font-size:var(--sheet-font-size);font-weight:400;letter-spacing:.005em;
+  font-size:var(--sheet-font-size);font-weight:400;letter-spacing:.02em;
 }
 
 /* Control Dock below Answer Sheet in Sheet Mode */
@@ -702,7 +703,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
 .imp-preview-list li{margin:2px 0}
 
 @media (max-width:640px){
-  :root{--sheet-lh:34px;--sheet-font-size:18px;--sheet-baseline:27.5px;--nav-h:48px}
+  :root{--sheet-lh:35px;--sheet-font-size:19.5px;--sheet-baseline:28.5px;--nav-h:48px}
   .nb-sub{display:none}
   .topnav-inner{padding:8px 12px;min-height:48px}
   .nav-home,.nb-badge{font-size:11.5px;padding:4px 8px}
