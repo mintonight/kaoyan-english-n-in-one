@@ -139,6 +139,52 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:14px 0 10px;letter-spacing:-.02em;lin
 #btnHome:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
 .crumb .path{font-size:12.5px;color:var(--muted);font-weight:500}
 
+/* Essay Prompt & Chart Panel */
+.prompt-card{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  margin-bottom:14px;box-shadow:var(--shadow-sm);overflow:hidden;
+}
+.prompt-head{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:12px 18px;border:0;background:transparent;cursor:pointer;font-family:inherit;
+  text-align:left;color:var(--ink);transition:background .15s;
+}
+.prompt-head:hover{background:rgba(246,240,230,.55)}
+.prompt-title-wrap{display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap}
+.prompt-badge{
+  font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);
+  border:1px solid var(--accent-border);padding:2px 8px;border-radius:99px;white-space:nowrap;
+}
+.prompt-title{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.45}
+.prompt-toggle{
+  font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.prompt-body{
+  padding:0 18px 16px;border-top:1px solid var(--line);
+}
+.prompt-dir{
+  margin:12px 0;padding:10px 13px;border-radius:10px;
+  background:var(--subtle);border:1px solid var(--line);
+  font-family:Georgia,"Times New Roman",serif;font-size:13px;line-height:1.7;color:var(--muted);
+}
+.prompt-dir b{font-family:inherit;color:var(--ink)}
+.pchart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.pchart{
+  background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;
+}
+.pchart-title{font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.pchart-row{margin-bottom:8px}
+.pchart-row:last-child{margin-bottom:0}
+.pchart-meta{
+  display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+  font-size:12px;line-height:1.45;margin-bottom:4px;
+}
+.pchart-label{color:var(--muted)}
+.pchart-val{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pchart-track{height:6px;background:var(--subtle);border-radius:99px;overflow:hidden}
+.pchart-fill{height:100%;background:linear-gradient(90deg,#c96a1c,#a84a0c);border-radius:99px}
+
 .card{
   background:var(--card);border:1px solid var(--line);border-radius:20px;
   padding:28px 30px 24px;box-shadow:var(--shadow-md);
@@ -321,6 +367,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
       <button id="btnHome"><i data-lucide="arrow-left" data-size="14"></i><span>目录</span></button>
       <span class="path" id="crumbText"></span>
     </div>
+    <div class="prompt-card" id="essayPrompt" hidden></div>
     <div class="card">
       <div class="meta"><span id="metaLeft"></span><span id="metaRight"></span></div>
       <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
@@ -403,7 +450,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
     Sync.markDirty(syncDelayMs);
   }
 
-  var state = { view: 'home', setId: null, activeSet: null, pos: 0, words: [], originals: [], revealed: false, allOk: false };
+  var state = { view: 'home', setId: null, activeSet: null, pos: 0, words: [], originals: [], revealed: false, allOk: false, promptOpen: true };
   function $(id) { return document.getElementById(id); }
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function curSet() { return state.activeSet || BY_ID[state.setId] || null; }
@@ -649,12 +696,48 @@ button:disabled{opacity:.38;cursor:not-allowed}
   }
 
   /* ---------- Practice ---------- */
+  function resolvePrompt(set, it) {
+    if (set && set.prompt) return set.prompt;
+    if (it && it._setId && BY_ID[it._setId] && BY_ID[it._setId].prompt) return BY_ID[it._setId].prompt;
+    return null;
+  }
+
+  function renderEssayPrompt(set, it) {
+    var box = $('essayPrompt');
+    if (!box) return;
+    var p = resolvePrompt(set, it);
+    if (!p) { box.hidden = true; box.innerHTML = ''; return; }
+    box.hidden = false;
+    var chartsHtml = (p.charts || []).map(function (ch) {
+      var rowsHtml = (ch.rows || []).map(function (r) {
+        var pct = Math.max(4, Math.min(100, Number(r.pct) || 0));
+        return '<div class="pchart-row">' +
+          '<div class="pchart-meta"><span class="pchart-label">' + esc(r.label) + '</span><span class="pchart-val">' + esc(r.val) + '</span></div>' +
+          '<div class="pchart-track"><div class="pchart-fill" style="width:' + pct + '%"></div></div>' +
+        '</div>';
+      }).join('');
+      return '<div class="pchart"><div class="pchart-title">' + esc(ch.title) + '</div>' + rowsHtml + '</div>';
+    }).join('');
+    box.innerHTML =
+      '<button type="button" class="prompt-head" id="btnTogglePrompt" aria-expanded="' + (state.promptOpen ? 'true' : 'false') + '">' +
+        '<span class="prompt-title-wrap"><span class="prompt-badge">作文原题</span><span class="prompt-title">' + esc(p.title) + '</span></span>' +
+        '<span class="prompt-toggle">' + (state.promptOpen ? '收起题目 ▲' : '展开题目 ▼') + '</span>' +
+      '</button>' +
+      '<div class="prompt-body"' + (state.promptOpen ? '' : ' hidden') + '>' +
+        (p.directions ? '<div class="prompt-dir"><b>Directions: </b>' + esc(p.directions) + '</div>' : '') +
+        (chartsHtml ? '<div class="pchart-grid">' + chartsHtml + '</div>' : '') +
+      '</div>';
+    var btn = $('btnTogglePrompt');
+    if (btn) btn.onclick = function () { state.promptOpen = !state.promptOpen; renderEssayPrompt(curSet(), curItem()); };
+  }
+
   function openSet(id) {
     var target = (id && id.indexOf('fav:') === 0) ? buildFavSet(id) : (BY_ID[id] || null);
     if (!target || !target.items.length) { renderHome(); return; }
     state.setId = id;
     state.activeSet = target;
     state.pos = 0;
+    state.promptOpen = !target.isFav;
     state.view = 'practice';
     renderPractice();
     window.scrollTo(0, 0);
@@ -669,6 +752,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
     $('practice').hidden = false;
 
     $('crumbText').textContent = set.group + ' / ' + set.name;
+    renderEssayPrompt(set, it);
     state.words = wordList(it.en).map(function (o) { return o.word; });
     state.originals = state.words.slice();
     state.revealed = false;
