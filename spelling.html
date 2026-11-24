@@ -619,6 +619,92 @@ button:disabled{opacity:.38;cursor:not-allowed}
 .wrong-word{font-weight:600;word-break:break-word;color:var(--ink)}
 .wrong-num{color:var(--warn);font-variant-numeric:tabular-nums;white-space:nowrap;font-size:12.5px}
 
+/* Import Section & Modal */
+.hhead-act{
+  margin-left:auto;display:inline-flex;align-items:center;gap:5px;
+  border:1px solid var(--accent-border);background:var(--accent-soft);color:var(--accent);
+  font-family:inherit;font-size:12px;font-weight:700;padding:5px 12px;border-radius:99px;
+  cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.hhead-act:hover{background:rgba(168,74,12,.14);border-color:var(--accent);color:var(--accent-hover)}
+.imp-empty{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding:15px 18px;border-radius:15px;
+  background:rgba(253,251,248,.68);border:1px dashed var(--line-strong);
+  color:var(--muted);font-size:13px;line-height:1.7;
+}
+.imp-empty-left{display:flex;align-items:center;gap:11px;min-width:0;flex:1}
+.imp-empty-left svg{color:var(--accent);flex-shrink:0}
+.dcard.custom-card{padding-bottom:12px}
+.dcard-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;
+}
+.dcard-foot .dmeta{margin-top:0}
+.dcard-ops{display:inline-flex;align-items:center;gap:4px}
+.dcard-op{
+  border:1px solid var(--line);background:var(--subtle);color:var(--muted);
+  font-family:inherit;font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;
+  cursor:pointer;transition:all .14s;
+}
+.dcard-op:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
+.dcard-op.del:hover{color:var(--warn);border-color:rgba(180,35,24,.32);background:rgba(180,35,24,.06)}
+
+.modal-card.modal-wide{max-width:650px}
+.imp-ai-box{
+  background:linear-gradient(180deg,#fffaf2 0%,#faf2e6 100%);
+  border:1px solid var(--accent-border);border-radius:13px;
+  padding:13px 15px;margin-bottom:14px;
+}
+.imp-ai-title{
+  display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:750;color:var(--accent);margin-bottom:4px;
+}
+.imp-ai-desc{margin:0 0 10px;font-size:12.5px;color:var(--muted);line-height:1.68}
+.imp-ai-btns{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.imp-copy-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(180deg,#b85412 0%,#9a3e08 100%);color:#fff;
+  border:1px solid rgba(120,44,4,.35);padding:7px 14px;border-radius:9px;
+  font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;transition:all .15s;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 2px 8px -2px rgba(168,74,12,.38);
+}
+.imp-copy-btn:hover{filter:brightness(1.06)}
+.imp-copy-btn.copied{background:linear-gradient(180deg,#1d7a42 0%,#166534 100%);border-color:rgba(22,101,52,.4)}
+.imp-prompt-pre{
+  margin:10px 0 0;padding:10px 12px;border-radius:10px;
+  background:rgba(255,255,255,.88);border:1px solid var(--line);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:11.5px;line-height:1.6;color:var(--ink);
+  white-space:pre-wrap;word-break:break-word;max-height:210px;overflow:auto;
+}
+.imp-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;
+  margin-bottom:7px;
+}
+.imp-bar-lbl{font-size:12.5px;font-weight:700;color:var(--ink)}
+.imp-bar-acts{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.imp-mini-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  border:1px solid var(--line);background:var(--card);color:var(--muted);
+  font-family:inherit;font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:8px;
+  cursor:pointer;transition:all .14s;
+}
+.imp-mini-btn:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
+.imp-textarea{
+  width:100%;min-height:170px;resize:vertical;padding:11px 13px;border-radius:12px;
+  border:1px solid var(--line-strong);background:#fff;color:var(--ink);outline:none;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12.5px;line-height:1.6;transition:border-color .15s,box-shadow .15s;
+}
+.imp-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.imp-preview{
+  margin-top:10px;padding:10px 13px;border-radius:11px;font-size:12.5px;line-height:1.65;
+  display:none;
+}
+.imp-preview.ok{display:block;background:rgba(22,101,52,.07);border:1px solid rgba(22,101,52,.22);color:var(--ok)}
+.imp-preview.err{display:block;background:rgba(180,35,24,.06);border:1px solid rgba(180,35,24,.24);color:var(--warn)}
+.imp-preview-list{margin:6px 0 0;padding-left:16px;color:var(--ink);font-size:12px;font-weight:400}
+.imp-preview-list li{margin:2px 0}
+
 @media (max-width:640px){
   :root{--sheet-lh:34px;--sheet-font-size:18px;--sheet-baseline:27.5px;--nav-h:48px}
   .nb-sub{display:none}
@@ -793,6 +879,49 @@ button:disabled{opacity:.38;cursor:not-allowed}
   </div>
 </div>
 
+<div class="modal" id="importModal" hidden>
+  <div class="modal-card modal-wide">
+    <h3>
+      <svg class="lucide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+      <span>导入外部文章</span>
+    </h3>
+    <p class="modal-tip">导入后的文章会自动保存在本机，并支持完整的 A4 考研答题卡逐词拼写、分段排版、收藏与错词统计。</p>
+
+    <div class="imp-ai-box">
+      <div class="imp-ai-title">
+        <svg class="lucide" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        <span>只有英文文章？用任意 AI 一键生成导入格式</span>
+      </div>
+      <p class="imp-ai-desc">复制下方提示词，在末尾贴上你的英文文章，发给 DeepSeek / 豆包 / Kimi / ChatGPT 等任意 AI，再把 AI 返回的内容直接粘贴到下方即可。</p>
+      <div class="imp-ai-btns">
+        <button type="button" class="imp-copy-btn" id="btnCopyAiPrompt">
+          <svg class="lucide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <span id="btnCopyAiPromptText">一键复制 AI 提示词</span>
+        </button>
+        <button type="button" class="imp-mini-btn" id="btnTogglePromptSpec" aria-expanded="false">查看提示词与格式规范</button>
+      </div>
+      <pre class="imp-prompt-pre" id="aiPromptPre" hidden></pre>
+    </div>
+
+    <div class="imp-bar">
+      <span class="imp-bar-lbl">粘贴符合规范的 JSON（支持直接粘贴带 ```json 的 AI 回复）</span>
+      <div class="imp-bar-acts">
+        <input type="file" id="importFile" accept=".json,.txt,application/json,text/plain" hidden>
+        <button type="button" class="imp-mini-btn" id="btnImportFile">选择文件</button>
+        <button type="button" class="imp-mini-btn" id="btnImportSample">填入示例</button>
+        <button type="button" class="imp-mini-btn" id="btnImportClear">清空</button>
+      </div>
+    </div>
+    <textarea class="imp-textarea" id="importInput" spellcheck="false" placeholder='粘贴 AI 输出的 JSON 内容，例如：&#10;{&#10;  "name": "我的范文",&#10;  "section": "Section III Writing   Part B",&#10;  "questionNo": "48.",&#10;  "items": [&#10;    { "part": "第一段", "cn": "中文参考……", "en": "English sentence." }&#10;  ]&#10;}'></textarea>
+    <div class="imp-preview" id="importPreview"></div>
+
+    <div class="modal-actions">
+      <button type="button" class="ghost2" id="btnImportCancel">取消</button>
+      <button type="button" class="primary" id="btnImportSubmit" disabled>导入并开始练习</button>
+    </div>
+  </div>
+</div>
+
 <script src="data/spelling-data.js"></script>
 <script src="icons/lucide.js"></script>
 <script src="sync.js"></script>
@@ -802,9 +931,38 @@ button:disabled{opacity:.38;cursor:not-allowed}
   'use strict';
 
   var DATA = window.SPELLING_DATA || { SETS: [], GROUPS: [] };
-  var SETS = DATA.SETS, GROUPS = DATA.GROUPS;
-  var BY_ID = {};
-  SETS.forEach(function (s) { BY_ID[s.id] = s; });
+  var BUILTIN_SETS = (DATA.SETS || []).slice(), GROUPS = DATA.GROUPS || [];
+  var CUSTOM_LS = 'kaoyan_spelling_custom_sets_v1';
+  var CUSTOM_SETS = [];
+  var SETS = [], BY_ID = {};
+
+  function loadCustomSets() {
+    try {
+      var raw = localStorage.getItem(CUSTOM_LS);
+      if (!raw) return [];
+      var arr = JSON.parse(raw);
+      if (!Array.isArray(arr)) return [];
+      return arr.filter(function (s) {
+        return s && typeof s === 'object' && s.id && Array.isArray(s.items) && s.items.length > 0;
+      }).map(function (s) {
+        s.group = '导入文章';
+        s.isCustom = true;
+        return s;
+      });
+    } catch (e) {
+      return [];
+    }
+  }
+  function saveCustomSets() {
+    try { localStorage.setItem(CUSTOM_LS, JSON.stringify(CUSTOM_SETS)); } catch (e) {}
+  }
+  function rebuildRegistry() {
+    SETS = BUILTIN_SETS.concat(CUSTOM_SETS);
+    BY_ID = {};
+    SETS.forEach(function (s) { BY_ID[s.id] = s; });
+  }
+  CUSTOM_SETS = loadCustomSets();
+  rebuildRegistry();
 
   var Sync = window.KaoyanSync;
   var deviceId = Sync.getDeviceId();
@@ -830,14 +988,19 @@ button:disabled{opacity:.38;cursor:not-allowed}
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function curSet() { return state.activeSet || BY_ID[state.setId] || null; }
   function curItem() { var s = curSet(); return s ? s.items[state.pos] : null; }
-  function isEssaySet(set) { return !!(set && !set.isFav && set.group === '作文句子'); }
+  function isEssaySet(set) { return !!(set && !set.isFav && (set.group === '作文句子' || set.isCustom)); }
   function extractQuestionNo(set) {
     if (!isEssaySet(set)) return '';
+    if (typeof set.questionNo === 'string') return set.questionNo.trim();
     var dir = set.prompt && set.prompt.directions ? String(set.prompt.directions) : '';
     var m = /^\s*(\d+\.)/.exec(dir);
-    return m ? m[1] : '48.';
+    if (m) return m[1];
+    return set.isCustom ? '' : '48.';
   }
   function extractSectionTitle(set) {
+    if (set && typeof set.section === 'string' && set.section.trim()) {
+      return set.section.trim().replace(/\s{2,}/g, ' \u00A0\u00A0 ');
+    }
     if (isEssaySet(set)) return 'Section III Writing \u00A0\u00A0 Part B';
     if (set && set.isFav) return 'Section III Writing \u00A0\u00A0 Favorites';
     return 'Section III Writing \u00A0\u00A0 Topic Words';
@@ -1358,12 +1521,14 @@ button:disabled{opacity:.38;cursor:not-allowed}
     SETS.forEach(function (s) { totalItems += s.items.length; totalMastered += masteredCount(s); });
     var allFavs = collectFavItems(null);
     var favCount = allFavs.length;
-    $('hstats').innerHTML = '<b>' + GROUPS[0].ids.length + '</b> 组作文句子 · <b>' +
+    $('hstats').innerHTML = '<b>' + GROUPS[0].ids.length + '</b> 组作文句子' +
+      (CUSTOM_SETS.length ? (' · <b>' + CUSTOM_SETS.length + '</b> 篇导入文章') : '') + ' · <b>' +
       GROUPS[1].ids.length + '</b> 年真题主题词 · <b>' + GROUPS[2].ids.length +
       '</b> 类必备主题词 ｜ 共 <b>' + totalItems + '</b> 个练习项 · 已掌握 <b>' + totalMastered + '</b> · 收藏 <b>' + favCount + '</b>';
 
     var starIco = starSvg(15);
     var starSmall = starSvg(14);
+    var uploadIco = '<svg class="lucide" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>';
     var html = '<div class="hsect"><div class="hhead"><h2>' + starIco + '<span>我的收藏</span></h2>' +
       '<span class="hdesc">' + (favCount ? ('练习时点击「收藏」自动归类到这里 · 共 ' + favCount + ' 项') : '练习时点击「收藏」自动归类到这里，方便专项复习') + '</span></div>';
     if (!favCount) {
@@ -1386,6 +1551,33 @@ button:disabled{opacity:.38;cursor:not-allowed}
           '<div class="dsub">' + esc(fs.sub) + '</div>' +
           '<div class="dbar"><span style="width:' + pct.toFixed(1) + '%"></span></div>' +
           '<div class="dmeta">已掌握 ' + m + ' / ' + fs.items.length + '</div></button>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+
+    var customItemsTotal = 0;
+    CUSTOM_SETS.forEach(function (cs) { customItemsTotal += cs.items.length; });
+    html += '<div class="hsect"><div class="hhead"><h2>' + uploadIco + '<span>导入文章</span></h2>' +
+      '<span class="hdesc">' + (CUSTOM_SETS.length ? ('自定义外部文章 · 共 ' + CUSTOM_SETS.length + ' 篇 / ' + customItemsTotal + ' 句') : '导入任意英文范文或小作文，在 A4 答题卡上逐词默写') + '</span>' +
+      '<button type="button" class="hhead-act" data-action="open-import">+ 导入文章</button></div>';
+    if (!CUSTOM_SETS.length) {
+      html += '<div class="imp-empty"><div class="imp-empty-left">' + uploadIco +
+        '<span>还没有导入文章。点击右侧按钮可导入标准 JSON 文章；手里只有英文原文时，可一键复制内置 AI 提示词快速转换。</span></div>' +
+        '<button type="button" class="hhead-act" data-action="open-import">去导入</button></div>';
+    } else {
+      html += '<div class="grid">';
+      CUSTOM_SETS.forEach(function (cs) {
+        var m = masteredCount(cs), pct = cs.items.length ? (m / cs.items.length * 100) : 0;
+        html += '<div class="dcard custom-card" role="button" tabindex="0" data-id="' + esc(cs.id) + '">' +
+          '<div class="dtop"><span class="dname">' + esc(cs.name) + '</span><span class="dcount">' + cs.items.length + ' 句</span></div>' +
+          '<div class="dsub">' + esc(cs.sub || '') + '</div>' +
+          '<div class="dbar"><span style="width:' + pct.toFixed(1) + '%"></span></div>' +
+          '<div class="dcard-foot"><span class="dmeta">已掌握 ' + m + ' / ' + cs.items.length + '</span>' +
+          '<span class="dcard-ops">' +
+            '<button type="button" class="dcard-op" data-export-id="' + esc(cs.id) + '" title="导出为 JSON">导出</button>' +
+            '<button type="button" class="dcard-op del" data-del-id="' + esc(cs.id) + '" title="删除这篇文章">删除</button>' +
+          '</span></div></div>';
       });
       html += '</div>';
     }
@@ -1891,6 +2083,10 @@ button:disabled{opacity:.38;cursor:not-allowed}
       if (e.key === 'Escape') closeStats();
       return;
     }
+    if (!$('importModal').hidden) {
+      if (e.key === 'Escape') closeImport();
+      return;
+    }
     if (e.defaultPrevented) return;
     var combo = comboFromEvent(e);
     var id = null;
@@ -1902,7 +2098,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
     runShortcut(id);
   }, true);
   document.addEventListener('keyup', function (e) {
-    if (!$('keysModal').hidden) return;
+    if (!$('keysModal').hidden || !$('importModal').hidden) return;
     if (bindings.reveal && comboFromEvent(e) === bindings.reveal) hideAnswerHold();
   }, true);
 
@@ -1916,9 +2112,372 @@ button:disabled{opacity:.38;cursor:not-allowed}
   $('keysModal').addEventListener('click', function (e) { if (e.target === this) closeKeys(); });
 
   $('home').addEventListener('click', function (e) {
+    var openImp = e.target.closest ? e.target.closest('[data-action="open-import"]') : null;
+    if (openImp) { openImport(); return; }
+    var delBtn = e.target.closest ? e.target.closest('[data-del-id]') : null;
+    if (delBtn) {
+      e.stopPropagation();
+      deleteCustomSet(delBtn.getAttribute('data-del-id'));
+      return;
+    }
+    var expBtn = e.target.closest ? e.target.closest('[data-export-id]') : null;
+    if (expBtn) {
+      e.stopPropagation();
+      exportCustomSet(expBtn.getAttribute('data-export-id'));
+      return;
+    }
     var b = e.target.closest ? e.target.closest('.dcard') : null;
     if (b && b.dataset.id) openSet(b.dataset.id);
   });
+  $('home').addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    if (e.target && e.target.classList && e.target.classList.contains('dcard') && e.target.dataset.id) {
+      e.preventDefault();
+      openSet(e.target.dataset.id);
+    }
+  });
+
+  /* ---------- External Article Import & AI Prompt ---------- */
+  var AI_IMPORT_PROMPT = [
+    '请把下面这篇英语文章转换为「考研英语答题卡拼写练习」的导入 JSON 格式。',
+    '',
+    '要求：',
+    '1. 只输出一个合法的 JSON 代码块（不要额外解释）。',
+    '2. 严格保留英文原文的每个单词、大小写、数字和标点，不要改写或删减英文。',
+    '3. 按英文自然段拆分，每段再按完整句子拆分成多条记录放入 items 数组：',
+    '   - part：段落名，如 "第一段"、"第二段"、"第三段"（同一自然段的句子必须使用完全相同的 part，答题卡才会自动排在同一自然段；如果是书信/小作文，称呼和落款可单独设为 "称呼"、"正文第一段"、"落款"）。',
+    '   - en：该句英文原文。',
+    '   - cn：该句准确、自然、贴合原文语序的中文参考翻译（练习时会浮动显示）。',
+    '4. 自动填写 name（简短标题）、sub（简短说明）、section（大作文填 "Section III Writing   Part B"，小作文填 "Section III Writing   Part A"）、questionNo（如 "48." / "52." / "47." / "51."，不确定可留空 ""）。如我同时提供了题目要求，请填入可选的 prompt 字段；否则省略 prompt。',
+    '',
+    '标准 JSON 格式模板：',
+    '{',
+    '  "name": "文章标题",',
+    '  "sub": "简介 · 共 X 句",',
+    '  "section": "Section III Writing   Part B",',
+    '  "questionNo": "48.",',
+    '  "items": [',
+    '    {',
+    '      "part": "第一段",',
+    '      "cn": "第一句的中文参考翻译。",',
+    '      "en": "The first English sentence."',
+    '    }',
+    '  ]',
+    '}',
+    '',
+    '以下是我的英文文章（如有作文题目要求也可一并贴在下面）：',
+    '[在这里粘贴你的英文文章]'
+  ].join('\n');
+
+  var IMPORT_SAMPLE_JSON = JSON.stringify({
+    name: '2024 英语二范文（示例）',
+    sub: '高校劳动实践课收获 · 6 句示例',
+    section: 'Section III Writing   Part B',
+    questionNo: '48.',
+    prompt: {
+      title: '2024 考研英语（二）Part B · 某高校劳动实践课收获调查',
+      directions: '48. Write an essay based on the chart below. In your essay, you should 1) describe and interpret the chart, and 2) give your comments. Write your answer in about 150 words on the ANSWER SHEET. (15 points)'
+    },
+    items: [
+      {
+        part: '第一段',
+        cn: '该柱状图清晰地展示了一项关于某高校学生劳动实践课收获的调查结果。',
+        en: 'The bar chart clearly illustrates the results of a survey on college students’ gains from labor practice courses.'
+      },
+      {
+        part: '第一段',
+        cn: '数据显示，学习相关知识以 91.3% 位居第一，其次是提升动手能力（84.8%）。',
+        en: 'According to the data, acquiring relevant knowledge ranks first at 91.3%, followed by improving hands-on skills at 84.8%.'
+      },
+      {
+        part: '第二段',
+        cn: '图表表明，实践课程在促进学生全面成长方面发挥着不可替代的作用。',
+        en: 'The chart indicates that practical courses play an irreplaceable role in promoting students’ well-rounded growth.'
+      },
+      {
+        part: '第二段',
+        cn: '走出课堂不仅帮助年轻人将理论与现实结合，还能缓解学业压力、增强团队合作能力。',
+        en: 'Stepping outside the classroom not only helps young people connect theory with reality, but also relieves academic pressure and strengthens teamwork.'
+      },
+      {
+        part: '第三段',
+        cn: '基于以上分析，我们可以得出结论：劳动教育值得高校进一步推广。',
+        en: 'Based on the above analysis, we can conclude that labor education deserves wider promotion in universities.'
+      },
+      {
+        part: '第三段',
+        cn: '只有将知识学习与动手实践相结合，大学生才能成长为更独立、更有担当的人才。',
+        en: 'Only by combining academic study with hands-on practice can college students grow into more independent and responsible individuals.'
+      }
+    ]
+  }, null, 2);
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(function () {
+        return fallbackCopy(text);
+      });
+    }
+    return Promise.resolve(fallbackCopy(text));
+  }
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-9999px';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    if (!ok) throw new Error('copy failed');
+  }
+
+  function extractJsonCandidates(raw) {
+    var s = String(raw || '').replace(/^\uFEFF/, '').trim();
+    if (!s) return [];
+    var out = [];
+    var fenceRe = /```(?:json)?\s*([\s\S]*?)```/gi;
+    var fm;
+    while ((fm = fenceRe.exec(s)) !== null) {
+      if (fm[1] && fm[1].trim()) out.push(fm[1].trim());
+    }
+    out.push(s);
+    var firstObj = s.indexOf('{'), lastObj = s.lastIndexOf('}');
+    var firstArr = s.indexOf('['), lastArr = s.lastIndexOf(']');
+    if (firstArr >= 0 && lastArr > firstArr && (firstObj < 0 || firstArr < firstObj)) {
+      out.push(s.slice(firstArr, lastArr + 1));
+    }
+    if (firstObj >= 0 && lastObj > firstObj) {
+      out.push(s.slice(firstObj, lastObj + 1));
+    }
+    return out;
+  }
+
+  function tryParseJson(raw) {
+    var cands = extractJsonCandidates(raw);
+    var lastErr = null;
+    for (var i = 0; i < cands.length; i++) {
+      var str = cands[i];
+      try { return { ok: true, data: JSON.parse(str) }; } catch (e1) { lastErr = e1; }
+      try {
+        var cleaned = str.replace(/,\s*([}\]])/g, '$1');
+        return { ok: true, data: JSON.parse(cleaned) };
+      } catch (e2) { lastErr = e2; }
+    }
+    return { ok: false, error: lastErr ? lastErr.message : '未找到有效的 JSON 结构' };
+  }
+
+  function normalizeImportedArticles(raw) {
+    var trimmed = String(raw || '').trim();
+    if (!trimmed) return { ok: false, empty: true };
+    var parsed = tryParseJson(trimmed);
+    if (!parsed.ok) {
+      return { ok: false, error: 'JSON 格式解析失败：请确认已完整粘贴 AI 输出的 JSON（' + parsed.error + '）' };
+    }
+    var payload = parsed.data;
+    var rawList = [];
+    if (Array.isArray(payload)) rawList = payload;
+    else if (payload && Array.isArray(payload.sets)) rawList = payload.sets;
+    else if (payload && Array.isArray(payload.SETS)) rawList = payload.SETS;
+    else if (payload && typeof payload === 'object') rawList = [payload];
+    else return { ok: false, error: '顶层结构必须是 JSON 对象（包含 name 和 items）或文章数组。' };
+
+    if (!rawList.length) return { ok: false, error: '未包含任何文章条目。' };
+
+    var articles = [];
+    var now = Date.now();
+    for (var a = 0; a < rawList.length; a++) {
+      var obj = rawList[a];
+      var prefix = rawList.length > 1 ? ('第 ' + (a + 1) + ' 篇文章：') : '';
+      if (!obj || typeof obj !== 'object') return { ok: false, error: prefix + '文章结构不是合法对象。' };
+      if (!Array.isArray(obj.items) || !obj.items.length) {
+        return { ok: false, error: prefix + '缺少非空的 items 句子数组。' };
+      }
+      var cleanItems = [];
+      var paraNames = [];
+      var totalWords = 0;
+      for (var i = 0; i < obj.items.length; i++) {
+        var it = obj.items[i];
+        if (!it || typeof it !== 'object') return { ok: false, error: prefix + '第 ' + (i + 1) + ' 条不是合法对象。' };
+        var en = String(it.en || '').replace(/\s+/g, ' ').trim();
+        var cn = String(it.cn || '').replace(/\s+/g, ' ').trim();
+        var part = String(it.part || '第一段').trim() || '第一段';
+        if (!en) return { ok: false, error: prefix + '第 ' + (i + 1) + ' 句缺少英文原文 en。' };
+        var wc = wordList(en).length;
+        if (!wc) return { ok: false, error: prefix + '第 ' + (i + 1) + ' 句的 en 中没有可拼写的英文单词。' };
+        if (!cn) return { ok: false, error: prefix + '第 ' + (i + 1) + ' 句缺少中文参考翻译 cn。' };
+        totalWords += wc;
+        if (paraNames.indexOf(part) === -1) paraNames.push(part);
+        cleanItems.push({ part: part, cn: cn, en: en });
+      }
+      var name = String(obj.name || '').trim() || ('导入文章 ' + new Date(now).toLocaleDateString('zh-CN'));
+      var sub = String(obj.sub || '').trim() || (paraNames.length + ' 段 · ' + cleanItems.length + ' 句 · 约 ' + totalWords + ' 词');
+      var section = typeof obj.section === 'string' ? obj.section.trim() : '';
+      var questionNo = typeof obj.questionNo === 'string' ? obj.questionNo.trim() : '';
+      var promptObj = null;
+      if (obj.prompt && typeof obj.prompt === 'object') {
+        var pTitle = String(obj.prompt.title || '').trim();
+        var pDir = String(obj.prompt.directions || '').trim();
+        var pCharts = Array.isArray(obj.prompt.charts) ? obj.prompt.charts : [];
+        if (pTitle || pDir || pCharts.length) {
+          promptObj = { title: pTitle || name, directions: pDir, charts: pCharts };
+        }
+      }
+      var art = {
+        id: 'cust_' + (now + a).toString(36) + '_' + Math.random().toString(36).slice(2, 6),
+        name: name,
+        group: '导入文章',
+        sub: sub,
+        section: section || 'Section III Writing   Part B',
+        questionNo: questionNo,
+        isCustom: true,
+        importedAt: now,
+        items: cleanItems
+      };
+      if (promptObj) art.prompt = promptObj;
+      articles.push({ set: art, paraCount: paraNames.length, wordCount: totalWords });
+    }
+    return { ok: true, articles: articles };
+  }
+
+  var pendingImportSets = null;
+  function updateImportPreview() {
+    var box = $('importPreview');
+    var submit = $('btnImportSubmit');
+    var raw = $('importInput').value;
+    var res = normalizeImportedArticles(raw);
+    if (res.empty) {
+      pendingImportSets = null;
+      box.className = 'imp-preview';
+      box.innerHTML = '';
+      submit.disabled = true;
+      return;
+    }
+    if (!res.ok) {
+      pendingImportSets = null;
+      box.className = 'imp-preview err';
+      box.textContent = res.error;
+      submit.disabled = true;
+      return;
+    }
+    pendingImportSets = res.articles.map(function (a) { return a.set; });
+    box.className = 'imp-preview ok';
+    var summary = res.articles.map(function (a) {
+      return '《' + esc(a.set.name) + '》（' + a.paraCount + ' 段 · ' + a.set.items.length + ' 句 · ' + a.wordCount + ' 词）';
+    }).join('、');
+    var firstItems = res.articles[0].set.items.slice(0, 2);
+    var previewLis = firstItems.map(function (it) {
+      return '<li><b>[' + esc(it.part) + ']</b> ' + esc(it.cn) + '<br><span style="color:#675b4f">' + esc(it.en) + '</span></li>';
+    }).join('');
+    box.innerHTML = '<div><b>校验通过，可导入 ' + res.articles.length + ' 篇文章：</b>' + summary + '</div>' +
+      (previewLis ? '<ul class="imp-preview-list">' + previewLis + '</ul>' : '');
+    submit.disabled = false;
+  }
+
+  function openImport() {
+    $('aiPromptPre').textContent = AI_IMPORT_PROMPT;
+    $('importModal').hidden = false;
+    updateImportPreview();
+    try { $('importInput').focus(); } catch (e) {}
+  }
+  function closeImport() {
+    $('importModal').hidden = true;
+  }
+  function deleteCustomSet(id) {
+    var target = BY_ID[id];
+    if (!target || !target.isCustom) return;
+    if (!window.confirm('确定删除导入文章《' + target.name + '》吗？（仅删除本文章内容）')) return;
+    CUSTOM_SETS = CUSTOM_SETS.filter(function (s) { return s.id !== id; });
+    saveCustomSets();
+    rebuildRegistry();
+    renderHome();
+  }
+  function exportCustomSet(id) {
+    var target = BY_ID[id];
+    if (!target || !target.isCustom) return;
+    var out = {
+      name: target.name,
+      sub: target.sub,
+      section: target.section || 'Section III Writing   Part B',
+      questionNo: target.questionNo || '',
+      items: target.items
+    };
+    if (target.prompt) out.prompt = target.prompt;
+    var blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = (target.name || 'article').replace(/[\\/:*?"<>|]/g, '_') + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  var copyTimer = null;
+  $('btnCopyAiPrompt').onclick = function () {
+    var btn = $('btnCopyAiPrompt');
+    var lbl = $('btnCopyAiPromptText');
+    copyText(AI_IMPORT_PROMPT).then(function () {
+      btn.classList.add('copied');
+      lbl.textContent = '已复制提示词 ✓ 去粘贴给 AI 吧';
+      if (copyTimer) clearTimeout(copyTimer);
+      copyTimer = setTimeout(function () {
+        btn.classList.remove('copied');
+        lbl.textContent = '一键复制 AI 提示词';
+      }, 2400);
+    }).catch(function () {
+      $('aiPromptPre').hidden = false;
+      $('btnTogglePromptSpec').setAttribute('aria-expanded', 'true');
+      $('btnTogglePromptSpec').textContent = '收起提示词与格式规范';
+      window.alert('浏览器限制自动复制，已为你展开提示词，请手动全选复制。');
+    });
+  };
+  $('btnTogglePromptSpec').onclick = function () {
+    var pre = $('aiPromptPre');
+    var willOpen = pre.hidden;
+    pre.hidden = !willOpen;
+    this.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    this.textContent = willOpen ? '收起提示词与格式规范' : '查看提示词与格式规范';
+  };
+  $('btnImportFile').onclick = function () { $('importFile').click(); };
+  $('importFile').addEventListener('change', function (e) {
+    var file = e.target.files && e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      $('importInput').value = String(reader.result || '');
+      updateImportPreview();
+    };
+    reader.readAsText(file, 'utf-8');
+    e.target.value = '';
+  });
+  $('btnImportSample').onclick = function () {
+    $('importInput').value = IMPORT_SAMPLE_JSON;
+    updateImportPreview();
+  };
+  $('btnImportClear').onclick = function () {
+    $('importInput').value = '';
+    updateImportPreview();
+    try { $('importInput').focus(); } catch (e) {}
+  };
+  $('importInput').addEventListener('input', updateImportPreview);
+  $('btnImportCancel').onclick = closeImport;
+  $('importModal').addEventListener('click', function (e) { if (e.target === this) closeImport(); });
+  $('btnImportSubmit').onclick = function () {
+    if (!pendingImportSets || !pendingImportSets.length) return;
+    var firstNew = pendingImportSets[0];
+    CUSTOM_SETS = pendingImportSets.concat(CUSTOM_SETS);
+    saveCustomSets();
+    rebuildRegistry();
+    $('importInput').value = '';
+    pendingImportSets = null;
+    closeImport();
+    openSet(firstNew.id);
+  };
   $('btnHome').onclick = renderHome;
   $('btnSpeak').onclick = function () { var it = curItem(); if (it) speak(it.en); };
   (function () {
