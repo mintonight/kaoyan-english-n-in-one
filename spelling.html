@@ -309,9 +309,8 @@ button:disabled{opacity:.38;cursor:not-allowed}
 
 <div class="page">
   <header id="hero">
-    <div class="brand"><span class="brand-dot" aria-hidden="true"></span>SPELLING · 看中文写英文</div>
+    <div class="brand"><span class="brand-dot" aria-hidden="true"></span>SPELLING</div>
     <h1>作文句子 &amp; 主题词拼写</h1>
-    <p class="lead">先选一组练习：作文整句，或历年真题/必备主题词。每条横线填一个英文单词，标点不用输入；按空格或回车逐词确认——写对变绿、写错变红、没填是灰色。「按住显示答案」按住才显示，松开后自动清空当前单词以便重新完整拼写；重点句子或易错词可点击「收藏」归入收藏分类专项练习。主题词整理自《英语二历年主题词汇总及拓展》。</p>
     <p class="hstats" id="hstats"></p>
   </header>
 
@@ -399,9 +398,9 @@ button:disabled{opacity:.38;cursor:not-allowed}
   var deviceId = Sync.getDeviceId();
   var spell = Sync.loadSpellingNormalized();
 
-  function saveSpell() {
+  function saveSpell(syncDelayMs) {
     Sync.saveSpellingNormalized(spell);
-    Sync.markDirty();
+    Sync.markDirty(syncDelayMs);
   }
 
   var state = { view: 'home', setId: null, activeSet: null, pos: 0, words: [], originals: [], revealed: false, allOk: false };
@@ -508,6 +507,15 @@ button:disabled{opacity:.38;cursor:not-allowed}
     if (state.view !== 'practice') return;
     var k = key();
     if (!k) return;
+    var latest = Sync.loadSpellingNormalized();
+    if (latest && latest.favorites && typeof latest.favorites === 'object') {
+      var mergedFavs = Object.assign({}, latest.favorites);
+      Object.keys(spell.favorites || {}).forEach(function (fk) {
+        var loc = spell.favorites[fk], curFav = mergedFavs[fk];
+        if (loc && (!curFav || (loc.updatedAt || 0) > (curFav.updatedAt || 0))) mergedFavs[fk] = loc;
+      });
+      spell.favorites = mergedFavs;
+    }
     if (!spell.favorites || typeof spell.favorites !== 'object') spell.favorites = {};
     var cur = spell.favorites[k];
     var nextStarred = !(cur && cur.starred);
@@ -517,7 +525,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
       addedAt: nextStarred ? now : (cur && cur.addedAt ? cur.addedAt : 0),
       updatedAt: now
     };
-    saveSpell();
+    saveSpell(800);
     updateFavButton();
     updateFooter();
   }
@@ -1135,6 +1143,14 @@ button:disabled{opacity:.38;cursor:not-allowed}
 
   window.addEventListener('kaoyan:data-synced', function (ev) {
     if (!ev.detail || !ev.detail.localChanged) return;
+    spell = Sync.loadSpellingNormalized();
+    renderStats();
+    if (state.view === 'home') renderHome();
+    else { refreshProgress(); updateFavButton(); }
+  });
+
+  window.addEventListener('storage', function (ev) {
+    if (ev.key !== Sync.KEYS.SP_LOG && ev.key !== Sync.KEYS.SP_RES) return;
     spell = Sync.loadSpellingNormalized();
     renderStats();
     if (state.view === 'home') renderHome();

@@ -769,14 +769,14 @@
     }, typeof delayMs === 'number' ? delayMs : 4000);
   }
 
-  function markDirty() {
+  function markDirty(delayMs) {
     localChangeSeq++;
     var cfg = saveConfig({ dirty: true });
     if (cfg.token && cfg.autoSync) {
       if (typeof navigator !== 'undefined' && navigator.onLine === false) {
         emitStatus('离线更改已保存到本机，联网后将自动同步', false);
       } else {
-        scheduleAutoSync(4000);
+        scheduleAutoSync(typeof delayMs === 'number' ? delayMs : 4000);
       }
     }
   }
