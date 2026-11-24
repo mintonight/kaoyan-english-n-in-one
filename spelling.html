@@ -10,6 +10,20 @@
 <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <style>
+@font-face{
+  font-family:'ExamHand';
+  src:url('./fonts/mali-latin-400.woff2') format('woff2');
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:'ExamHand';
+  src:url('./fonts/mali-latin-500.woff2') format('woff2');
+  font-weight:500;
+  font-style:normal;
+  font-display:swap;
+}
 :root{
   --bg:#f4eee5; --card:#fdfbf8; --subtle:#f6f0e6; --header:rgba(250,246,240,.90);
   --ink:#1f1914; --muted:#675b4f; --light:#9c8f80;
@@ -20,6 +34,13 @@
   --shadow-sm:0 1px 2px rgba(31,25,20,.04);
   --shadow-md:0 1px 2px rgba(31,25,20,.04),0 10px 26px -14px rgba(45,30,14,.14);
   --shadow-lg:0 4px 12px rgba(31,25,20,.06),0 22px 46px -18px rgba(45,30,14,.22);
+  --sheet-red:#c94633;
+  --sheet-rule:rgba(207,85,59,.84);
+  --sheet-ink:#141414;
+  --sheet-lh:38px;
+  --sheet-font-size:20.5px;
+  --sheet-baseline:31px;
+  --nav-h:54px;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -138,6 +159,21 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:14px 0 10px;letter-spacing:-.02em;lin
 }
 #btnHome:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
 .crumb .path{font-size:12.5px;color:var(--muted);font-weight:500}
+.mode-switch{
+  margin-left:auto;display:inline-flex;align-items:center;gap:2px;
+  padding:3px;border-radius:10px;background:var(--card);border:1px solid var(--line);
+  box-shadow:var(--shadow-sm);
+}
+.mode-btn{
+  border:0;background:transparent;color:var(--muted);font-family:inherit;
+  font-size:12px;font-weight:600;padding:5px 11px;border-radius:7px;cursor:pointer;
+  transition:all .16s;white-space:nowrap;
+}
+.mode-btn:hover{color:var(--ink)}
+.mode-btn.active{
+  background:var(--accent-soft);color:var(--accent);
+  box-shadow:inset 0 0 0 1px var(--accent-border);
+}
 
 /* Essay Prompt & Chart Panel */
 .prompt-card{
@@ -196,12 +232,35 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:14px 0 10px;letter-spacing:-.02em;lin
   margin:0 0 24px;padding:16px 18px;background:var(--subtle);
   border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;
 }
-.cnlabel{font-size:11px;letter-spacing:.16em;color:var(--accent);font-weight:700;display:flex;align-items:center}
+.cn-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.cnlabel{font-size:11px;letter-spacing:.14em;color:var(--accent);font-weight:700;display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.cn-top-actions{display:none;align-items:center;gap:5px;margin-left:auto}
+.cn-mini-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:3px;
+  border:1px solid var(--line);background:rgba(255,255,255,.78);color:var(--muted);
+  font-family:inherit;font-size:11.5px;font-weight:600;height:24px;padding:0 8px;border-radius:99px;
+  cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.cn-mini-btn:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
+.cn-mini-btn.accent{color:var(--accent);border-color:var(--accent-border);background:var(--accent-soft)}
+.cn-mini-btn.accent:hover{background:rgba(168,74,12,.14)}
+.cn-mini-btn:disabled{opacity:.35;cursor:not-allowed}
 .tag{
   font-size:11px;letter-spacing:0;color:var(--accent);background:var(--card);
-  border:1px solid var(--accent-border);padding:1px 8px;border-radius:99px;margin-left:8px;font-weight:600;
+  border:1px solid var(--accent-border);padding:1px 8px;border-radius:99px;font-weight:600;
 }
+.cn-meta-inline{display:none;font-size:11.5px;letter-spacing:.01em;color:var(--muted);font-weight:500;font-variant-numeric:tabular-nums}
+.cn-collapse-btn{
+  display:none;border:1px solid var(--line);background:rgba(255,255,255,.72);color:var(--muted);
+  font-family:inherit;font-size:11.5px;font-weight:600;height:24px;padding:0 9px;border-radius:99px;
+  cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.cn-collapse-btn:hover{color:var(--ink);border-color:var(--line-strong);background:#fff}
 .cn{margin:8px 0 0;font-size:clamp(15.5px,1.9vw,18px);line-height:1.85;color:var(--ink)}
+.cn-progress{display:none;height:2.5px;background:rgba(45,34,22,.08);border-radius:99px;margin-top:10px;overflow:hidden}
+.cn-progress-fill{height:100%;width:0;background:linear-gradient(90deg,#c46218,#a84a0c);border-radius:99px;transition:width .35s ease}
+.cn-float-feedback{display:none;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:13px;line-height:1.55}
+.cn-float-feedback.show{display:block}
 
 .sentence{font-family:Georgia,"Times New Roman",serif;font-size:19.5px;line-height:2.8;padding:8px 2px 2px;min-height:86px;word-wrap:break-word}
 .sp{display:inline-block;width:.45em}
@@ -215,6 +274,237 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:14px 0 10px;letter-spacing:-.02em;lin
 .winput.good{border-bottom-color:var(--ok);color:var(--ok)}
 .winput.bad{border-bottom-color:var(--warn);color:var(--warn);background:rgba(180,35,24,.06)}
 .winput.ghost{border-bottom-color:var(--ok);color:var(--ok);opacity:.62}
+
+/* ---------- Exam Answer Sheet Mode ---------- */
+.exam-sheet-wrap{display:none}
+#practice.is-sheet .card{
+  background:transparent;border:0;border-radius:0;padding:0;box-shadow:none;
+}
+#practice.is-sheet .card > .meta,
+#practice.is-sheet .card > .progress,
+#practice.is-sheet .sentence-classic-wrap{display:none}
+#practice.is-sheet .exam-sheet-wrap{display:block}
+
+/* Floating Chinese Reference Card */
+#practice.is-sheet .cn-float-wrap{
+  position:sticky;top:calc(var(--nav-h) + 10px);z-index:45;
+  margin:0 0 14px;transition:top .26s cubic-bezier(.4,0,.2,1);
+}
+body.nav-hidden #practice.is-sheet .cn-float-wrap{top:10px}
+#practice.is-sheet .cnwrap{
+  margin:0;padding:13px 16px 12px;
+  background:rgba(253,251,248,.92);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(168,74,12,.22);border-left:3.5px solid var(--accent);
+  border-radius:14px;
+  box-shadow:0 10px 28px -12px rgba(45,30,14,.26),0 2px 6px rgba(31,25,20,.06);
+}
+#practice.is-sheet .cn-meta-inline,
+#practice.is-sheet .cn-top-actions,
+#practice.is-sheet .cn-collapse-btn{display:inline-flex}
+#practice.is-sheet .cn-progress{display:block}
+#practice.is-sheet .cn{margin:6px 0 0;font-size:clamp(14.5px,1.75vw,16.5px);line-height:1.72}
+#practice.is-sheet .cnwrap.collapsed{padding:9px 14px}
+#practice.is-sheet .cnwrap.collapsed .cn,
+#practice.is-sheet .cnwrap.collapsed .cn-progress{display:none}
+#practice.is-sheet .cnwrap.collapsed .cn-float-feedback{margin-top:6px;padding-top:6px}
+
+/* Authentic Kaoyan Writing Answer Sheet */
+.sheet-top-bar{
+  display:flex;justify-content:flex-end;align-items:baseline;
+  padding:0 14px 6px;
+}
+.sheet-name-field{
+  display:inline-flex;align-items:baseline;gap:2px;
+  font-family:"Songti SC","SimSun","STSong",Georgia,serif;
+  font-size:13px;font-weight:700;color:var(--sheet-red);letter-spacing:.04em;
+}
+.sheet-name-field input{
+  width:136px;border:0;border-bottom:1.2px solid var(--sheet-red);
+  background:transparent;outline:none;padding:0 6px 1px;
+  font-family:"ExamHand","Kaiti SC","STKaiti","KaiTi",cursive,sans-serif;
+  font-size:15px;color:#1a1a1a;text-align:center;
+}
+.sheet-name-field input:focus{background:rgba(201,70,51,.06)}
+
+.sheet-outer{
+  background:#fffefb;
+  border:1.5px solid var(--sheet-red);
+  border-radius:14px;
+  padding:11px 13px 6px;
+  box-shadow:0 2px 4px rgba(31,25,20,.04),0 18px 42px -20px rgba(45,30,14,.22);
+}
+.sheet-inner{
+  border:1.5px solid #1c1c1c;
+  background:#fffefb;
+  padding:18px 28px 26px;
+}
+.sheet-header{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  margin-bottom:12px;
+}
+.sheet-section-title{
+  font-family:"Times New Roman",Times,Georgia,serif;
+  font-size:14.5px;font-weight:700;color:#151515;letter-spacing:.01em;
+}
+.sheet-header-right{display:inline-flex;align-items:center;gap:10px}
+.sheet-wordcount{
+  font-size:11.5px;color:#8a7e72;font-variant-numeric:tabular-nums;font-weight:500;
+}
+.sheet-mini-btn{
+  border:1px solid rgba(45,34,22,.14);background:rgba(246,240,230,.55);color:var(--muted);
+  font-family:inherit;font-size:11px;font-weight:600;padding:2px 9px;border-radius:99px;
+  cursor:pointer;transition:all .15s;
+}
+.sheet-mini-btn:hover{color:var(--accent);border-color:var(--accent-border);background:var(--accent-soft)}
+
+.sheet-lines{
+  position:relative;
+  font-family:'ExamHand','Segoe Print','Comic Sans MS',cursive,sans-serif;
+  font-size:var(--sheet-font-size);
+  font-weight:400;
+  line-height:var(--sheet-lh);
+  color:var(--sheet-ink);
+  letter-spacing:.005em;
+  min-height:calc(var(--sheet-lh) * 12);
+  background-image:repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(var(--sheet-baseline) - 1.3px),
+    var(--sheet-rule) calc(var(--sheet-baseline) - 1.3px),
+    var(--sheet-rule) var(--sheet-baseline),
+    transparent var(--sheet-baseline),
+    transparent var(--sheet-lh)
+  );
+  background-size:100% var(--sheet-lh);
+  background-position:0 0;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
+}
+.sheet-para{
+  margin:0 0 var(--sheet-lh) 0;
+  padding:0;
+}
+.sheet-para:last-child{margin-bottom:0}
+.sheet-vocab-row{
+  margin:0;padding:0;
+}
+.sheet-qnum{
+  font-family:"Times New Roman",Times,Georgia,serif;
+  font-size:18.5px;font-weight:700;color:#151515;
+  margin-right:6px;letter-spacing:0;
+}
+.sheet-vnum{
+  font-family:"Times New Roman",Times,Georgia,serif;
+  font-size:15px;font-weight:700;color:#6c6055;
+  margin-right:8px;
+}
+.sheet-done{
+  color:var(--sheet-ink);cursor:pointer;border-radius:3px;
+  transition:background .15s;
+}
+.sheet-done:hover{background:rgba(168,74,12,.09)}
+.sheet-done.sheet-done-prev{color:#262626}
+.sheet-done.sheet-done-partial{color:#5c5248}
+.sheet-pending{
+  display:inline;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;
+  font-size:12px;color:#b4a595;background:rgba(207,85,59,.06);
+  border-radius:4px;padding:1px 6px;cursor:pointer;vertical-align:1px;
+  transition:all .15s;
+}
+.sheet-pending:hover{color:var(--accent);background:var(--accent-soft)}
+.sheet-sent-gap{display:inline-block;width:.36em}
+.sheet-active{
+  scroll-margin-top:168px;scroll-margin-bottom:110px;
+}
+
+/* Handwriting Inputs on the Ruled Answer Sheet */
+.sheet-lines .sp{display:inline-block;width:.32em}
+.sheet-lines .punct{
+  font-family:'ExamHand',Georgia,serif;
+  color:var(--sheet-ink);padding:0;
+}
+.sheet-lines .winput{
+  -webkit-appearance:none;appearance:none;
+  font-family:'ExamHand','Segoe Print','Comic Sans MS',cursive,sans-serif;
+  font-size:var(--sheet-font-size);
+  font-weight:400;
+  color:var(--sheet-ink);
+  caret-color:#151515;
+  letter-spacing:.005em;
+  background:rgba(168,74,12,.055);
+  border:0;
+  border-radius:3px;
+  outline:none;
+  padding:0 2px;
+  margin:0;
+  height:1.42em;
+  line-height:1.42em;
+  text-align:center;
+  width:3.2em;
+  min-width:16px;
+  vertical-align:baseline;
+  box-shadow:inset 0 -1.5px 0 rgba(168,74,12,.24);
+  transition:background .14s,box-shadow .14s,color .14s;
+  scroll-margin-top:172px;scroll-margin-bottom:110px;
+}
+.sheet-lines .winput.has-val{text-align:left}
+.sheet-lines .winput:focus{
+  background:rgba(217,119,6,.13);
+  box-shadow:inset 0 -2px 0 rgba(168,74,12,.72);
+}
+.sheet-lines .winput.good{
+  color:var(--sheet-ink);
+  background:transparent;
+  box-shadow:none;
+}
+.sheet-lines .winput.good:focus{
+  background:rgba(22,101,52,.07);
+  box-shadow:inset 0 -2px 0 rgba(22,101,52,.52);
+}
+.sheet-lines .winput.bad{
+  color:#b91c1c;
+  background:rgba(185,28,28,.08);
+  box-shadow:inset 0 -2px 0 rgba(185,28,28,.7);
+}
+.sheet-lines .winput.ghost{
+  color:rgba(24,24,24,.42);
+  background:rgba(45,34,22,.03);
+  box-shadow:none;
+  opacity:1;
+}
+.sheet-warning{
+  font-family:"Songti SC","SimSun","STSong",Georgia,serif;
+  font-size:12px;font-weight:700;color:var(--sheet-red);
+  text-align:center;letter-spacing:.05em;
+  padding:6px 8px 2px;line-height:1.45;
+}
+.sheet-complete-banner{
+  margin-top:14px;padding:11px 16px;border-radius:12px;
+  background:rgba(22,101,52,.07);border:1px solid rgba(22,101,52,.22);
+  color:var(--ok);font-size:13px;font-weight:600;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+}
+.sheet-measure{
+  position:fixed;top:-9999px;left:-9999px;visibility:hidden;pointer-events:none;white-space:pre;
+  font-family:'ExamHand','Segoe Print','Comic Sans MS',cursive,sans-serif;
+  font-size:var(--sheet-font-size);font-weight:400;letter-spacing:.005em;
+}
+
+/* Control Dock below Answer Sheet in Sheet Mode */
+#practice.is-sheet .practice-dock{
+  margin-top:16px;padding:15px 18px 14px;
+  background:var(--card);
+  border:1px solid var(--line);border-radius:16px;
+  box-shadow:var(--shadow-sm);
+}
+#practice.is-sheet .practice-dock .feedback{display:none !important}
+#practice.is-sheet .practice-dock .tools{margin:0 0 8px;gap:7px}
+#practice.is-sheet .practice-dock .tbtn{padding:6px 12px;font-size:12.5px}
+#practice.is-sheet .practice-dock .keyhint{margin:8px 0 0;font-size:11.5px;line-height:1.85}
+#practice.is-sheet .practice-dock .nav{margin-top:12px;padding-top:12px}
+#practice.is-sheet .practice-dock button.primary{padding:9px 24px;font-size:13.5px}
+#practice.is-sheet .practice-dock button.ghost2{padding:9px 15px;font-size:12.5px}
 
 .tools{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 10px}
 .tbtn{
@@ -315,6 +605,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
 .wrong-num{color:var(--warn);font-variant-numeric:tabular-nums;white-space:nowrap;font-size:12.5px}
 
 @media (max-width:640px){
+  :root{--sheet-lh:34px;--sheet-font-size:18px;--sheet-baseline:27.5px;--nav-h:48px}
   .nb-sub{display:none}
   .topnav-inner{padding:8px 12px;min-height:48px}
   .nav-home,.nb-badge{font-size:11.5px;padding:4px 8px}
@@ -322,6 +613,14 @@ button:disabled{opacity:.38;cursor:not-allowed}
   .page{padding:28px 14px 72px}
   .card{padding:20px 16px 18px;border-radius:16px}
   .sentence,.winput{font-size:17px}
+  .sheet-outer{padding:8px 8px 5px;border-radius:11px}
+  .sheet-inner{padding:14px 13px 18px}
+  .sheet-lines{min-height:calc(var(--sheet-lh) * 10)}
+  .sheet-warning{font-size:10.5px;letter-spacing:.02em}
+  .sheet-qnum{font-size:16.5px}
+  #practice.is-sheet .cnwrap{padding:10px 12px}
+  #practice.is-sheet .practice-dock{padding:12px 12px 11px}
+  #practice.is-sheet .practice-dock .keyhint{display:none}
   .grid{grid-template-columns:1fr 1fr;gap:10px}
   .dcard{padding:13px 13px}
   .nav button{padding:9px 15px}
@@ -366,30 +665,81 @@ button:disabled{opacity:.38;cursor:not-allowed}
     <div class="crumb">
       <button id="btnHome"><i data-lucide="arrow-left" data-size="14"></i><span>目录</span></button>
       <span class="path" id="crumbText"></span>
+      <div class="mode-switch" id="modeSwitch" role="group" aria-label="练习视图切换">
+        <button type="button" class="mode-btn active" data-mode="sheet" aria-pressed="true">答题卡</button>
+        <button type="button" class="mode-btn" data-mode="card" aria-pressed="false">简洁卡片</button>
+      </div>
     </div>
     <div class="prompt-card" id="essayPrompt" hidden></div>
-    <div class="card">
+    <div class="card" id="practiceCard">
       <div class="meta"><span id="metaLeft"></span><span id="metaRight"></span></div>
       <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="cnwrap">
-        <div class="cnlabel">中文<span class="tag" id="partTag"></span></div>
-        <p class="cn" id="cn"></p>
+
+      <div class="cn-float-wrap" id="cnFloatWrap">
+        <div class="cnwrap" id="cnWrap">
+          <div class="cn-top">
+            <div class="cnlabel">
+              <span>中文参考</span>
+              <span class="tag" id="partTag"></span>
+              <span class="cn-meta-inline" id="cnMetaInline"></span>
+            </div>
+            <div class="cn-top-actions">
+              <button type="button" class="cn-mini-btn" id="btnFloatPrev" title="上一句">上一句</button>
+              <button type="button" class="cn-mini-btn accent" id="btnFloatCheck" title="检查本句">检查</button>
+              <button type="button" class="cn-mini-btn" id="btnFloatNext" title="下一句">下一句</button>
+              <button type="button" class="cn-collapse-btn" id="btnCnCollapse" aria-expanded="true" title="收起或展开浮动中文参考">收起</button>
+            </div>
+          </div>
+          <p class="cn" id="cn"></p>
+          <div class="cn-progress"><div class="cn-progress-fill" id="cnProgressFill"></div></div>
+          <div class="cn-float-feedback" id="cnFloatFeedback"></div>
+        </div>
       </div>
-      <div class="sentence" id="sentence"></div>
-      <div class="tools">
-        <button class="tbtn" id="btnSpeak"><i data-lucide="volume-2" data-size="14"></i><span>朗读答案</span></button>
-        <button class="tbtn" id="btnReveal" title="按住显示答案，松开后清空当前单词以便重新拼写"><i data-lucide="eye" data-size="14"></i><span>按住显示答案</span></button>
-        <button class="tbtn" id="btnClear"><i data-lucide="eraser" data-size="14"></i><span>清空本句</span></button>
-        <button class="tbtn" id="btnFav" aria-pressed="false"><svg class="lucide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg><span id="btnFavText">收藏</span></button>
+
+      <div class="sentence-classic-wrap">
+        <div class="sentence" id="sentenceClassic"></div>
       </div>
-      <p class="keyhint" id="keyHint"></p>
-      <div class="feedback" id="feedback"></div>
-      <div class="nav">
-        <button class="ghost2" id="btnPrev"><i data-lucide="arrow-left" data-size="14"></i><span>上一句</span></button>
-        <button class="primary" id="btnCheck"><i data-lucide="check" data-size="15"></i><span>检查</span></button>
-        <button class="ghost2" id="btnNext"><span>下一句</span><i data-lucide="arrow-right" data-size="14"></i></button>
+
+      <div class="exam-sheet-wrap" id="examSheetWrap">
+        <div class="sheet-top-bar">
+          <label class="sheet-name-field">
+            <span>考生姓名：</span>
+            <input type="text" id="sheetNameInput" maxlength="20" autocomplete="off" spellcheck="false" aria-label="考生姓名">
+          </label>
+        </div>
+        <div class="sheet-outer">
+          <div class="sheet-inner">
+            <div class="sheet-header">
+              <div class="sheet-section-title" id="sheetSectionTitle">Section III Writing &nbsp;&nbsp; Part B</div>
+              <div class="sheet-header-right">
+                <span class="sheet-wordcount" id="sheetWordCount"></span>
+                <button type="button" class="sheet-mini-btn" id="btnSheetReset" title="清空当前答题卡的已写内容，重新默写">重新默写</button>
+              </div>
+            </div>
+            <div class="sheet-lines" id="sheetLines"></div>
+          </div>
+          <div class="sheet-warning">必须使用黑色字迹书写；在答题卡区域内作答，超出黑色矩形边框限定区域的答案无效</div>
+        </div>
+        <div class="sheet-complete-banner" id="sheetCompleteBanner" hidden></div>
+      </div>
+
+      <div class="practice-dock" id="practiceDock">
+        <div class="tools">
+          <button class="tbtn" id="btnSpeak"><i data-lucide="volume-2" data-size="14"></i><span>朗读答案</span></button>
+          <button class="tbtn" id="btnReveal" title="按住显示答案，松开后清空当前单词以便重新拼写"><i data-lucide="eye" data-size="14"></i><span>按住显示答案</span></button>
+          <button class="tbtn" id="btnClear"><i data-lucide="eraser" data-size="14"></i><span>清空本句</span></button>
+          <button class="tbtn" id="btnFav" aria-pressed="false"><svg class="lucide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg><span id="btnFavText">收藏</span></button>
+        </div>
+        <p class="keyhint" id="keyHint"></p>
+        <div class="feedback" id="feedback"></div>
+        <div class="nav">
+          <button class="ghost2" id="btnPrev"><i data-lucide="arrow-left" data-size="14"></i><span>上一句</span></button>
+          <button class="primary" id="btnCheck"><i data-lucide="check" data-size="15"></i><span>检查</span></button>
+          <button class="ghost2" id="btnNext"><span>下一句</span><i data-lucide="arrow-right" data-size="14"></i></button>
+        </div>
       </div>
     </div>
+    <span class="sheet-measure" id="sheetMeasure" aria-hidden="true"></span>
   </section>
 
   <footer class="foot"><span id="footStats"></span><button id="btnReset" class="linkbtn">清除练习记录</button></footer>
@@ -450,11 +800,60 @@ button:disabled{opacity:.38;cursor:not-allowed}
     Sync.markDirty(syncDelayMs);
   }
 
-  var state = { view: 'home', setId: null, activeSet: null, pos: 0, words: [], originals: [], revealed: false, allOk: false, promptOpen: true };
+  var MODE_LS = 'kaoyan-spelling-view-mode';
+  var NAME_LS = 'kaoyan-spelling-sheet-name';
+  var savedMode = 'sheet';
+  try { var _m = localStorage.getItem(MODE_LS); if (_m === 'card' || _m === 'sheet') savedMode = _m; } catch (e) {}
+
+  var state = {
+    view: 'home', setId: null, activeSet: null, pos: 0,
+    words: [], originals: [], revealed: false, allOk: false,
+    promptOpen: true, mode: savedMode, cnCollapsed: false,
+    drafts: Object.create(null), sheetResetSets: Object.create(null)
+  };
   function $(id) { return document.getElementById(id); }
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function curSet() { return state.activeSet || BY_ID[state.setId] || null; }
   function curItem() { var s = curSet(); return s ? s.items[state.pos] : null; }
+  function isEssaySet(set) { return !!(set && !set.isFav && set.group === '作文句子'); }
+  function extractQuestionNo(set) {
+    if (!isEssaySet(set)) return '';
+    var dir = set.prompt && set.prompt.directions ? String(set.prompt.directions) : '';
+    var m = /^\s*(\d+\.)/.exec(dir);
+    return m ? m[1] : '48.';
+  }
+  function extractSectionTitle(set) {
+    if (isEssaySet(set)) return 'Section III Writing \u00A0\u00A0 Part B';
+    if (set && set.isFav) return 'Section III Writing \u00A0\u00A0 Favorites';
+    return 'Section III Writing \u00A0\u00A0 Topic Words';
+  }
+  function sentenceHost() {
+    return state.mode === 'sheet' ? $('sheetActiveSentence') : $('sentenceClassic');
+  }
+  function setFeedback(show, html) {
+    var fb = $('feedback');
+    if (fb) { fb.className = show ? 'feedback show' : 'feedback'; fb.innerHTML = html || ''; }
+    var cfb = $('cnFloatFeedback');
+    if (cfb) { cfb.className = show ? 'cn-float-feedback show' : 'cn-float-feedback'; cfb.innerHTML = html || ''; }
+  }
+  function syncModeUI() {
+    var isSheet = state.mode === 'sheet';
+    $('practice').classList.toggle('is-sheet', isSheet);
+    document.body.classList.toggle('in-sheet-practice', state.view === 'practice' && isSheet);
+    var btns = document.querySelectorAll('#modeSwitch .mode-btn');
+    Array.prototype.forEach.call(btns, function (b) {
+      var active = b.getAttribute('data-mode') === state.mode;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  }
+  function syncCnCollapseUI() {
+    var wrap = $('cnWrap'), btn = $('btnCnCollapse');
+    if (!wrap || !btn) return;
+    wrap.classList.toggle('collapsed', !!state.cnCollapsed);
+    btn.setAttribute('aria-expanded', state.cnCollapsed ? 'false' : 'true');
+    btn.textContent = state.cnCollapsed ? '展开' : '收起';
+  }
   function itemKey(set, pos) {
     if (!set) return '';
     var it = set.items && set.items[pos];
@@ -603,8 +1002,220 @@ button:disabled{opacity:.38;cursor:not-allowed}
     }
     return html;
   }
-  function inputs() { return Array.prototype.slice.call($('sentence').querySelectorAll('.winput')); }
-  function fit(inp) { inp.style.width = Math.max(5, inp.value.length * 0.62 + 0.9).toFixed(2) + 'em'; }
+  function inputs() {
+    var host = sentenceHost();
+    return host ? Array.prototype.slice.call(host.querySelectorAll('.winput')) : [];
+  }
+  function fit(inp) {
+    if (state.mode === 'sheet') {
+      var val = inp.value;
+      if (!val) {
+        inp.classList.remove('has-val');
+        inp.style.width = '3.2em';
+        return;
+      }
+      inp.classList.add('has-val');
+      var m = $('sheetMeasure');
+      if (m) {
+        m.textContent = val;
+        var w = m.getBoundingClientRect().width;
+        inp.style.width = Math.max(18, Math.ceil(w) + 6) + 'px';
+        return;
+      }
+      inp.style.width = Math.max(1.6, val.length * 0.58 + 0.5).toFixed(2) + 'em';
+      return;
+    }
+    inp.classList.remove('has-val');
+    inp.style.width = Math.max(5, inp.value.length * 0.62 + 0.9).toFixed(2) + 'em';
+  }
+  function fitAll() { inputs().forEach(fit); }
+  function saveCurrentDraft() {
+    if (state.view !== 'practice') return;
+    var k = key();
+    if (!k) return;
+    var list = inputs();
+    if (!list.length) return;
+    var vals = [], hasAny = false, allGood = true;
+    for (var i = 0; i < list.length; i++) {
+      var v = String(list[i].value || '');
+      vals.push(v);
+      if (v.trim()) hasAny = true;
+      if (norm(v.trim()) !== list[i].getAttribute('data-norm')) allGood = false;
+    }
+    if (hasAny || state.allOk) {
+      state.drafts[k] = { values: vals, hasAny: hasAny, allOk: !!(state.allOk || (hasAny && allGood)) };
+    } else {
+      delete state.drafts[k];
+    }
+  }
+  function restoreDraftToInputs(k) {
+    var d = state.drafts[k];
+    if (!d || !d.values) return;
+    var list = inputs();
+    for (var i = 0; i < list.length; i++) {
+      var v = d.values[i] || '';
+      if (v) {
+        list[i].value = v;
+        fit(list[i]);
+        commit(list[i]);
+      }
+    }
+    if (d.allOk) state.allOk = true;
+  }
+  function buildPartialSentenceHtml(enText, vals) {
+    var html = '', i = 0, wi = 0;
+    while (i < enText.length) {
+      var w = wordAt(enText, i);
+      if (w) {
+        var typed = (vals && vals[wi]) ? String(vals[wi]).trim() : '';
+        html += typed ? esc(typed) : '<span style="color:#c4b3a1">____</span>';
+        wi++; i += w.length;
+      } else if (enText.charAt(i) === ' ') {
+        html += ' '; i++;
+      } else {
+        html += esc(enText.charAt(i)); i++;
+      }
+    }
+    return html;
+  }
+  function countWordsInText(text) { return wordList(text || '').length; }
+  function updateSheetMeta(set) {
+    if (state.mode !== 'sheet' || !set) return;
+    var totalWords = 0, writtenWords = 0, completedSents = 0;
+    var resetThisSet = !!state.sheetResetSets[set.id];
+    for (var i = 0; i < set.items.length; i++) {
+      var it = set.items[i];
+      var wc = countWordsInText(it.en);
+      totalWords += wc;
+      var k = itemKey(set, i);
+      var d = state.drafts[k];
+      if (i === state.pos) {
+        var list = inputs();
+        var filled = 0, good = 0;
+        list.forEach(function (inp) {
+          var v = String(inp.value || '').trim();
+          if (v) filled++;
+          if (v && norm(v) === inp.getAttribute('data-norm')) good++;
+        });
+        writtenWords += filled;
+        if (list.length && good === list.length) completedSents++;
+      } else if (d && d.allOk) {
+        writtenWords += wc;
+        completedSents++;
+      } else if (d && d.hasAny) {
+        d.values.forEach(function (v) { if (String(v || '').trim()) writtenWords++; });
+      } else if (i < state.pos && !resetThisSet && spell.results[k] === 'ok') {
+        writtenWords += wc;
+        completedSents++;
+      }
+    }
+    var wcEl = $('sheetWordCount');
+    if (wcEl) {
+      wcEl.textContent = isEssaySet(set)
+        ? ('已写 ' + writtenWords + ' / ' + totalWords + ' 词 · ' + completedSents + ' / ' + set.items.length + ' 句')
+        : ('已写 ' + completedSents + ' / ' + set.items.length + ' 项');
+    }
+    var banner = $('sheetCompleteBanner');
+    if (banner) {
+      if (isEssaySet(set) && completedSents === set.items.length && set.items.length > 0) {
+        banner.hidden = false;
+        banner.innerHTML = '<span>整篇作文已拼写完成（共 ' + totalWords + ' 词），答题卡已完整呈现！</span>' +
+          '<button type="button" class="sheet-mini-btn" id="btnBannerReset">清空重新默写</button>';
+        var br = $('btnBannerReset');
+        if (br) br.onclick = resetCurrentSheet;
+      } else {
+        banner.hidden = true;
+        banner.innerHTML = '';
+      }
+    }
+  }
+  function renderSheet(set) {
+    var box = $('sheetLines');
+    if (!box || !set) return;
+    $('sheetSectionTitle').textContent = extractSectionTitle(set);
+    var resetThisSet = !!state.sheetResetSets[set.id];
+    var html = '';
+
+    if (isEssaySet(set)) {
+      var paras = [];
+      var curPart = null, curGroup = null;
+      for (var i = 0; i < set.items.length; i++) {
+        var partName = set.items[i].part || ('P' + i);
+        if (partName !== curPart) {
+          curPart = partName;
+          curGroup = { part: partName, indices: [] };
+          paras.push(curGroup);
+        }
+        curGroup.indices.push(i);
+      }
+      var qnum = extractQuestionNo(set);
+      paras.forEach(function (pg, pIdx) {
+        var segs = [];
+        pg.indices.forEach(function (idx) {
+          var item = set.items[idx];
+          var k = itemKey(set, idx);
+          if (idx === state.pos) {
+            segs.push('<span class="sheet-active" id="sheetActiveSentence">' + buildSentence(item.en) + '</span>');
+            return;
+          }
+          var d = state.drafts[k];
+          if (d && d.allOk) {
+            segs.push('<span class="sheet-done" data-jump-pos="' + idx + '" title="点击回到第 ' + (idx + 1) + ' 句重新拼写">' + esc(item.en) + '</span>');
+          } else if (d && d.hasAny) {
+            segs.push('<span class="sheet-done sheet-done-partial" data-jump-pos="' + idx + '" title="点击继续拼写第 ' + (idx + 1) + ' 句">' + buildPartialSentenceHtml(item.en, d.values) + '</span>');
+          } else if (idx < state.pos && !resetThisSet && spell.results[k] === 'ok') {
+            segs.push('<span class="sheet-done sheet-done-prev" data-jump-pos="' + idx + '" title="已掌握 · 点击重新拼写第 ' + (idx + 1) + ' 句">' + esc(item.en) + '</span>');
+          } else if (idx < state.pos) {
+            segs.push('<span class="sheet-pending" data-jump-pos="' + idx + '" title="点击补写第 ' + (idx + 1) + ' 句">[ 第 ' + (idx + 1) + ' 句待写 ]</span>');
+          }
+        });
+        if (segs.length) {
+          html += '<p class="sheet-para">' +
+            (pIdx === 0 && qnum ? '<span class="sheet-qnum">' + esc(qnum) + '</span>' : '') +
+            segs.join('<span class="sheet-sent-gap"></span>') +
+          '</p>';
+        }
+      });
+    } else {
+      for (var j = 0; j < set.items.length; j++) {
+        var vItem = set.items[j];
+        var vk = itemKey(set, j);
+        var vd = state.drafts[vk];
+        var rowContent = '';
+        if (j === state.pos) {
+          rowContent = '<span class="sheet-active" id="sheetActiveSentence">' + buildSentence(vItem.en) + '</span>';
+        } else if (vd && vd.allOk) {
+          rowContent = '<span class="sheet-done" data-jump-pos="' + j + '" title="点击重新拼写第 ' + (j + 1) + ' 项">' + esc(vItem.en) + '</span>';
+        } else if (vd && vd.hasAny) {
+          rowContent = '<span class="sheet-done sheet-done-partial" data-jump-pos="' + j + '" title="点击继续拼写第 ' + (j + 1) + ' 项">' + buildPartialSentenceHtml(vItem.en, vd.values) + '</span>';
+        } else if (j < state.pos && !resetThisSet && spell.results[vk] === 'ok') {
+          rowContent = '<span class="sheet-done sheet-done-prev" data-jump-pos="' + j + '" title="已掌握 · 点击重新拼写第 ' + (j + 1) + ' 项">' + esc(vItem.en) + '</span>';
+        }
+        if (rowContent) {
+          html += '<div class="sheet-vocab-row"><span class="sheet-vnum">' + (j + 1) + '.</span>' + rowContent + '</div>';
+        }
+      }
+    }
+    box.innerHTML = html;
+  }
+  function resetCurrentSheet() {
+    var set = curSet();
+    if (!set) return;
+    for (var i = 0; i < set.items.length; i++) {
+      delete state.drafts[itemKey(set, i)];
+    }
+    state.sheetResetSets[set.id] = true;
+    state.pos = 0;
+    renderPractice();
+    window.scrollTo(0, 0);
+  }
+  function jumpToPos(targetPos) {
+    var set = curSet();
+    if (!set || targetPos < 0 || targetPos >= set.items.length || targetPos === state.pos) return;
+    saveCurrentDraft();
+    state.pos = targetPos;
+    renderPractice(true);
+  }
   function commit(inp) {
     var v = inp.value.replace(/\s+/g, ' ').trim();
     inp.classList.remove('good', 'bad', 'ghost');
@@ -630,13 +1241,19 @@ button:disabled{opacity:.38;cursor:not-allowed}
     return '<svg class="lucide" width="' + s + '" height="' + s + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + STAR_PATH + '</svg>';
   }
 
+  var rendering = false;
+
   /* ---------- Home ---------- */
   function renderHome() {
+    saveCurrentDraft();
+    rendering = true;
     state.view = 'home';
     state.activeSet = null;
+    document.body.classList.remove('in-sheet-practice');
     $('hero').style.display = 'block';
     $('practice').hidden = true;
     $('home').hidden = false;
+    rendering = false;
 
     var totalItems = 0, totalMastered = 0;
     SETS.forEach(function (s) { totalItems += s.items.length; totalMastered += masteredCount(s); });
@@ -743,13 +1360,16 @@ button:disabled{opacity:.38;cursor:not-allowed}
     window.scrollTo(0, 0);
   }
 
-  function renderPractice() {
+  function renderPractice(keepScroll) {
     var set = curSet(), it = curItem();
     if (!set || !it) { renderHome(); return; }
+    rendering = true;
     state.view = 'practice';
     $('hero').style.display = 'none';
     $('home').hidden = true;
     $('practice').hidden = false;
+    syncModeUI();
+    syncCnCollapseUI();
 
     $('crumbText').textContent = set.group + ' / ' + set.name;
     renderEssayPrompt(set, it);
@@ -759,27 +1379,46 @@ button:disabled{opacity:.38;cursor:not-allowed}
     state.allOk = false;
     lastFocusedInput = null;
 
+    var progressMeta = '第 ' + (state.pos + 1) + ' / ' + set.items.length + ' 项 · ' + state.words.length + ' 个单词';
     $('metaLeft').textContent = (set.isFav && it._setName) ? (set.name + ' · 来自 ' + it._setName) : set.name;
-    $('metaRight').textContent = '第 ' + (state.pos + 1) + ' / ' + set.items.length + ' 项 · ' + state.words.length + ' 个单词';
+    $('metaRight').textContent = progressMeta;
+    $('cnMetaInline').textContent = '· ' + progressMeta;
     $('partTag').textContent = it.part || '';
     $('partTag').style.display = it.part ? 'inline-block' : 'none';
     $('cn').textContent = it.cn;
-    $('sentence').innerHTML = buildSentence(it.en);
 
+    if (state.mode === 'sheet') {
+      $('sentenceClassic').innerHTML = '';
+      renderSheet(set);
+    } else {
+      $('sheetLines').innerHTML = '';
+      $('sentenceClassic').innerHTML = buildSentence(it.en);
+    }
+
+    restoreDraftToInputs(key());
     refreshProgress();
     updateFavButton();
+    updateSheetMeta(set);
     $('btnPrev').disabled = state.pos === 0;
+    if ($('btnFloatPrev')) $('btnFloatPrev').disabled = state.pos === 0;
     var isLastOfSet = state.pos + 1 >= set.items.length;
     var idx = SETS.indexOf(set);
     var hasNextSet = idx >= 0 && idx + 1 < SETS.length;
     var nextLabel = isLastOfSet ? (hasNextSet ? '下一组' : '返回目录') : '下一句';
     $('btnNext').innerHTML = '<span>' + nextLabel + '</span>' + (window.LucideIcons ? window.LucideIcons.svg('arrow-right', { size: 14 }) : '');
+    if ($('btnFloatNext')) $('btnFloatNext').textContent = nextLabel;
 
-    var fb = $('feedback');
-    fb.className = 'feedback'; fb.innerHTML = '';
+    setFeedback(false, '');
 
     bindInputs();
+    rendering = false;
     focusFirst();
+    if (keepScroll && state.mode === 'sheet') {
+      var activeWrap = $('sheetActiveSentence');
+      if (activeWrap && activeWrap.scrollIntoView) {
+        try { activeWrap.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) {}
+      }
+    }
     renderKeyHint();
   }
 
@@ -789,8 +1428,9 @@ button:disabled{opacity:.38;cursor:not-allowed}
         inp.classList.remove('bad', 'ghost');
         fit(inp);
         var v = inp.value.trim();
-        if (!v) { inp.classList.remove('good'); return; }
+        if (!v) { inp.classList.remove('good'); updateSheetMeta(curSet()); return; }
         inp.classList.toggle('good', norm(v) === inp.getAttribute('data-norm'));
+        updateSheetMeta(curSet());
       });
       inp.addEventListener('keydown', function (e) {
         if (e.key === ' ' && !e.ctrlKey && !e.altKey && !e.metaKey) {
@@ -803,7 +1443,10 @@ button:disabled{opacity:.38;cursor:not-allowed}
           else if (r === 'empty') { focusNext(inp); }
         }
       });
-      inp.addEventListener('blur', function () { if (holdActive) return; commit(inp); maybeComplete(); });
+      inp.addEventListener('blur', function () {
+        if (holdActive || rendering || !document.body.contains(inp)) return;
+        commit(inp); maybeComplete(); saveCurrentDraft(); updateSheetMeta(curSet());
+      });
       inp.addEventListener('focus', function () { lastFocusedInput = inp; if (inp.value) inp.select(); });
     });
   }
@@ -829,11 +1472,11 @@ button:disabled{opacity:.38;cursor:not-allowed}
     entry.lastResult = 'ok';
     entry.lastAt = new Date(now).toISOString();
     saveSpell();
-    var fb = $('feedback');
-    fb.className = 'feedback show';
+    saveCurrentDraft();
     var okIco = window.LucideIcons ? window.LucideIcons.svg('check-circle-2', { size: 16 }) : '';
-    fb.innerHTML = '<div class="fb-ok">' + okIco + '<span>全部正确，' + list.length + ' 个单词都拼对了！</span></div>';
+    setFeedback(true, '<div class="fb-ok">' + okIco + '<span>全部正确，' + list.length + ' 个单词都拼对了！</span></div>');
     refreshProgress();
+    updateSheetMeta(curSet());
   }
 
   function recordSpell(list, wrong, empty) {
@@ -876,25 +1519,30 @@ button:disabled{opacity:.38;cursor:not-allowed}
     var list = inputs(); var wrong = 0, empty = 0;
     list.forEach(function (inp) { var r = commit(inp); if (r === 'bad') wrong++; else if (r === 'empty') empty++; });
     recordSpell(list, wrong, empty);
-    var fb = $('feedback'); fb.className = 'feedback show';
     if (wrong === 0 && empty === 0) {
       state.allOk = true;
+      saveCurrentDraft();
       var okIco = window.LucideIcons ? window.LucideIcons.svg('check-circle-2', { size: 16 }) : '';
-      fb.innerHTML = !state.revealed
+      setFeedback(true, !state.revealed
         ? '<div class="fb-ok">' + okIco + '<span>全部正确，' + list.length + ' 个单词都拼对了！</span></div>'
-        : '<div class="fb-ok">' + okIco + '<span>全部正确（显示过答案，本项不计分）</span></div>';
+        : '<div class="fb-ok">' + okIco + '<span>全部正确（显示过答案，本项不计分）</span></div>');
       refreshProgress();
+      updateSheetMeta(curSet());
     } else {
+      saveCurrentDraft();
       var parts = [];
       if (wrong) parts.push('<b>' + wrong + '</b> 个单词有误');
       if (empty) parts.push('<b>' + empty + '</b> 个单词还没写');
-      fb.innerHTML = '<div class="fb-bad">还有 ' + parts.join('、') + '，红线和灰线处再改一改。</div>';
+      setFeedback(true, '<div class="fb-bad">还有 ' + parts.join('、') + '，标红或空白处再改一改。</div>');
+      updateSheetMeta(curSet());
     }
   }
 
   function refreshProgress() {
     var set = curSet(); if (!set) return;
-    $('progressFill').style.width = (set.items.length ? masteredCount(set) / set.items.length * 100 : 0).toFixed(1) + '%';
+    var pct = (set.items.length ? masteredCount(set) / set.items.length * 100 : 0).toFixed(1) + '%';
+    $('progressFill').style.width = pct;
+    if ($('cnProgressFill')) $('cnProgressFill').style.width = pct;
     updateFooter();
   }
 
@@ -917,15 +1565,14 @@ button:disabled{opacity:.38;cursor:not-allowed}
       return { inp: inp, value: inp.value, cls: inp.className, width: inp.style.width };
     });
     var fb = $('feedback');
-    holdFb = { cls: fb.className, html: fb.innerHTML };
+    holdFb = { show: fb.classList.contains('show'), html: fb.innerHTML };
     holdSnapshot.forEach(function (s, i) {
       s.inp.value = state.originals[i] || '';
       fit(s.inp);
       s.inp.classList.remove('good', 'bad', 'ghost');
       s.inp.classList.add('ghost');
     });
-    fb.className = 'feedback show';
-    fb.innerHTML = '<div class="fb-note">按住中显示答案…松开后将清空当前单词，方便重新完整拼写。</div>';
+    setFeedback(true, '<div class="fb-note">按住中显示答案…松开后将清空当前单词，方便重新完整拼写。</div>');
     $('btnReveal').classList.add('holding');
   }
   function hideAnswerHold() {
@@ -950,8 +1597,7 @@ button:disabled{opacity:.38;cursor:not-allowed}
       });
       holdSnapshot = null;
     }
-    var fb = $('feedback');
-    if (holdFb) { fb.className = holdFb.cls; fb.innerHTML = holdFb.html; holdFb = null; }
+    if (holdFb) { setFeedback(holdFb.show, holdFb.html); holdFb = null; }
     $('btnReveal').classList.remove('holding');
     if (target && (shouldFocus || window.innerWidth > 640)) {
       try { target.focus(); } catch (e) {}
@@ -960,18 +1606,29 @@ button:disabled{opacity:.38;cursor:not-allowed}
 
   function clearSentence() {
     inputs().forEach(function (inp) { inp.value = ''; fit(inp); inp.classList.remove('good', 'bad', 'ghost'); });
+    delete state.drafts[key()];
     state.revealed = false; state.allOk = false;
-    var fb = $('feedback'); fb.className = 'feedback'; fb.innerHTML = '';
+    setFeedback(false, '');
+    updateSheetMeta(curSet());
     focusFirst();
   }
 
   function goPrev() {
     if (state.pos === 0) return;
-    state.pos--; renderPractice(); window.scrollTo(0, 0);
+    saveCurrentDraft();
+    state.pos--;
+    renderPractice(state.mode === 'sheet');
+    if (state.mode !== 'sheet') window.scrollTo(0, 0);
   }
   function goNext() {
+    saveCurrentDraft();
     var set = curSet();
-    if (state.pos + 1 < set.items.length) { state.pos++; renderPractice(); window.scrollTo(0, 0); return; }
+    if (state.pos + 1 < set.items.length) {
+      state.pos++;
+      renderPractice(state.mode === 'sheet');
+      if (state.mode !== 'sheet') window.scrollTo(0, 0);
+      return;
+    }
     var idx = SETS.indexOf(set);
     if (idx >= 0 && idx + 1 < SETS.length) { openSet(SETS[idx + 1].id); return; }
     renderHome();
@@ -1183,14 +1840,60 @@ button:disabled{opacity:.38;cursor:not-allowed}
     if (state.view === 'practice') renderPractice(); else renderHome();
   };
 
-  $('sentence').addEventListener('paste', function (e) {
+  $('practiceCard').addEventListener('paste', function (e) {
+    if (!e.target || !e.target.classList || !e.target.classList.contains('winput')) return;
     var cd = e.clipboardData || window.clipboardData; if (!cd) return;
     var t = cd.getData('text'); if (!t || !/\s/.test(t.trim())) return;
     e.preventDefault();
     var parts = t.trim().split(/\s+/).filter(Boolean);
     var list = inputs();
     parts.forEach(function (p, i) { if (list[i]) { list[i].value = p; fit(list[i]); commit(list[i]); } });
+    maybeComplete();
+    saveCurrentDraft();
+    updateSheetMeta(curSet());
   });
+
+  $('modeSwitch').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.mode-btn') : null;
+    if (!b) return;
+    var nextMode = b.getAttribute('data-mode');
+    if (nextMode !== 'sheet' && nextMode !== 'card') return;
+    if (nextMode === state.mode) return;
+    saveCurrentDraft();
+    state.mode = nextMode;
+    try { localStorage.setItem(MODE_LS, nextMode); } catch (err) {}
+    if (state.view === 'practice') renderPractice();
+  });
+
+  $('btnCnCollapse').onclick = function () {
+    state.cnCollapsed = !state.cnCollapsed;
+    syncCnCollapseUI();
+  };
+  if ($('btnFloatPrev')) $('btnFloatPrev').onclick = goPrev;
+  if ($('btnFloatCheck')) $('btnFloatCheck').onclick = checkAll;
+  if ($('btnFloatNext')) $('btnFloatNext').onclick = goNext;
+
+  $('btnSheetReset').onclick = resetCurrentSheet;
+
+  $('sheetLines').addEventListener('click', function (e) {
+    var el = e.target.closest ? e.target.closest('[data-jump-pos]') : null;
+    if (!el) return;
+    var pos = parseInt(el.getAttribute('data-jump-pos'), 10);
+    if (!isNaN(pos)) jumpToPos(pos);
+  });
+
+  (function () {
+    var nameInp = $('sheetNameInput');
+    if (!nameInp) return;
+    try { nameInp.value = localStorage.getItem(NAME_LS) || ''; } catch (e) {}
+    nameInp.addEventListener('input', function () {
+      try { localStorage.setItem(NAME_LS, nameInp.value); } catch (e) {}
+    });
+  })();
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { if (state.view === 'practice') fitAll(); });
+  }
 
   if (window.speechSynthesis) { try { window.speechSynthesis.getVoices(); } catch (e) {} }
 
@@ -1245,7 +1948,12 @@ button:disabled{opacity:.38;cursor:not-allowed}
   (function () {
     var hd = document.querySelector('.topnav'); if (!hd) return;
     var last = window.scrollY || document.documentElement.scrollTop || 0, hidden = false;
-    function set(v) { if (v === hidden) return; hidden = v; hd.style.transform = v ? 'translateY(-100%)' : ''; }
+    function set(v) {
+      if (v === hidden) return;
+      hidden = v;
+      hd.style.transform = v ? 'translateY(-100%)' : '';
+      document.body.classList.toggle('nav-hidden', v);
+    }
     window.addEventListener('scroll', function () {
       var y = window.scrollY || document.documentElement.scrollTop || 0;
       var dy = y - last; last = y;
