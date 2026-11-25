@@ -167,12 +167,22 @@ header {
 
 .directory-panel {
   left: 0; right: auto;
-  width: 400px; max-width: calc(100vw - 24px);
+  width: 430px; max-width: calc(100vw - 24px);
   display: flex; flex-direction: column; gap: 10px; padding: 14px;
 }
-.dir-head { display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--text-main); }
+.dir-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-main); }
 .dir-head-title { display: inline-flex; align-items: center; gap: 6px; }
 .dir-head-title svg { color: var(--accent-color); }
+.dir-head-right { display: inline-flex; align-items: center; gap: 8px; }
+.dir-legend {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11px; font-weight: 500; color: var(--text-muted);
+}
+.dir-legend span { display: inline-flex; align-items: center; gap: 3px; }
+.dl-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.dl-dot.ok { background: var(--success-color); }
+.dl-dot.bad { background: var(--danger-color); }
+.dl-dot.todo { background: #a89b8c; }
 .dir-close {
   border: none; background: transparent; cursor: pointer; color: var(--text-light);
   width: 26px; height: 26px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; transition: all .15s;
@@ -189,20 +199,45 @@ header {
 .filter-tab.active { background: var(--bg-card); color: var(--text-main); box-shadow: var(--shadow-sm); }
 .directory-list { max-height: 62vh; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding-right: 2px; }
 .dir-item {
-  display: flex; flex-direction: column; gap: 3px; text-align: left;
+  display: flex; flex-direction: column; gap: 5px; text-align: left;
   background: var(--bg-subtle); border: 1px solid transparent;
   border-radius: 10px; padding: 10px 12px; cursor: pointer; transition: all .15s; font-family: inherit;
 }
 .dir-item:hover { border-color: var(--border-strong); background: #fff; }
+.dir-item:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 1px; }
 .dir-item.active { border-color: var(--accent-border); background: var(--accent-light); }
 .dir-item-title { font-size: 13.5px; font-weight: 700; color: var(--text-main); line-height: 1.4; }
-.dir-item-meta { font-size: 11.5px; color: var(--text-muted); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.dir-item-meta { font-size: 11.5px; color: var(--text-muted); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; }
+.dir-meta-left { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; }
 .dir-dispute-tag {
   display: inline-flex; align-items: center; gap: 3px;
   font-size: 10.5px; font-weight: 700; color: var(--accent-color);
   background: #fbf4e8; border: 1px solid var(--accent-border);
   padding: 1px 6px; border-radius: 99px;
 }
+.dir-stats {
+  display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+.ds-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 21px; height: 20px; padding: 0 5.5px; border-radius: 6px;
+  font-size: 11.5px; font-weight: 750; line-height: 1; font-family: inherit;
+  border: 1px solid transparent; transition: all .14s;
+}
+.ds-pill.ds-ok { background: var(--success-light); color: var(--success-color); border-color: var(--success-border); }
+.ds-pill.ds-bad { background: var(--danger-light); color: var(--danger-color); border-color: var(--danger-border); }
+button.ds-pill.ds-bad { cursor: pointer; }
+button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-color); transform: translateY(-1px); }
+.ds-pill.ds-todo { background: rgba(120, 100, 80, 0.09); color: var(--text-muted); border-color: var(--border-color); }
+.ds-pill.is-zero { opacity: 0.36; font-weight: 600; }
+.ds-acc {
+  font-size: 11.5px; font-weight: 750; margin-left: 2px; min-width: 34px; text-align: right;
+  color: var(--text-light);
+}
+.ds-acc.acc-high { color: var(--success-color); }
+.ds-acc.acc-mid { color: var(--accent-color); }
+.ds-acc.acc-low { color: var(--danger-color); }
 
 /* Records Popover */
 .records-popover { width: 320px; max-width: calc(100vw - 24px); z-index: 320; max-height: 82vh; overflow-y: auto; }
@@ -447,9 +482,16 @@ header {
           <i data-lucide="book-text" data-size="14" class="ic-sm"></i>
           <span>选择篇章</span>
         </span>
-        <button id="btn-dir-close" class="dir-close" title="关闭" aria-label="关闭">
-          <i data-lucide="x" data-size="14" class="ic-sm"></i>
-        </button>
+        <span class="dir-head-right">
+          <span class="dir-legend" title="绿色：正确题数 · 红色：错误题数（点击直达错题） · 灰色：未做题数">
+            <span><i class="dl-dot ok"></i>对</span>
+            <span><i class="dl-dot bad"></i>错</span>
+            <span><i class="dl-dot todo"></i>未做</span>
+          </span>
+          <button id="btn-dir-close" class="dir-close" title="关闭" aria-label="关闭">
+            <i data-lucide="x" data-size="14" class="ic-sm"></i>
+          </button>
+        </span>
       </div>
       <div class="filter-tab-group">
         <button class="filter-tab active" data-filter="all">全部 (17篇)</button>
@@ -666,7 +708,10 @@ header {
   });
   btnDirectory.addEventListener('click', function (e) {
     e.stopPropagation();
-    togglePopover(btnDirectory, directoryPanel, markActiveDirItem);
+    togglePopover(btnDirectory, directoryPanel, function () {
+      refreshDirectoryStats();
+      markActiveDirItem();
+    });
   });
   $('btn-dir-close').addEventListener('click', function () { closePopovers(); });
   btnRecords.addEventListener('click', function (e) {
@@ -685,30 +730,90 @@ header {
   });
 
   /* ---------- Directory & Filtering ---------- */
+  function buildDirStatsHtml(item) {
+    var s = computePassage(item);
+    var wrong = s.answered - s.correct;
+    var todo = Math.max(0, s.total - s.answered);
+    var accCls = !s.answered ? '' : (s.acc >= 80 ? ' acc-high' : (s.acc >= 60 ? ' acc-mid' : ' acc-low'));
+    var accText = s.answered ? (s.acc + '%') : '未做';
+    var okPill = '<span class="ds-pill ds-ok' + (s.correct ? '' : ' is-zero') + '" title="正确 ' + s.correct + ' 题">' + s.correct + '</span>';
+    var badPill = wrong
+      ? '<button type="button" class="ds-pill ds-bad" data-jump-wrong="1" title="错误 ' + wrong + ' 题（点击直达错题解析）">' + wrong + '</button>'
+      : '<span class="ds-pill ds-bad is-zero" title="错误 0 题">0</span>';
+    var todoPill = '<span class="ds-pill ds-todo' + (todo ? '' : ' is-zero') + '" title="未做 ' + todo + ' 题">' + todo + '</span>';
+    return '<span class="dir-stats">' + okPill + badPill + todoPill + '<span class="ds-acc' + accCls + '">' + accText + '</span></span>';
+  }
+
+  function openPassageAtFirstWrong(idx) {
+    closePopovers();
+    currentIndex = idx;
+    loadCurrentText();
+    setMode('analysis');
+    var item = currentItem();
+    if (!item) return;
+    for (var i = 0; i < item.questions.length; i++) {
+      var q = item.questions[i];
+      var r = getActiveRecord(item.id, q.q_num);
+      if (r && r.answer !== q.answer) {
+        scrollToQuestion(q.q_num);
+        break;
+      }
+    }
+  }
+
   function populateDirectory(filter) {
     filteredData = READING_DATA.filter(function (item) {
       return filter === 'all' || item.exam === filter;
     });
     directoryList.innerHTML = '';
     filteredData.forEach(function (item, idx) {
-      var row = document.createElement('button');
+      var row = document.createElement('div');
       row.className = 'dir-item';
+      row.setAttribute('role', 'button');
+      row.tabIndex = 0;
       row.dataset.idx = idx;
       var disputedQs = (item.questions || []).filter(function (q) { return q.disputed; }).map(function (q) { return 'Q' + q.q_num; });
       var disputeTag = disputedQs.length
         ? '<span class="dir-dispute-tag">' + ic('alert-triangle', 11) + '含争议题 ' + disputedQs.join('/') + '</span>'
         : '';
-      row.innerHTML = '<span class="dir-item-title">' + item.text_num + ' · ' + item.title +
-        '</span><span class="dir-item-meta"><span>' + item.exam + ' · ' + item.year + ' · ' + item.difficulty + '</span>' + disputeTag + '</span>';
-      row.addEventListener('click', function () {
+      row.innerHTML =
+        '<span class="dir-item-title">' + item.text_num + ' · ' + item.title + '</span>' +
+        '<span class="dir-item-meta">' +
+          '<span class="dir-meta-left"><span>' + item.exam + ' · ' + item.year + ' · ' + item.difficulty + '</span>' + disputeTag + '</span>' +
+          '<span class="dir-stats-slot">' + buildDirStatsHtml(item) + '</span>' +
+        '</span>';
+      row.addEventListener('click', function (e) {
+        if (e.target && e.target.closest && e.target.closest('[data-jump-wrong]')) {
+          e.stopPropagation();
+          openPassageAtFirstWrong(idx);
+          return;
+        }
         closePopovers();
         currentIndex = idx;
         loadCurrentText();
+      });
+      row.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          if (e.target && e.target.closest && e.target.closest('[data-jump-wrong]')) return;
+          e.preventDefault();
+          closePopovers();
+          currentIndex = idx;
+          loadCurrentText();
+        }
       });
       directoryList.appendChild(row);
     });
     currentIndex = 0;
     loadCurrentText();
+  }
+
+  function refreshDirectoryStats() {
+    directoryList.querySelectorAll('.dir-item').forEach(function (el) {
+      var idx = parseInt(el.dataset.idx, 10);
+      var item = filteredData[idx];
+      var slot = el.querySelector('.dir-stats-slot');
+      if (item && slot) slot.innerHTML = buildDirStatsHtml(item);
+    });
   }
 
   function markActiveDirItem() {
@@ -998,6 +1103,7 @@ header {
     updateAnswerUI();
     refreshQuestionMeta();
     renderRecords();
+    refreshDirectoryStats();
   }
 
   function updateAnswerUI() {
@@ -1117,6 +1223,7 @@ header {
     updateAnswerUI();
     refreshQuestionMeta();
     renderRecords();
+    refreshDirectoryStats();
   });
 
   /* ---------- Draggable Splitter ---------- */
@@ -1219,6 +1326,7 @@ header {
     updateAnswerUI();
     refreshQuestionMeta();
     renderRecords();
+    refreshDirectoryStats();
     var item = currentItem();
     if (item) {
       item.questions.forEach(function (q) {
