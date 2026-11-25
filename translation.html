@@ -96,7 +96,7 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:12px 0 0;letter-spacing:-.02em;line-h
 .main-tab{
   display:flex;align-items:center;gap:11px;text-align:left;
   background:var(--card);border:1px solid var(--line);border-radius:15px;
-  padding:13px 14px;cursor:pointer;font-family:inherit;color:var(--ink);
+  padding:11px 14px;cursor:pointer;font-family:inherit;color:var(--ink);
   box-shadow:var(--shadow-sm);transition:all .18s ease;position:relative;overflow:hidden;
 }
 .main-tab:hover{border-color:var(--line-strong);background:#fff;transform:translateY(-1px);box-shadow:var(--shadow-md)}
@@ -125,16 +125,15 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:12px 0 0;letter-spacing:-.02em;line-h
 .main-tab.active .mt-ico{background:var(--accent-soft);border-color:var(--accent-border);color:var(--accent)}
 .main-tab.warn-tab .mt-ico{color:var(--warn);background:var(--warn-soft);border-color:var(--warn-border)}
 .mt-title{font-size:14.5px;font-weight:750;color:var(--ink);line-height:1.3}
-.mt-sub{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.4}
 
 /* Block 1: Year Selector Strip */
 .year-strip{
   display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:20px;
 }
 .year-pill{
-  position:relative;text-align:left;
+  position:relative;text-align:center;
   background:var(--card);border:1px solid var(--line);border-radius:13px;
-  padding:11px 13px;cursor:pointer;font-family:inherit;color:var(--ink);
+  padding:10px 13px;cursor:pointer;font-family:inherit;color:var(--ink);
   box-shadow:var(--shadow-sm);transition:all .16s ease;
 }
 .year-pill:hover{border-color:var(--line-strong);background:#fff;transform:translateY(-1px)}
@@ -142,14 +141,10 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:12px 0 0;letter-spacing:-.02em;line-h
   border-color:var(--accent);background:var(--accent-soft);
   box-shadow:0 0 0 1px var(--accent-border);
 }
-.yp-top{display:flex;align-items:center;justify-content:space-between;gap:6px}
-.yp-year{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.yp-top{display:flex;align-items:center;justify-content:center;gap:7px}
+.yp-year{font-size:15.5px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
 .year-pill.active .yp-year{color:var(--accent)}
 .yp-dot{width:7px;height:7px;border-radius:50%;background:var(--ok);flex-shrink:0}
-.yp-topic{
-  font-size:11.8px;color:var(--muted);margin-top:5px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
 
 /* Passage Header Card */
 .exam-head{
@@ -167,8 +162,7 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:12px 0 0;letter-spacing:-.02em;line-h
 .pill.accent{color:var(--accent);background:var(--accent-soft);border-color:var(--accent-border)}
 .pill.blue{color:var(--blue);background:var(--blue-soft);border-color:var(--blue-border)}
 .pill.ok{color:var(--ok);background:var(--ok-soft);border-color:var(--ok-border)}
-.eh-summary{margin:10px 0 12px;font-size:13.5px;color:var(--muted);line-height:1.75}
-.eh-highlights{display:flex;flex-wrap:wrap;gap:7px}
+.eh-highlights{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
 .eh-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 
 /* Segmented Switch */
@@ -569,37 +563,25 @@ table.vtable tbody tr:hover{background:#fbf7f1}
       <div class="mt-ico" aria-hidden="true">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
       </div>
-      <div>
-        <div class="mt-title">一、近六年真题</div>
-        <div class="mt-sub">2021–2026 真题自测</div>
-      </div>
+      <div class="mt-title">一、近六年真题</div>
     </button>
     <button class="main-tab" id="tab-grammar" role="tab" aria-selected="false">
       <div class="mt-ico" aria-hidden="true">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
       </div>
-      <div>
-        <div class="mt-title">二、句型语法分析</div>
-        <div class="mt-sub">高频统计 · 八大结构</div>
-      </div>
+      <div class="mt-title">二、句型语法分析</div>
     </button>
     <button class="main-tab" id="tab-methods" role="tab" aria-selected="false">
       <div class="mt-ico" aria-hidden="true">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/></svg>
       </div>
-      <div>
-        <div class="mt-title">三、高分做题方法</div>
-        <div class="mt-sub">四步法 · 评分与闭环</div>
-      </div>
+      <div class="mt-title">三、高分做题方法</div>
     </button>
     <button class="main-tab warn-tab" id="tab-pitfalls" role="tab" aria-selected="false">
       <div class="mt-ico" aria-hidden="true">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
       </div>
-      <div>
-        <div class="mt-title">四、常见错误避坑</div>
-        <div class="mt-sub">错译诊所 · 熟词僻义</div>
-      </div>
+      <div class="mt-title">四、常见错误避坑</div>
     </button>
   </div>
 
@@ -898,8 +880,7 @@ table.vtable tbody tr:hover{background:#fbf7f1}
       var active = y.id === state.yearId ? ' active' : '';
       var done = hasDraft(y.id) ? '<span class="yp-dot" title="已写译文草稿"></span>' : '';
       return '<button class="year-pill' + active + '" data-year-id="' + esc(y.id) + '">' +
-        '<div class="yp-top"><span class="yp-year">' + y.year + '</span>' + done + '</div>' +
-        '<div class="yp-topic">' + esc(y.topic) + '</div></button>';
+        '<div class="yp-top"><span class="yp-year">' + y.year + '</span>' + done + '</div></button>';
     }).join('');
     $('year-strip').innerHTML = html;
   }
@@ -920,8 +901,7 @@ table.vtable tbody tr:hover{background:#fbf7f1}
       '<div class="eh-top">' +
         '<div>' +
           '<div class="eh-title-row">' +
-            '<h2 class="eh-title">' + ex.year + ' 年真题 · ' + esc(ex.topic) + '</h2>' +
-            '<span class="pill accent">' + esc(ex.category) + '</span>' +
+            '<h2 class="eh-title">' + ex.year + ' 年真题</h2>' +
             '<span class="pill">' + ex.wordCount + ' 词 · ' + ex.sentences.length + ' 句</span>' +
             '<span class="pill" title="综合难度">难度 ' + stars + '</span>' +
           '</div>' +
@@ -937,7 +917,6 @@ table.vtable tbody tr:hover{background:#fbf7f1}
           '<button class="tbtn" id="btn-timer-reset" title="重置计时器">重置</button>' +
         '</div>' +
       '</div>' +
-      '<p class="eh-summary">' + esc(ex.summary) + '</p>' +
       '<div class="eh-highlights">' +
         (ex.highlights || []).map(function (h) { return '<span class="pill blue">' + esc(h) + '</span>'; }).join('') +
       '</div>';
