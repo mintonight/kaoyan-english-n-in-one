@@ -311,6 +311,22 @@ h1{font-size:clamp(24px,3.4vw,34px);margin:12px 0 0;letter-spacing:-.02em;line-h
 }
 .sent-cn-toggle:hover{color:var(--accent)}
 
+/* Per-question & Per-sentence Notes (aligned with reading.html) */
+.q-note{border-top:1px dashed var(--line-strong);margin-top:15px;padding-top:12px}
+.q-note-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
+.q-note-label{display:inline-flex;align-items:center;gap:5px;font-weight:600}
+.q-note-label svg{color:var(--muted);transition:color .15s}
+.q-note-hint{font-size:11.5px;color:var(--light);white-space:nowrap;font-variant-numeric:tabular-nums}
+.q-note-input{
+  width:100%;margin-top:7px;border:1px solid var(--line-strong);border-radius:10px;
+  padding:9px 12px;font-family:inherit;font-size:13.2px;line-height:1.68;
+  resize:vertical;min-height:42px;background:#fff;color:var(--ink);outline:none;
+  transition:border-color .15s,box-shadow .15s;
+}
+.q-note-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.q-note.saved .q-note-label,
+.q-note.saved .q-note-label svg{color:var(--accent);font-weight:700}
+
 /* Block 2: Grammar Analysis & Methodology */
 .subnav{
   display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;
@@ -610,6 +626,16 @@ table.vtable tbody tr:hover{background:#fbf7f1}
           </div>
         </div>
         <div id="full-ref-box" class="ref-box" hidden></div>
+        <div class="q-note" id="full-note-wrap">
+          <div class="q-note-head">
+            <span class="q-note-label">
+              <svg class="lucide" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg>
+              <span>本题笔记</span>
+            </span>
+            <span class="q-note-hint" id="full-note-hint">自动保存并同步</span>
+          </div>
+          <textarea id="full-note-textarea" class="q-note-input" rows="3" placeholder="记录本题错译、熟词僻义、长难句拆分与译文反思…（自动保存并同步）"></textarea>
+        </div>
       </div>
     </div>
 
@@ -765,7 +791,7 @@ table.vtable tbody tr:hover{background:#fbf7f1}
     </div>
   </section>
 
-  <footer class="foot" id="foot-info">2021–2026 考研英语（二）Section III Translation · 译文草稿本地自动保存并支持 GitHub Gist 多端同步</footer>
+  <footer class="foot" id="foot-info">2021–2026 考研英语（二）Section III Translation · 译文草稿与笔记本地自动保存并支持 GitHub Gist 多端同步</footer>
 </main>
 
 <script src="data/translation-data.js"></script>
@@ -787,6 +813,8 @@ table.vtable tbody tr:hover{background:#fbf7f1}
   function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 
   var drafts = Sync && Sync.loadTranslationDrafts ? Sync.loadTranslationDrafts() : {};
+  var notes = Sync && Sync.loadTranslationNotes ? Sync.loadTranslationNotes() : {};
+  var SVG_NOTE_PEN = '<svg class="lucide" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg>';
   var state = {
     mainTab: 'exams',      // 'exams' | 'grammar' | 'methods' | 'pitfalls'
     yearId: YEARS[0] ? YEARS[0].id : '',
@@ -811,10 +839,29 @@ table.vtable tbody tr:hover{background:#fbf7f1}
     return !!(drafts[id] && String(drafts[id].text || '').trim());
   }
 
+  function hasAnyNote(id) {
+    if (notes[id] && String(notes[id].text || '').trim()) return true;
+    var prefix = id + '::';
+    var ks = Object.keys(notes || {});
+    for (var i = 0; i < ks.length; i++) {
+      if (ks[i].indexOf(prefix) === 0 && notes[ks[i]] && String(notes[ks[i]].text || '').trim()) return true;
+    }
+    return false;
+  }
+
   function saveDraft(id, text) {
     drafts[id] = { text: text, updatedAt: Date.now() };
     if (Sync && Sync.saveTranslationDrafts) {
       Sync.saveTranslationDrafts(drafts);
+      Sync.markDirty();
+    }
+    updateYearStripDots();
+  }
+
+  function saveNote(key, text) {
+    notes[key] = { text: text, updatedAt: Date.now() };
+    if (Sync && Sync.saveTranslationNotes) {
+      Sync.saveTranslationNotes(notes);
       Sync.markDirty();
     }
     updateYearStripDots();
@@ -878,7 +925,9 @@ table.vtable tbody tr:hover{background:#fbf7f1}
   function renderYearStrip() {
     var html = YEARS.map(function (y) {
       var active = y.id === state.yearId ? ' active' : '';
-      var done = hasDraft(y.id) ? '<span class="yp-dot" title="已写译文草稿"></span>' : '';
+      var hasD = hasDraft(y.id), hasN = hasAnyNote(y.id);
+      var tip = (hasD && hasN) ? '已写译文草稿与笔记' : (hasD ? '已写译文草稿' : '已记录本题笔记');
+      var done = (hasD || hasN) ? '<span class="yp-dot" title="' + tip + '"></span>' : '';
       return '<button class="year-pill' + active + '" data-year-id="' + esc(y.id) + '">' +
         '<div class="yp-top"><span class="yp-year">' + y.year + '</span>' + done + '</div></button>';
     }).join('');
@@ -962,6 +1011,14 @@ table.vtable tbody tr:hover{background:#fbf7f1}
       }).join('');
     refBox.hidden = !state.refVisible;
     $('btn-toggle-ref').textContent = state.refVisible ? '收起参考译文' : '展开参考译文';
+
+    var noteTa = $('full-note-textarea');
+    var noteWrap = $('full-note-wrap');
+    var noteHint = $('full-note-hint');
+    var savedNote = (notes[ex.id] && notes[ex.id].text) ? notes[ex.id].text : '';
+    if (noteTa && document.activeElement !== noteTa) noteTa.value = savedNote;
+    if (noteWrap) noteWrap.classList.toggle('saved', !!savedNote.trim());
+    if (noteHint) noteHint.textContent = savedNote.trim() ? '已保存' : '自动保存并同步';
   }
 
   function updateDraftCount(text) {
@@ -982,6 +1039,9 @@ table.vtable tbody tr:hover{background:#fbf7f1}
           }).join('') + '</div>'
         : '';
       var isMasked = state.maskAll && !state.unmasked[idx];
+      var nk = ex.id + '::' + idx;
+      var sentNote = (notes[nk] && notes[nk].text) ? notes[nk].text : '';
+      var hasSentNote = !!sentNote.trim();
       return '<article class="sent-card">' +
         '<div class="sent-head"><span class="sent-num">第 ' + (idx + 1) + ' / ' + ex.sentences.length + ' 句</span>' +
         '<div class="sent-tags">' + tagsHtml + '</div></div>' +
@@ -991,6 +1051,13 @@ table.vtable tbody tr:hover{background:#fbf7f1}
         '<div class="sent-cn-wrap' + (isMasked ? ' masked' : '') + '" data-sent-idx="' + idx + '">' +
           '<div class="sent-cn-text">' + (isMasked ? '译文已隐藏 — 点击此处查看参考译文' : esc(s.cn)) + '</div>' +
           (state.maskAll ? '<button class="sent-cn-toggle" data-sent-idx="' + idx + '">' + (isMasked ? '显示' : '隐藏') + '</button>' : '') +
+        '</div>' +
+        '<div class="q-note' + (hasSentNote ? ' saved' : '') + '" data-note-wrap="' + esc(nk) + '">' +
+          '<div class="q-note-head">' +
+            '<span class="q-note-label">' + SVG_NOTE_PEN + '<span>本句笔记</span></span>' +
+            '<span class="q-note-hint" data-note-hint="' + esc(nk) + '">' + (hasSentNote ? '已保存' : '自动保存并同步') + '</span>' +
+          '</div>' +
+          '<textarea class="q-note-input" rows="2" data-note-key="' + esc(nk) + '" placeholder="记录本句生词、语法拆分或易错点…（自动保存并同步）">' + esc(sentNote) + '</textarea>' +
         '</div>' +
       '</article>';
     }).join('');
@@ -1255,6 +1322,27 @@ table.vtable tbody tr:hover{background:#fbf7f1}
     }, 350);
   });
 
+  $('full-note-textarea').addEventListener('input', function () {
+    var ex = currentExam();
+    if (!ex) return;
+    var val = this.value;
+    $('full-note-wrap').classList.toggle('saved', !!val.trim());
+    saveNote(ex.id, val);
+    $('full-note-hint').textContent = val.trim() ? ('已保存 ' + new Date().toLocaleTimeString()) : '已清空';
+  });
+
+  $('sent-list').addEventListener('input', function (e) {
+    var ta = e.target;
+    if (!ta || !ta.dataset || !ta.dataset.noteKey) return;
+    var nk = ta.dataset.noteKey;
+    var val = ta.value;
+    var wrap = ta.closest ? ta.closest('.q-note') : null;
+    if (wrap) wrap.classList.toggle('saved', !!val.trim());
+    saveNote(nk, val);
+    var hint = wrap ? wrap.querySelector('.q-note-hint') : null;
+    if (hint) hint.textContent = val.trim() ? ('已保存 ' + new Date().toLocaleTimeString()) : '已清空';
+  });
+
   $('btn-clear-draft').onclick = function () {
     var ex = currentExam();
     if (!ex) return;
@@ -1322,6 +1410,7 @@ table.vtable tbody tr:hover{background:#fbf7f1}
   window.addEventListener('kaoyan:data-synced', function (ev) {
     if (!ev.detail || !ev.detail.localChanged) return;
     drafts = Sync && Sync.loadTranslationDrafts ? Sync.loadTranslationDrafts() : {};
+    notes = Sync && Sync.loadTranslationNotes ? Sync.loadTranslationNotes() : {};
     renderExam();
   });
 

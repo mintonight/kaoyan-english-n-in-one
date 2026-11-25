@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kaoyan-n-in-one-v20';
+const CACHE_NAME = 'kaoyan-n-in-one-v21';
 const PRECACHE_URLS = [
   './',
   './index.html',

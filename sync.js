@@ -7,6 +7,7 @@
     SP_RES: 'zaowen-word-spell-v5',
     SP_LOG: 'piviaa-wseyrsmh-weo-j8',
     TR_DRAFTS: 'kaoyan_translation_drafts_v1',
+    TR_NOTES: 'kaoyan_translation_notes_v1',
     CFG: 'kaoyan_gist_config',
     DEV: 'kaoyan_device_id'
   };
@@ -314,6 +315,14 @@
     writeLS(KEYS.TR_DRAFTS, drafts);
   }
 
+  function loadTranslationNotes() {
+    return normalizeNotes(readLS(KEYS.TR_NOTES, {}), 1);
+  }
+
+  function saveTranslationNotes(notes) {
+    writeLS(KEYS.TR_NOTES, notes);
+  }
+
   function saveSpellingNormalized(sp) {
     recomputeSpellingDerived(sp);
     writeLS(KEYS.SP_RES, sp.results);
@@ -345,7 +354,8 @@
         resetAt: sp.resetAt || 0
       },
       translation: {
-        drafts: loadTranslationDrafts()
+        drafts: loadTranslationDrafts(),
+        notes: loadTranslationNotes()
       }
     };
   }
@@ -358,7 +368,7 @@
         updatedAt: '',
         reading: { notes: {}, log: {} },
         spelling: normalizeSpelling({}, {}, 0),
-        translation: { drafts: {} }
+        translation: { drafts: {}, notes: {} }
       };
     }
     var ts = toTs(raw.updatedAt, 1);
@@ -375,7 +385,8 @@
       },
       spelling: normalizeSpelling(s, s.results || {}, ts),
       translation: {
-        drafts: normalizeNotes(t.drafts, ts)
+        drafts: normalizeNotes(t.drafts, ts),
+        notes: normalizeNotes(t.notes, ts)
       }
     };
   }
@@ -552,7 +563,8 @@
       },
       spelling: mergeSpelling(loc.spelling, rem.spelling),
       translation: {
-        drafts: mergeNotes(loc.translation.drafts, rem.translation.drafts)
+        drafts: mergeNotes(loc.translation.drafts, rem.translation.drafts),
+        notes: mergeNotes(loc.translation.notes, rem.translation.notes)
       }
     };
   }
@@ -574,6 +586,7 @@
     saveReadingLog(merged.reading.log);
     saveSpellingNormalized(merged.spelling);
     saveTranslationDrafts((merged.translation && merged.translation.drafts) || {});
+    saveTranslationNotes((merged.translation && merged.translation.notes) || {});
   }
 
   /* ---------- GitHub Gist API ---------- */
@@ -958,6 +971,8 @@
     saveSpellingNormalized: saveSpellingNormalized,
     loadTranslationDrafts: loadTranslationDrafts,
     saveTranslationDrafts: saveTranslationDrafts,
+    loadTranslationNotes: loadTranslationNotes,
+    saveTranslationNotes: saveTranslationNotes,
     recomputeSpellingDerived: recomputeSpellingDerived,
     buildLocalPayload: buildLocalPayload,
     normalizePayload: normalizePayload,
