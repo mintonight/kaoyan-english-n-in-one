@@ -265,15 +265,49 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
 .main-layout {
   flex: 1 1 auto; min-height: 0; display: flex; position: relative; overflow: hidden;
 }
-.left-pane {
+.left-pane-shell {
+  position: relative;
   width: 70%; min-width: 260px; max-width: calc(100% - 260px);
-  height: 100%; overflow-y: auto; background: var(--bg-pane);
+  height: 100%; min-height: 0; flex-shrink: 0; overflow: hidden;
+}
+.left-pane {
+  width: 100%; height: 100%; overflow-y: auto; background: var(--bg-pane);
   padding: 32px 42px 48px; font-family: var(--font-family-serif);
   font-size: var(--font-size-base); line-height: var(--line-height-base);
   scroll-behavior: smooth;
 }
-.left-pane > .passage-header,
-.left-pane > #paragraphs-container { max-width: 68ch; margin-left: auto; margin-right: auto; }
+.passage-body { position: relative; }
+.passage-body > .passage-header,
+.passage-body > #paragraphs-container { max-width: 68ch; margin-left: auto; margin-right: auto; }
+
+.passage-ink {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  display: block; pointer-events: none; z-index: 3;
+}
+.left-pane-shell.pen-on .passage-ink {
+  pointer-events: auto; touch-action: none; cursor: crosshair;
+}
+.left-pane-shell.pen-on .left-pane {
+  user-select: none; -webkit-user-select: none;
+}
+
+.passage-pen-btn {
+  position: absolute; right: 12px; bottom: 16px; z-index: 8;
+  width: 44px; height: 44px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border-color); border-radius: 50%;
+  background: var(--bg-card); color: var(--text-muted);
+  cursor: pointer; box-shadow: var(--shadow-md); transition: all .16s;
+}
+.passage-pen-btn:hover { color: var(--text-main); border-color: var(--border-strong); background: #fff; }
+.passage-pen-btn[aria-pressed="true"],
+.passage-pen-btn.active {
+  color: #fff;
+  background: linear-gradient(180deg, #b85412 0%, #9a3e08 100%);
+  border-color: rgba(120, 44, 4, 0.45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 0 0 3px var(--accent-light), 0 6px 16px -6px rgba(168, 74, 12, 0.65);
+}
+.passage-pen-btn svg { width: 20px; height: 20px; display: block; }
 .passage-header {
   margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--border-color);
   font-family: var(--font-family-sans);
@@ -427,9 +461,13 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
   header .icon-btn { width: 32px; height: 30px; }
 
   .main-layout { flex-direction: column; }
-  .left-pane {
+  .left-pane-shell {
     width: 100% !important; max-width: none !important; min-width: 0 !important;
     flex: 0 0 70%; height: auto !important; min-height: 80px;
+    display: flex; flex-direction: column;
+  }
+  .left-pane {
+    width: 100%; flex: 1 1 auto; height: 0 !important; min-height: 0;
     -webkit-overflow-scrolling: touch; padding: 16px 16px 20px !important;
   }
   .right-pane {
@@ -456,6 +494,7 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
   .nav-divider { margin: 0; height: 16px; }
   header .icon-btn { width: 30px; height: 28px; }
   .left-pane { padding: 14px 12px !important; }
+  .passage-pen-btn { width: 42px; height: 42px; right: 8px; bottom: 12px; }
   .right-pane { padding: 12px 8px !important; }
   .para-text { font-size: 16px; line-height: 1.75; }
   .option-item { padding: 10px; }
@@ -573,16 +612,24 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
 </header>
 
 <div class="main-layout" id="workspace">
-  <div class="left-pane" id="passage-pane">
-    <div class="passage-header">
-      <h2 id="passage-title" class="passage-title-main"></h2>
-      <div class="passage-meta-line">
-        <span id="badge-exam" class="badge-tag badge-eng1">英语一</span>
-        <span id="badge-diff" class="badge-tag badge-diff-5">困难★★★★★</span>
-        <span id="passage-meta-sub" class="passage-meta-sub"></span>
+  <div class="left-pane-shell" id="passage-shell">
+    <div class="left-pane" id="passage-pane">
+      <div class="passage-body" id="passage-body">
+        <canvas id="passage-ink" class="passage-ink" aria-hidden="true"></canvas>
+        <div class="passage-header">
+          <h2 id="passage-title" class="passage-title-main"></h2>
+          <div class="passage-meta-line">
+            <span id="badge-exam" class="badge-tag badge-eng1">英语一</span>
+            <span id="badge-diff" class="badge-tag badge-diff-5">困难★★★★★</span>
+            <span id="passage-meta-sub" class="passage-meta-sub"></span>
+          </div>
+        </div>
+        <div id="paragraphs-container"></div>
       </div>
     </div>
-    <div id="paragraphs-container"></div>
+    <button type="button" id="btn-passage-pen" class="passage-pen-btn" aria-pressed="false" title="临时圈画标注（不保存）" aria-label="临时圈画标注">
+      <i data-lucide="pen-line" data-size="20" class="ic"></i>
+    </button>
   </div>
 
   <div class="splitter" id="splitter" title="拖拽调节分栏比例（双击复位 70%）">
@@ -638,6 +685,10 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
 
   // DOM refs
   var passagePane = $('passage-pane');
+  var passageShell = $('passage-shell');
+  var passageBody = $('passage-body');
+  var inkCanvas = $('passage-ink');
+  var btnPassagePen = $('btn-passage-pen');
   var workspace = $('workspace');
   var splitter = $('splitter');
   var directoryList = $('directory-list');
@@ -895,6 +946,7 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
     var item = currentItem();
     if (!item) return;
 
+    clearPassageInk();
     passageSeenAt = Date.now();
     qSeenAt = {};
 
@@ -1082,6 +1134,7 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
     refreshQuestionMeta();
     renderRecords();
     resetTimer();
+    requestAnimationFrame(syncInkCanvas);
   }
 
   function selectOption(itemId, q, letter) {
@@ -1160,6 +1213,7 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
     currentFontSize = next;
     passagePane.style.setProperty('--font-size-base', currentFontSize + 'px');
     try { localStorage.setItem(FONT_LS, String(currentFontSize)); } catch (e) {}
+    requestAnimationFrame(syncInkCanvas);
   }
   $('btn-font-inc').addEventListener('click', function () { changeFont(1.5); });
   $('btn-font-dec').addEventListener('click', function () { changeFont(-1.5); });
@@ -1226,6 +1280,282 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
     refreshDirectoryStats();
   });
 
+
+  /* ---------- Temporary passage ink (ephemeral, never persisted) ---------- */
+  var penModeOn = false;
+  var inkStrokes = [];
+  var inkActiveStroke = null;
+  var inkPointers = {};
+  var inkDrawing = false;
+  var inkScrolling = false;
+  var inkSuppressUntilEmpty = false;
+  var inkScrollStart = null;
+  var INK_COLOR = 'rgba(196, 48, 28, 0.9)';
+
+  function inkPointFromEvent(e) {
+    var rect = inkCanvas.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return null;
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    if (x < -1 || y < -1 || x > rect.width + 1 || y > rect.height + 1) return null;
+    return { x: x, y: y };
+  }
+
+  function inkStyleContext(ctx, dpr) {
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = INK_COLOR;
+    ctx.fillStyle = INK_COLOR;
+    ctx.lineWidth = 2.4 * dpr;
+  }
+
+  function inkDpr() {
+    return window.devicePixelRatio || 1;
+  }
+
+  function drawInkStroke(ctx, points, dpr) {
+    if (!points || !points.length) return;
+    inkStyleContext(ctx, dpr);
+    if (points.length === 1) {
+      ctx.beginPath();
+      ctx.arc(points[0].x * dpr, points[0].y * dpr, ctx.lineWidth / 2, 0, Math.PI * 2);
+      ctx.fill();
+      return;
+    }
+    ctx.beginPath();
+    ctx.moveTo(points[0].x * dpr, points[0].y * dpr);
+    var i;
+    for (i = 1; i < points.length; i++) ctx.lineTo(points[i].x * dpr, points[i].y * dpr);
+    ctx.stroke();
+  }
+
+  function redrawInk() {
+    if (!inkCanvas) return;
+    var ctx = inkCanvas.getContext('2d');
+    ctx.clearRect(0, 0, inkCanvas.width, inkCanvas.height);
+    var dpr = inkDpr();
+    var i;
+    for (i = 0; i < inkStrokes.length; i++) drawInkStroke(ctx, inkStrokes[i], dpr);
+    if (inkActiveStroke && inkActiveStroke.length) drawInkStroke(ctx, inkActiveStroke, dpr);
+  }
+
+  function syncInkCanvas() {
+    if (!inkCanvas || !passageBody || !passagePane) return;
+    var cssW = passageBody.clientWidth || passagePane.clientWidth;
+    var cssH = Math.max(passageBody.scrollHeight, passageBody.clientHeight, 1);
+    var dpr = inkDpr();
+    var bufW = Math.max(1, Math.round(cssW * dpr));
+    var bufH = Math.max(1, Math.round(cssH * dpr));
+    if (inkCanvas.width !== bufW || inkCanvas.height !== bufH) {
+      inkCanvas.width = bufW;
+      inkCanvas.height = bufH;
+      inkCanvas.style.width = cssW + 'px';
+      inkCanvas.style.height = cssH + 'px';
+      redrawInk();
+    }
+  }
+
+  function clearPassageInk() {
+    inkStrokes = [];
+    inkActiveStroke = null;
+    inkDrawing = false;
+    inkScrolling = false;
+    inkPointers = {};
+    inkSuppressUntilEmpty = false;
+    inkScrollStart = null;
+    if (inkCanvas) {
+      var ctx = inkCanvas.getContext('2d');
+      ctx.clearRect(0, 0, inkCanvas.width, inkCanvas.height);
+    }
+    requestAnimationFrame(syncInkCanvas);
+  }
+
+  function countInkPixels() {
+    if (!inkCanvas || !inkCanvas.width || !inkCanvas.height) return 0;
+    var data = inkCanvas.getContext('2d').getImageData(0, 0, inkCanvas.width, inkCanvas.height).data;
+    var n = 0, i;
+    for (i = 3; i < data.length; i += 4) if (data[i] > 8) n++;
+    return n;
+  }
+
+  function setPenMode(on) {
+    penModeOn = !!on;
+    if (passageShell) passageShell.classList.toggle('pen-on', penModeOn);
+    if (btnPassagePen) {
+      btnPassagePen.classList.toggle('active', penModeOn);
+      btnPassagePen.setAttribute('aria-pressed', penModeOn ? 'true' : 'false');
+    }
+    if (!penModeOn) {
+      inkActiveStroke = null;
+      inkDrawing = false;
+      inkScrolling = false;
+      inkPointers = {};
+      inkSuppressUntilEmpty = false;
+      if (passagePane) passagePane.style.scrollBehavior = '';
+      redrawInk();
+    } else {
+      syncInkCanvas();
+    }
+  }
+
+  function inkPointerCount() {
+    return Object.keys(inkPointers).length;
+  }
+
+  function inkMidpoint() {
+    var ids = Object.keys(inkPointers);
+    var sx = 0, sy = 0, i, p;
+    for (i = 0; i < ids.length; i++) {
+      p = inkPointers[ids[i]];
+      sx += p.x;
+      sy += p.y;
+    }
+    return { x: sx / ids.length, y: sy / ids.length };
+  }
+
+  function beginInkStroke(pt) {
+    inkActiveStroke = [{ x: pt.x, y: pt.y }];
+    inkDrawing = true;
+    var ctx = inkCanvas.getContext('2d');
+    drawInkStroke(ctx, inkActiveStroke, inkDpr());
+  }
+
+  function extendInkStroke(pt) {
+    if (!inkActiveStroke || !inkActiveStroke.length) return;
+    var last = inkActiveStroke[inkActiveStroke.length - 1];
+    var dx = pt.x - last.x, dy = pt.y - last.y;
+    if (dx * dx + dy * dy < 0.25) return;
+    inkActiveStroke.push(pt);
+    var ctx = inkCanvas.getContext('2d');
+    var dpr = inkDpr();
+    inkStyleContext(ctx, dpr);
+    ctx.beginPath();
+    ctx.moveTo(last.x * dpr, last.y * dpr);
+    ctx.lineTo(pt.x * dpr, pt.y * dpr);
+    ctx.stroke();
+  }
+
+  function endInkStroke() {
+    if (inkActiveStroke && inkActiveStroke.length) inkStrokes.push(inkActiveStroke);
+    inkActiveStroke = null;
+    inkDrawing = false;
+  }
+
+  function cancelInkStroke() {
+    inkActiveStroke = null;
+    inkDrawing = false;
+    redrawInk();
+  }
+
+  function startInkScroll() {
+    cancelInkStroke();
+    inkScrolling = true;
+    passagePane.style.scrollBehavior = 'auto';
+    var mid = inkMidpoint();
+    inkScrollStart = { midX: mid.x, midY: mid.y, top: passagePane.scrollTop, left: passagePane.scrollLeft };
+  }
+
+  function moveInkScroll() {
+    if (!inkScrolling || !inkScrollStart) return;
+    var mid = inkMidpoint();
+    passagePane.scrollLeft = inkScrollStart.left - (mid.x - inkScrollStart.midX);
+    passagePane.scrollTop = inkScrollStart.top - (mid.y - inkScrollStart.midY);
+  }
+
+  function stopInkScroll() {
+    inkScrolling = false;
+    inkScrollStart = null;
+    passagePane.style.scrollBehavior = '';
+  }
+
+  function onInkPointerDown(e) {
+    if (!penModeOn) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    if (btnPassagePen && btnPassagePen.contains(e.target)) return;
+    inkPointers[e.pointerId] = { x: e.clientX, y: e.clientY, type: e.pointerType };
+    var count = inkPointerCount();
+    if (e.pointerType !== 'mouse' && count >= 2) {
+      inkSuppressUntilEmpty = true;
+      startInkScroll();
+      if (e.cancelable) e.preventDefault();
+      return;
+    }
+    if (inkScrolling || inkSuppressUntilEmpty) {
+      if (e.cancelable) e.preventDefault();
+      return;
+    }
+    var pt = inkPointFromEvent(e);
+    if (!pt) return;
+    if (e.pointerType === 'mouse' && inkCanvas.setPointerCapture) {
+      try { inkCanvas.setPointerCapture(e.pointerId); } catch (err) {}
+    }
+    beginInkStroke(pt);
+    if (e.cancelable) e.preventDefault();
+  }
+
+  function onInkPointerMove(e) {
+    if (!inkPointers[e.pointerId]) return;
+    inkPointers[e.pointerId].x = e.clientX;
+    inkPointers[e.pointerId].y = e.clientY;
+    if (inkScrolling && inkPointerCount() >= 2) {
+      moveInkScroll();
+      if (e.cancelable) e.preventDefault();
+      return;
+    }
+    if (!inkDrawing || inkScrolling || inkSuppressUntilEmpty) return;
+    var pt = inkPointFromEvent(e);
+    if (pt) extendInkStroke(pt);
+    if (e.cancelable) e.preventDefault();
+  }
+
+  function onInkPointerUp(e) {
+    if (!inkPointers[e.pointerId]) return;
+    delete inkPointers[e.pointerId];
+    if (inkScrolling) {
+      if (inkPointerCount() < 2) stopInkScroll();
+      if (e.cancelable) e.preventDefault();
+    } else if (inkDrawing) {
+      endInkStroke();
+    }
+    if (inkPointerCount() === 0) inkSuppressUntilEmpty = false;
+    if (inkCanvas.releasePointerCapture) {
+      try { if (inkCanvas.hasPointerCapture && inkCanvas.hasPointerCapture(e.pointerId)) inkCanvas.releasePointerCapture(e.pointerId); } catch (err) {}
+    }
+  }
+
+  inkCanvas.addEventListener('pointerdown', onInkPointerDown);
+  inkCanvas.addEventListener('pointermove', onInkPointerMove);
+  inkCanvas.addEventListener('pointerup', onInkPointerUp);
+  inkCanvas.addEventListener('pointercancel', onInkPointerUp);
+  inkCanvas.addEventListener('contextmenu', function (e) {
+    if (penModeOn) e.preventDefault();
+  });
+  inkCanvas.addEventListener('touchmove', function (e) {
+    if (penModeOn && e.cancelable) e.preventDefault();
+  }, { passive: false });
+
+  btnPassagePen.addEventListener('click', function (e) {
+    e.stopPropagation();
+    setPenMode(!penModeOn);
+  });
+
+  if (typeof ResizeObserver !== 'undefined') {
+    var inkResizeObs = new ResizeObserver(function () { syncInkCanvas(); });
+    inkResizeObs.observe(passagePane);
+    inkResizeObs.observe(passageBody);
+  }
+
+  window.__readingInk = {
+    isActive: function () { return !!penModeOn; },
+    strokeCount: function () { return inkStrokes.length + (inkActiveStroke && inkActiveStroke.length ? 1 : 0); },
+    pixelCount: countInkPixels,
+    clear: clearPassageInk,
+    setActive: setPenMode,
+    sync: syncInkCanvas
+  };
+
+  syncInkCanvas();
+
   /* ---------- Draggable Splitter ---------- */
   var isDragging = false, dragStartPos = 0, dragStartSize = 0;
   function isMobileLayout() { return window.matchMedia('(max-width: 900px)').matches; }
@@ -1233,7 +1563,7 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
   function beginDrag(x, y) {
     isDragging = true;
     splitter.classList.add('dragging');
-    var rect = passagePane.getBoundingClientRect();
+    var rect = passageShell.getBoundingClientRect();
     dragStartPos = isMobileLayout() ? y : x;
     dragStartSize = isMobileLayout() ? rect.height : rect.width;
   }
@@ -1243,13 +1573,13 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
     var wr = workspace.getBoundingClientRect();
     if (isMobileLayout()) {
       var newH = Math.max(80, Math.min(wr.height - 120, dragStartSize + (y - dragStartPos)));
-      passagePane.style.flex = '0 0 ' + newH + 'px';
-      passagePane.style.width = '100%';
+      passageShell.style.flex = '0 0 ' + newH + 'px';
+      passageShell.style.width = '100%';
     } else {
       var offsetX = x - wr.left;
       if (offsetX >= wr.width * 0.22 && offsetX <= wr.width * 0.78) {
-        passagePane.style.flex = '0 0 auto';
-        passagePane.style.width = ((offsetX / wr.width) * 100) + '%';
+        passageShell.style.flex = '0 0 auto';
+        passageShell.style.width = ((offsetX / wr.width) * 100) + '%';
       }
     }
   }
@@ -1260,6 +1590,7 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
     splitter.classList.remove('dragging');
     document.body.style.cursor = '';
     document.body.style.userSelect = '';
+    requestAnimationFrame(syncInkCanvas);
   }
 
   splitter.addEventListener('mousedown', function (e) {
@@ -1281,21 +1612,23 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
 
   splitter.addEventListener('dblclick', function () {
     if (isMobileLayout()) {
-      passagePane.style.flex = '0 0 70%';
-      passagePane.style.width = '100%';
+      passageShell.style.flex = '0 0 70%';
+      passageShell.style.width = '100%';
     } else {
-      passagePane.style.flex = '0 0 auto';
-      passagePane.style.width = '70%';
+      passageShell.style.flex = '0 0 auto';
+      passageShell.style.width = '70%';
     }
   });
   window.addEventListener('resize', function () {
-    passagePane.style.flex = '';
-    passagePane.style.width = '';
-    passagePane.style.height = '';
+    passageShell.style.flex = '';
+    passageShell.style.width = '';
+    passageShell.style.height = '';
+    requestAnimationFrame(syncInkCanvas);
   });
 
   /* ---------- Word Glossary Popup & Shortcuts ---------- */
   document.addEventListener('mouseup', function (e) {
+    if (penModeOn) return;
     var sel = window.getSelection();
     var word = sel ? sel.toString().trim().toLowerCase().replace(/[^a-z]/g, '') : '';
     if (word && word.length > 2 && GLOSSARY[word] && sel.rangeCount) {
