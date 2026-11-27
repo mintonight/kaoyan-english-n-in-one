@@ -1674,6 +1674,32 @@ button.ds-pill.ds-bad:hover { background: #fbe3e1; border-color: var(--danger-co
   });
 
   populateDirectory('all');
+
+  /* ---------- Deep-link support (?pid=...&q=...&mode=analysis) ---------- */
+  (function applyUrlParams() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var pid = params.get('pid');
+      var qParam = params.get('q');
+      var modeParam = params.get('mode');
+      if (pid) {
+        var targetIdx = filteredData.findIndex(function (x) { return x.id === pid; });
+        if (targetIdx >= 0 && targetIdx !== currentIndex) {
+          currentIndex = targetIdx;
+          loadCurrentText();
+        }
+      }
+      if (modeParam === 'analysis' || modeParam === 'test') {
+        setMode(modeParam);
+      }
+      if (qParam) {
+        var qNum = parseInt(qParam, 10);
+        if (!isNaN(qNum)) {
+          requestAnimationFrame(function () { scrollToQuestion(qNum); });
+        }
+      }
+    } catch (e) {}
+  })();
 })();
 </script>
 </body>

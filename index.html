@@ -24,7 +24,21 @@
     --accent-hover:#8b3b07;
     --accent-soft:rgba(168,74,12,.08);
     --accent-border:rgba(168,74,12,.24);
+    --success-color:#166534;
+    --success-soft:#edf7f1;
+    --success-border:#c5e4d1;
+    --warn-color:#b45309;
+    --warn-soft:#fef6e7;
+    --warn-border:#f2d59f;
     --danger-color:#b42318;
+    --danger-soft:#fdf2f1;
+    --danger-border:#f3c9c5;
+    --blue-color:#24528a;
+    --blue-soft:#eef4fa;
+    --blue-border:rgba(36,82,138,.18);
+    --plum-color:#5b3ca8;
+    --plum-soft:#f2eef9;
+    --plum-border:rgba(91,60,168,.16);
     --shadow-sm:0 1px 2px rgba(31,25,20,.04);
     --shadow-md:0 1px 2px rgba(31,25,20,.04),0 10px 26px -14px rgba(45,30,14,.14);
     --shadow-lg:0 2px 6px rgba(31,25,20,.05),0 22px 44px -18px rgba(45,30,14,.22);
@@ -192,6 +206,218 @@
   .modal-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--border-color)}
   .modal-status{font-size:12px;color:var(--text-muted);margin-top:10px;line-height:1.65;word-break:break-word}
 
+  /* Data Analytics Modal */
+  .stats-card{
+    max-width:860px;width:100%;max-height:88vh;padding:0;overflow:hidden;
+    display:flex;flex-direction:column;border-radius:20px;
+  }
+  .stats-head{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:16px 22px;background:var(--bg-card);border-bottom:1px solid var(--border-color);flex-shrink:0;
+  }
+  .stats-head-left{display:flex;align-items:center;gap:10px;min-width:0}
+  .stats-head-ico{
+    width:32px;height:32px;border-radius:9px;flex-shrink:0;
+    display:inline-flex;align-items:center;justify-content:center;
+    background:var(--accent-soft);border:1px solid var(--accent-border);color:var(--accent-color);
+  }
+  .stats-head-title{margin:0;font-size:16px;font-weight:750;color:var(--text-main);letter-spacing:-.01em}
+  .stats-head-sub{font-size:11.5px;color:var(--text-light);margin-top:2px;font-variant-numeric:tabular-nums}
+  .stats-head-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .st-seg{
+    display:inline-flex;align-items:center;gap:2px;
+    padding:3px;border-radius:10px;background:var(--bg-subtle);border:1px solid var(--border-color);
+  }
+  .st-seg button{
+    border:0;background:transparent;color:var(--text-muted);
+    font-family:inherit;font-size:12px;font-weight:650;
+    padding:5px 11px;border-radius:7px;cursor:pointer;transition:all .15s;white-space:nowrap;
+  }
+  .st-seg button:hover{color:var(--text-main)}
+  .st-seg button.active{background:var(--bg-card);color:var(--accent-color);box-shadow:var(--shadow-sm)}
+  .st-close-btn{
+    width:32px;height:32px;padding:0;border-radius:8px;
+    border:1px solid var(--border-color);background:var(--bg-card);color:var(--text-muted);
+    display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;
+  }
+  .st-close-btn:hover{color:var(--text-main);border-color:var(--border-strong);background:#fff}
+
+  .stats-body{
+    flex:1 1 auto;min-height:0;overflow-y:auto;
+    padding:18px 22px 22px;background:var(--bg-main);
+    display:flex;flex-direction:column;gap:14px;
+  }
+  .stats-body::-webkit-scrollbar{width:8px;height:8px}
+  .stats-body::-webkit-scrollbar-track{background:transparent}
+  .stats-body::-webkit-scrollbar-thumb{background:rgba(120,100,80,.22);border-radius:99px;border:2px solid transparent;background-clip:content-box}
+  .stats-body::-webkit-scrollbar-thumb:hover{background:rgba(120,100,80,.38);border:2px solid transparent;background-clip:content-box}
+
+  .st-kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .st-panel{
+    background:var(--bg-card);border:1px solid var(--border-color);
+    border-radius:15px;padding:16px 18px;box-shadow:var(--shadow-sm);
+  }
+  .st-kpi-label{font-size:12px;color:var(--text-muted);font-weight:600;margin-bottom:6px}
+  .st-kpi-val{
+    font-size:24px;font-weight:800;color:var(--text-main);letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;
+  }
+  .st-kpi-val span{font-size:12.5px;font-weight:600;color:var(--text-muted)}
+  .st-kpi-sub{font-size:12px;color:var(--text-light);margin-top:6px;line-height:1.55}
+  .st-kpi-sub b{color:var(--text-muted);font-weight:650}
+
+  .st-two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .st-sec-head{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;
+    margin-bottom:13px;
+  }
+  .st-sec-title{font-size:13.5px;font-weight:750;color:var(--text-main);display:inline-flex;align-items:center;gap:6px}
+  .st-sec-sub{font-size:11.5px;color:var(--text-light);font-weight:500}
+  .st-bar-list{display:flex;flex-direction:column;gap:11px}
+  .st-bar-top{
+    display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+    font-size:12.5px;margin-bottom:5px;
+  }
+  .st-bar-name{color:var(--text-main);font-weight:600;min-width:0}
+  .st-bar-name em{font-style:normal;color:var(--text-light);font-weight:400;font-size:11.5px;margin-left:3px}
+  .st-bar-meta{font-size:11.5px;color:var(--text-muted);font-variant-numeric:tabular-nums;white-space:nowrap;flex-shrink:0}
+  .st-track{
+    height:8px;border-radius:99px;background:var(--bg-subtle);
+    border:1px solid var(--border-color);overflow:hidden;display:flex;
+  }
+  .st-fill{height:100%;transition:width .3s ease}
+  .st-fill.c1{background:linear-gradient(90deg,#c45c17,#a84a0c)}
+  .st-fill.c2{background:linear-gradient(90deg,#3b6da8,#24528a)}
+  .st-fill.c3{background:linear-gradient(90deg,#3f8874,#2a6b59)}
+  .st-fill.c4{background:linear-gradient(90deg,#7c5db8,#5b3ca8)}
+  .st-fill.c5{background:linear-gradient(90deg,#b7833a,#946425)}
+  .st-fill.ok{background:#2d7a4d}
+  .st-fill.mid{background:#d98218}
+  .st-fill.err{background:#c63e32}
+
+  .st-legend{
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    margin-top:12px;padding-top:10px;border-top:1px solid var(--border-color);
+    font-size:11.5px;color:var(--text-muted);
+  }
+  .st-legend span{display:inline-flex;align-items:center;gap:5px}
+  .st-dot{width:8px;height:8px;border-radius:3px;display:inline-block;flex-shrink:0}
+  .st-dot.ok{background:#2d7a4d}
+  .st-dot.mid{background:#d98218}
+  .st-dot.err{background:#c63e32}
+  .st-dot.todo{background:rgba(120,100,80,.18);border:1px solid var(--border-strong)}
+
+  .st-mini-tabs{
+    display:inline-flex;align-items:center;gap:2px;
+    padding:2px;border-radius:8px;background:var(--bg-subtle);border:1px solid var(--border-color);
+  }
+  .st-mini-tabs button{
+    border:0;background:transparent;color:var(--text-muted);
+    font-family:inherit;font-size:11.5px;font-weight:600;
+    padding:3px 9px;border-radius:6px;cursor:pointer;transition:all .14s;
+  }
+  .st-mini-tabs button:hover{color:var(--text-main)}
+  .st-mini-tabs button.active{background:var(--bg-card);color:var(--accent-color);box-shadow:var(--shadow-sm)}
+
+  .st-passages{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+  .st-pbox{
+    background:var(--bg-subtle);border:1px solid var(--border-color);border-radius:11px;
+    padding:10px 10px 9px;transition:border-color .16s,background .16s,transform .16s;
+  }
+  .st-pbox:hover{border-color:var(--accent-border);background:#fff;transform:translateY(-1px)}
+  .st-pbox.is-unanswered{opacity:.66}
+  .st-phead{
+    display:flex;align-items:center;justify-content:space-between;gap:4px;margin-bottom:7px;
+  }
+  .st-pid{
+    font-size:12px;font-weight:700;color:var(--text-main);text-decoration:none;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .st-pid:hover{color:var(--accent-color)}
+  .st-exam-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+  .st-exam-dot.e1{background:var(--plum-color)}
+  .st-exam-dot.e2{background:var(--blue-color)}
+  .st-pdots{display:flex;gap:4px;margin-bottom:7px}
+  .st-qdot{
+    width:20px;height:20px;border-radius:5px;flex:1;max-width:24px;
+    font-size:10.5px;font-weight:750;text-decoration:none;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-variant-numeric:tabular-nums;transition:transform .14s,filter .14s;
+  }
+  .st-qdot:hover{transform:scale(1.08);filter:brightness(1.04)}
+  .st-qdot.q-ok{background:var(--success-soft);color:var(--success-color);border:1px solid var(--success-border)}
+  .st-qdot.q-mid{background:var(--warn-soft);color:var(--warn-color);border:1px solid var(--warn-border)}
+  .st-qdot.q-err{background:var(--danger-soft);color:var(--danger-color);border:1px solid var(--danger-border)}
+  .st-qdot.q-todo{background:rgba(120,100,80,.07);color:var(--text-light);border:1px dashed var(--border-strong)}
+  .st-pfoot{
+    display:flex;align-items:center;justify-content:space-between;gap:4px;
+    font-size:11px;color:var(--text-muted);font-variant-numeric:tabular-nums;
+  }
+  .st-pfoot b{color:var(--text-main);font-weight:700}
+
+  /* Wrong & Struggle Detail Table */
+  .st-table-wrap{overflow-x:auto;margin:0 -4px;padding:0 4px}
+  .st-table{width:100%;border-collapse:collapse;font-size:12.5px}
+  .st-table th{
+    text-align:left;font-size:11px;font-weight:700;color:var(--text-light);
+    letter-spacing:.04em;padding:7px 8px;border-bottom:1px solid var(--border-strong);white-space:nowrap;
+  }
+  .st-table td{
+    padding:9px 8px;border-bottom:1px solid var(--border-color);vertical-align:middle;color:var(--text-main);
+  }
+  .st-table tr:last-child td{border-bottom:0}
+  .st-table tbody tr:hover td{background:rgba(246,240,230,.55)}
+  .st-qlink{
+    color:var(--text-main);font-weight:700;text-decoration:none;
+    display:inline-flex;align-items:center;gap:4px;white-space:nowrap;
+  }
+  .st-qlink:hover{color:var(--accent-color)}
+  .st-ans-pair{display:inline-flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .st-ans-chip{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:20px;height:20px;padding:0 5px;border-radius:5px;font-size:11.5px;font-weight:750;
+  }
+  .st-ans-chip.bad{background:var(--danger-soft);color:var(--danger-color);border:1px solid var(--danger-border)}
+  .st-ans-chip.ok{background:var(--success-soft);color:var(--success-color);border:1px solid var(--success-border)}
+  .st-ans-chip.mid{background:var(--warn-soft);color:var(--warn-color);border:1px solid var(--warn-border)}
+  .st-tag-pill{
+    display:inline-flex;align-items:center;padding:2px 8px;border-radius:99px;
+    font-size:11px;font-weight:650;white-space:nowrap;
+    background:var(--accent-soft);color:var(--accent-color);border:1px solid var(--accent-border);
+  }
+  .st-tag-pill.neutral{background:var(--bg-subtle);color:var(--text-muted);border-color:var(--border-color)}
+  .st-note-flag{
+    display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:600;
+    color:var(--success-color);background:var(--success-soft);border:1px solid var(--success-border);
+    padding:1px 7px;border-radius:99px;white-space:nowrap;
+  }
+  .st-note-flag.none{color:var(--text-light);background:transparent;border-color:var(--border-color)}
+  .st-empty{
+    text-align:center;padding:26px 16px;color:var(--text-muted);font-size:13px;line-height:1.8;
+  }
+  .st-empty-actions{margin-top:12px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+
+  /* Overview Tab */
+  .st-word-chips{display:flex;flex-wrap:wrap;gap:7px}
+  .st-word-chip{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:12px;font-weight:650;color:var(--text-main);
+    background:var(--bg-subtle);border:1px solid var(--border-color);
+    padding:4px 10px;border-radius:99px;font-variant-numeric:tabular-nums;
+  }
+  .st-word-chip b{color:var(--danger-color);font-size:11px}
+  .st-tr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+  .st-tr-item{
+    background:var(--bg-subtle);border:1px solid var(--border-color);
+    border-radius:11px;padding:10px 12px;text-decoration:none;color:inherit;
+    display:flex;flex-direction:column;gap:4px;transition:border-color .15s,background .15s;
+  }
+  .st-tr-item:hover{border-color:var(--accent-border);background:#fff}
+  .st-tr-top{display:flex;align-items:center;justify-content:space-between;gap:6px}
+  .st-tr-year{font-size:13px;font-weight:800;color:var(--text-main);font-variant-numeric:tabular-nums}
+  .st-tr-topic{font-size:12px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .st-tr-meta{font-size:11px;color:var(--text-light);font-variant-numeric:tabular-nums}
+
   @media (max-width:940px){
     .cards{grid-template-columns:1fr;gap:16px}
   }
@@ -202,6 +428,12 @@
     .topbar{padding:10px 14px}
     .brand-div,.brand-sub{display:none}
     .top-btn{padding:6px 10px;font-size:12px}
+    .stats-card{max-height:92vh;border-radius:16px}
+    .stats-head{padding:13px 15px}
+    .stats-body{padding:14px 14px 18px}
+    .st-kpi-grid,.st-two-col{grid-template-columns:1fr}
+    .st-passages{grid-template-columns:repeat(2,1fr)}
+    .st-tr-grid{grid-template-columns:repeat(2,1fr)}
   }
 </style>
 </head>
@@ -218,6 +450,10 @@
     </div>
     <div class="top-actions">
       <button class="top-btn accent" data-pwa-install hidden>安装到本地</button>
+      <button class="top-btn" id="btn-open-stats" aria-haspopup="dialog">
+        <i data-lucide="bar-chart-3" data-size="15" class="ic"></i>
+        <span>数据</span>
+      </button>
       <button class="top-btn" id="btn-open-sync">
         <i data-lucide="cloud" data-size="15" class="ic"></i>
         <span>多端同步</span>
@@ -332,6 +568,32 @@
     </div>
   </div>
 
+  <div class="modal" id="stats-modal" role="dialog" aria-modal="true" aria-labelledby="stats-modal-title" hidden>
+    <div class="modal-card stats-card">
+      <div class="stats-head">
+        <div class="stats-head-left">
+          <span class="stats-head-ico" aria-hidden="true">
+            <i data-lucide="bar-chart-3" data-size="17"></i>
+          </span>
+          <div>
+            <h3 class="stats-head-title" id="stats-modal-title">学习数据诊断</h3>
+            <div class="stats-head-sub" id="stats-modal-sub">基于本机与云端同步记录实时计算</div>
+          </div>
+        </div>
+        <div class="stats-head-right">
+          <div class="st-seg" role="tablist" aria-label="数据视图切换">
+            <button type="button" class="active" data-stats-tab="reading" role="tab" aria-selected="true">阅读诊断</button>
+            <button type="button" data-stats-tab="overview" role="tab" aria-selected="false">全科概览</button>
+          </div>
+          <button type="button" class="st-close-btn" id="btn-close-stats" aria-label="关闭数据统计">
+            <i data-lucide="x" data-size="16"></i>
+          </button>
+        </div>
+      </div>
+      <div class="stats-body" id="stats-body"></div>
+    </div>
+  </div>
+
   <script src="icons/lucide.js"></script>
   <script src="sync.js"></script>
   <script src="pwa.js" defer></script>
@@ -385,7 +647,10 @@
     }
 
     renderHomeProgress();
-    window.addEventListener('kaoyan:data-synced', renderHomeProgress);
+    window.addEventListener('kaoyan:data-synced', function () {
+      renderHomeProgress();
+      if (!statsModal.hidden) renderStatsModal();
+    });
 
     document.getElementById('btn-open-sync').addEventListener('click', function () {
       ui.refresh();
@@ -393,7 +658,741 @@
     });
     document.getElementById('btn-close-sync').addEventListener('click', function () { modal.hidden = true; });
     modal.addEventListener('click', function (e) { if (e.target === modal) modal.hidden = true; });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) modal.hidden = true; });
+
+    /* ---------- Data Analytics Dashboard Modal ---------- */
+    var statsModal = document.getElementById('stats-modal');
+    var statsBody = document.getElementById('stats-body');
+    var statsSub = document.getElementById('stats-modal-sub');
+    var statsState = {
+      tab: 'reading',
+      heatmapScope: 'answered',
+      detailMode: 'wrong'
+    };
+    var dataLoadPromise = null;
+
+    var TRAP_HINTS = {
+      '偷换概念': '原词拼凑 / 词义偷换',
+      '张冠李戴': '主体错位 / 范围混淆',
+      '无中生有': '凭空脑补 / 原文未提',
+      '过度推断': '主观延伸 / 情态升级',
+      '正反混淆': '逻辑颠倒 / 态度相反',
+      '范围过宽': '以大代小 / 过度泛化',
+      '以偏概全': '抓局部词 / 漏宏观主旨',
+      '因果倒置': '因果关系互换',
+      '望文生义': '脱离语境直译',
+      '答非所问': '未紧扣题干设问',
+      '就事论事': '停留在例子细节',
+      '偏离主题': '偏离段落或文章中心'
+    };
+
+    function esc(str) {
+      return String(str == null ? '' : str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function loadScriptOnce(src, checkFn) {
+      if (checkFn()) return Promise.resolve();
+      return new Promise(function (resolve, reject) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.onload = function () { resolve(); };
+        s.onerror = function () { reject(new Error('加载失败：' + src)); };
+        document.head.appendChild(s);
+      });
+    }
+
+    function ensureDataScripts() {
+      if (window.READING_DATA && window.SPELLING_DATA && window.TRANSLATION_DATA) {
+        return Promise.resolve();
+      }
+      if (!dataLoadPromise) {
+        dataLoadPromise = Promise.all([
+          loadScriptOnce('data/reading-data.js', function () { return !!window.READING_DATA; }),
+          loadScriptOnce('data/spelling-data.js', function () { return !!window.SPELLING_DATA; }),
+          loadScriptOnce('data/translation-data.js', function () { return !!window.TRANSLATION_DATA; })
+        ]).catch(function (err) {
+          dataLoadPromise = null;
+          throw err;
+        });
+      }
+      return dataLoadPromise;
+    }
+
+    function shortExam(exam) {
+      return exam === '英语一' ? '英一' : (exam === '英语二' ? '英二' : String(exam || ''));
+    }
+
+    function shortTextNum(tn) {
+      return String(tn || '').replace(/^Text\s*/i, 'T');
+    }
+
+    function classifyQuestionType(raw) {
+      var t = String(raw || '未分类');
+      if (t.indexOf('推断') !== -1 || t.indexOf('推理') !== -1) return 'infer';
+      if (t.indexOf('例证') !== -1) return 'example';
+      if (t.indexOf('观点') !== -1 || t.indexOf('态度') !== -1) return 'attitude';
+      if (t.indexOf('主旨') !== -1) return 'main';
+      if (t.indexOf('细节') !== -1 || t.indexOf('词义') !== -1) return 'detail';
+      return 'other';
+    }
+
+    var QTYPE_GROUPS = [
+      { key: 'detail', label: '细节类', sub: '含因果/词义/概括' },
+      { key: 'infer', label: '推断类', sub: '细节推断 + 推断/推理' },
+      { key: 'example', label: '例证类', sub: '例证 / 写作目的' },
+      { key: 'attitude', label: '观点态度 / 观点比较', sub: '' },
+      { key: 'main', label: '主旨要义类', sub: '' },
+      { key: 'other', label: '其他题型', sub: '' }
+    ];
+
+    function extractTrapTag(q, userAns) {
+      var text = q && q.option_analysis ? q.option_analysis[userAns] : '';
+      if (!text) return '未标注错因';
+      var m = String(text).match(/^【([^】]+)】/);
+      return m ? m[1].trim() : '其他错因';
+    }
+
+    function fmtPassageDur(ms, answeredCount) {
+      if (!answeredCount || !ms) return '--';
+      if (ms < 90000) return '速录';
+      return (ms / 60000).toFixed(1) + 'm';
+    }
+
+    function fmtQuestionDur(ms) {
+      if (!ms || ms <= 0) return '--';
+      var sec = Math.round(ms / 1000);
+      if (sec < 60) return sec + 's';
+      var m = Math.floor(sec / 60);
+      var s = sec % 60;
+      return m + 'm' + (s < 10 ? '0' + s : s) + 's';
+    }
+
+    function computeReadingAnalytics() {
+      var passages = Array.isArray(window.READING_DATA) ? window.READING_DATA : [];
+      var rLog = Sync.loadReadingLog() || {};
+      var rNotes = Sync.loadReadingNotes() || {};
+
+      var totalAns = 0, totalOk = 0, totalErr = 0;
+      var byExam = {
+        '英语一': { passages: 0, answered: 0, ok: 0, err: 0 },
+        '英语二': { passages: 0, answered: 0, ok: 0, err: 0 }
+      };
+      var highRiskTotal = 0, highRiskErr = 0, highRiskOk = 0;
+      var trapMap = {};
+      var qtypeMap = {};
+      QTYPE_GROUPS.forEach(function (g) {
+        qtypeMap[g.key] = { key: g.key, label: g.label, sub: g.sub, total: 0, firstOk: 0, retryOk: 0, err: 0 };
+      });
+
+      var passageRows = [];
+      var wrongRows = [];
+      var struggleRows = [];
+      var answeredPassages = 0;
+      var minFullScore = null;
+
+      passages.forEach(function (p, idx) {
+        var pLog = rLog[p.id] || {};
+        var pAns = 0, pOk = 0, pErr = 0, maxTimeMs = 0, firstAt = Infinity, lastAt = 0;
+        var qCells = [];
+
+        (p.questions || []).forEach(function (q) {
+          var r = pLog[String(q.q_num)];
+          var active = !!(r && !r.deleted && r.answer);
+          var noteObj = rNotes[p.id + '::' + q.q_num];
+          var noteText = noteObj && noteObj.text ? noteObj.text.trim() : '';
+
+          if (!active) {
+            qCells.push({ q: q, active: false, noteText: noteText });
+            return;
+          }
+
+          var isOk = r.answer === q.answer;
+          var attempts = Math.max(1, Number(r.attempts) || 1);
+          var timeMs = Math.max(0, Number(r.timeMs) || 0);
+          var ts = Number(r.updatedAt) || Date.parse(r.answeredAt || '') || 0;
+
+          pAns++;
+          totalAns++;
+          if (timeMs > maxTimeMs) maxTimeMs = timeMs;
+          if (ts > 0 && ts < firstAt) firstAt = ts;
+          if (ts > lastAt) lastAt = ts;
+
+          var examBucket = byExam[p.exam];
+          if (examBucket) examBucket.answered++;
+
+          var gk = classifyQuestionType(q.question_type);
+          var gb = qtypeMap[gk];
+          gb.total++;
+
+          if (attempts >= 3) {
+            highRiskTotal++;
+            if (isOk) highRiskOk++;
+            else highRiskErr++;
+          }
+
+          if (isOk) {
+            pOk++;
+            totalOk++;
+            if (examBucket) examBucket.ok++;
+            if (attempts >= 2) {
+              gb.retryOk++;
+              struggleRows.push({
+                pid: p.id, exam: p.exam, year: p.year, text_num: p.text_num, title: p.title,
+                q_num: q.q_num, q_type: q.question_type || '未分类',
+                userAns: r.answer, correctAns: q.answer,
+                attempts: attempts, timeMs: timeMs, noteText: noteText
+              });
+            } else {
+              gb.firstOk++;
+            }
+          } else {
+            pErr++;
+            totalErr++;
+            if (examBucket) examBucket.err++;
+            gb.err++;
+            var trapTag = extractTrapTag(q, r.answer);
+            trapMap[trapTag] = (trapMap[trapTag] || 0) + 1;
+            wrongRows.push({
+              pid: p.id, exam: p.exam, year: p.year, text_num: p.text_num, title: p.title,
+              q_num: q.q_num, q_type: q.question_type || '未分类',
+              userAns: r.answer, correctAns: q.answer, trapTag: trapTag,
+              attempts: attempts, timeMs: timeMs, noteText: noteText
+            });
+          }
+
+          qCells.push({
+            q: q, active: true, isOk: isOk, answer: r.answer,
+            attempts: attempts, timeMs: timeMs, noteText: noteText
+          });
+        });
+
+        if (pAns > 0) {
+          answeredPassages++;
+          if (byExam[p.exam]) byExam[p.exam].passages++;
+          if (pAns === (p.questions || []).length) {
+            if (minFullScore === null || pOk < minFullScore) minFullScore = pOk;
+          }
+        }
+
+        passageRows.push({
+          idx: idx, p: p, answered: pAns, total: (p.questions || []).length,
+          ok: pOk, err: pErr, maxTimeMs: maxTimeMs,
+          firstAt: isFinite(firstAt) ? firstAt : 0, lastAt: lastAt,
+          cells: qCells
+        });
+      });
+
+      var trapList = Object.keys(trapMap).map(function (tag) {
+        return {
+          tag: tag,
+          hint: TRAP_HINTS[tag] || '',
+          count: trapMap[tag],
+          pct: totalErr ? (trapMap[tag] / totalErr * 100) : 0
+        };
+      }).sort(function (a, b) { return b.count - a.count || a.tag.localeCompare(b.tag, 'zh-CN'); });
+
+      var qtypeList = QTYPE_GROUPS.map(function (g) { return qtypeMap[g.key]; })
+        .filter(function (g) { return g.total > 0; });
+
+      struggleRows.sort(function (a, b) { return b.attempts - a.attempts || b.timeMs - a.timeMs; });
+
+      var noteCount = 0;
+      Object.keys(rNotes).forEach(function (k) {
+        if (rNotes[k] && String(rNotes[k].text || '').trim()) noteCount++;
+      });
+
+      return {
+        totalPassages: passages.length,
+        totalQuestions: passages.reduce(function (s, p) { return s + (p.questions || []).length; }, 0),
+        answeredPassages: answeredPassages,
+        totalAns: totalAns,
+        totalOk: totalOk,
+        totalErr: totalErr,
+        acc: totalAns ? (totalOk / totalAns * 100) : 0,
+        minFullScore: minFullScore,
+        byExam: byExam,
+        highRisk: { total: highRiskTotal, ok: highRiskOk, err: highRiskErr },
+        trapList: trapList,
+        qtypeList: qtypeList,
+        passageRows: passageRows,
+        wrongRows: wrongRows,
+        struggleRows: struggleRows,
+        noteCount: noteCount
+      };
+    }
+
+    function renderReadingTab(d) {
+      if (!d.totalAns) {
+        return (
+          '<div class="st-panel st-empty">' +
+            '<div style="font-size:15px;font-weight:750;color:var(--text-main);margin-bottom:6px">还没有阅读作答记录</div>' +
+            '<div>在阅读练习区完成任意题目后，这里会自动生成正确率诊断、干扰陷阱归因、核心题型稳定性与逐题热力图。</div>' +
+            '<div class="st-empty-actions">' +
+              '<a class="top-btn accent" href="reading.html">前往阅读区开始第一篇</a>' +
+              '<button type="button" class="top-btn" data-open-sync-from-stats="1">导入备份 / 多端同步</button>' +
+            '</div>' +
+          '</div>'
+        );
+      }
+
+      // KPI 2: Prefer 英语二 when present, else 英语一
+      var primaryExamName = d.byExam['英语二'].answered > 0 ? '英语二' : '英语一';
+      var otherExamName = primaryExamName === '英语二' ? '英语一' : '英语二';
+      var pri = d.byExam[primaryExamName];
+      var oth = d.byExam[otherExamName];
+      var priAcc = pri.answered ? (pri.ok / pri.answered * 100) : 0;
+      var priScore40 = (priAcc / 100 * 40).toFixed(1);
+      var priSub = '折合阅读约 <b>' + priScore40 + ' / 40</b> 分' +
+        (oth.answered ? (' · ' + otherExamName + ' ' + (oth.ok / oth.answered * 100).toFixed(0) + '%（' + oth.ok + '/' + oth.answered + '）') : '');
+
+      var kpi1Sub = d.minFullScore !== null
+        ? ('已完成篇最低 <b>' + d.minFullScore + '/5</b> · 进度 ' + d.totalAns + '/' + d.totalQuestions + ' 题')
+        : ('已作答 ' + d.totalAns + ' / ' + d.totalQuestions + ' 题 · 累计笔记 ' + d.noteCount + ' 条');
+
+      var kpi3Sub = d.highRisk.total
+        ? '二选一反复修改最易受原词干扰项影响'
+        : '暂无 ≥3 次反复修改的题目，作答决策较果断';
+
+      var kpiHtml =
+        '<div class="st-kpi-grid">' +
+          '<div class="st-panel">' +
+            '<div class="st-kpi-label">总正确率（' + d.answeredPassages + ' 篇 · ' + d.totalAns + ' 题）</div>' +
+            '<div class="st-kpi-val">' + d.acc.toFixed(1) + '%<span>' + d.totalOk + ' 对 / ' + d.totalErr + ' 错</span></div>' +
+            '<div class="st-kpi-sub">' + kpi1Sub + '</div>' +
+          '</div>' +
+          '<div class="st-panel">' +
+            '<div class="st-kpi-label">' + primaryExamName + '单科（' + pri.passages + ' 篇 · ' + pri.answered + ' 题）</div>' +
+            '<div class="st-kpi-val">' + priAcc.toFixed(1) + '%<span>' + pri.ok + ' 对 / ' + pri.err + ' 错</span></div>' +
+            '<div class="st-kpi-sub">' + priSub + '</div>' +
+          '</div>' +
+          '<div class="st-panel">' +
+            '<div class="st-kpi-label">反复纠结高危题（≥3 次修改）</div>' +
+            '<div class="st-kpi-val">' + d.highRisk.total + ' 题<span>' + d.highRisk.err + ' 错 / ' + d.highRisk.ok + ' 险胜</span></div>' +
+            '<div class="st-kpi-sub">' + kpi3Sub + '</div>' +
+          '</div>' +
+        '</div>';
+
+      // Left chart: Trap attribution
+      var trapBodyHtml = '';
+      if (!d.trapList.length) {
+        trapBodyHtml = '<div class="st-empty" style="padding:18px 8px">当前已答题目全对，暂无错题干扰陷阱记录。</div>';
+      } else {
+        var maxTrap = d.trapList[0].count || 1;
+        trapBodyHtml = '<div class="st-bar-list">' + d.trapList.map(function (item, i) {
+          var cls = 'c' + ((i % 5) + 1);
+          var w = Math.max(8, Math.round(item.count / maxTrap * 1000) / 10);
+          return (
+            '<div>' +
+              '<div class="st-bar-top">' +
+                '<span class="st-bar-name">' + esc(item.tag) + (item.hint ? '<em>（' + esc(item.hint) + '）</em>' : '') + '</span>' +
+                '<span class="st-bar-meta">' + item.count + ' 题 · ' + item.pct.toFixed(1) + '%</span>' +
+              '</div>' +
+              '<div class="st-track"><div class="st-fill ' + cls + '" style="width:' + w + '%"></div></div>' +
+            '</div>'
+          );
+        }).join('') + '</div>';
+      }
+
+      // Right chart: Question type stability
+      var qtypeBodyHtml = '<div class="st-bar-list">' + d.qtypeList.map(function (g) {
+        var wOk = (g.firstOk / g.total * 100).toFixed(1);
+        var wMid = (g.retryOk / g.total * 100).toFixed(1);
+        var wErr = (g.err / g.total * 100).toFixed(1);
+        var metaText = g.total + ' 题 · ' + (g.err ? (g.err + ' 错') : '全对');
+        return (
+          '<div>' +
+            '<div class="st-bar-top">' +
+              '<span class="st-bar-name">' + esc(g.label) + (g.sub ? '<em>（' + esc(g.sub) + '）</em>' : '') + '</span>' +
+              '<span class="st-bar-meta">' + metaText + '</span>' +
+            '</div>' +
+            '<div class="st-track" title="1次即对 ' + g.firstOk + ' 题 · ≥2次改对 ' + g.retryOk + ' 题 · 答错 ' + g.err + ' 题">' +
+              (g.firstOk ? '<div class="st-fill ok" style="width:' + wOk + '%"></div>' : '') +
+              (g.retryOk ? '<div class="st-fill mid" style="width:' + wMid + '%"></div>' : '') +
+              (g.err ? '<div class="st-fill err" style="width:' + wErr + '%"></div>' : '') +
+            '</div>' +
+          '</div>'
+        );
+      }).join('') + '</div>' +
+      '<div class="st-legend">' +
+        '<span><i class="st-dot ok"></i>1次即对</span>' +
+        '<span><i class="st-dot mid"></i>≥2次改对</span>' +
+        '<span><i class="st-dot err"></i>最终答错</span>' +
+      '</div>';
+
+      var twoColHtml =
+        '<div class="st-two-col">' +
+          '<div class="st-panel">' +
+            '<div class="st-sec-head">' +
+              '<div class="st-sec-title">' + (d.totalErr ? (d.totalErr + ' 道错题干扰陷阱归因') : '错题干扰陷阱归因') + '</div>' +
+              '<span class="st-sec-sub">按官方错因标签</span>' +
+            '</div>' +
+            trapBodyHtml +
+          '</div>' +
+          '<div class="st-panel">' +
+            '<div class="st-sec-head">' +
+              '<div class="st-sec-title">核心题型稳定性</div>' +
+              '<span class="st-sec-sub">一次对 / 纠结对 / 错</span>' +
+            '</div>' +
+            qtypeBodyHtml +
+          '</div>' +
+        '</div>';
+
+      // Passage heatmap
+      var rowsForMap;
+      if (statsState.heatmapScope === 'all') {
+        rowsForMap = d.passageRows.slice();
+      } else {
+        rowsForMap = d.passageRows.filter(function (r) { return r.answered > 0; })
+          .sort(function (a, b) { return (a.firstAt || a.idx) - (b.firstAt || b.idx); });
+      }
+
+      var heatmapBoxes = rowsForMap.map(function (row) {
+        var p = row.p;
+        var label = shortExam(p.exam) + ' ' + p.year + ' ' + shortTextNum(p.text_num);
+        var eCls = p.exam === '英语一' ? 'e1' : 'e2';
+        var dots = row.cells.map(function (c) {
+          var qUrl = 'reading.html?pid=' + encodeURIComponent(p.id) + '&q=' + encodeURIComponent(c.q.q_num) + '&mode=analysis';
+          if (!c.active) {
+            return '<a class="st-qdot q-todo" href="' + qUrl + '" title="Q' + c.q.q_num + ' · ' + esc(c.q.question_type || '') + ' · 尚未作答">·</a>';
+          }
+          var cls, txt, statusStr;
+          if (c.isOk) {
+            if (c.attempts >= 2) {
+              cls = 'q-mid';
+              txt = String(c.attempts);
+              statusStr = '改对（共 ' + c.attempts + ' 次）';
+            } else {
+              cls = 'q-ok';
+              txt = '✓';
+              statusStr = '一次即对';
+            }
+          } else {
+            cls = 'q-err';
+            txt = c.attempts >= 2 ? String(c.attempts) : '✕';
+            statusStr = '答错（选 ' + c.answer + ' / 正解 ' + c.q.answer + '，共 ' + c.attempts + ' 次）';
+          }
+          var tip = 'Q' + c.q.q_num + ' · ' + (c.q.question_type || '阅读题') + ' · ' + statusStr + ' · 点击查看精读解析';
+          return '<a class="st-qdot ' + cls + '" href="' + qUrl + '" title="' + esc(tip) + '">' + txt + '</a>';
+        }).join('');
+
+        var scoreHtml = row.answered
+          ? ('<span><b>' + row.ok + '</b>/' + row.answered + '</span>')
+          : '<span>未做</span>';
+        var durText = fmtPassageDur(row.maxTimeMs, row.answered);
+        var durTip = row.maxTimeMs ? ('全篇耗时约 ' + fmtQuestionDur(row.maxTimeMs)) : '尚未计时';
+        var pUrl = 'reading.html?pid=' + encodeURIComponent(p.id) + (row.answered ? '&mode=analysis' : '');
+
+        return (
+          '<div class="st-pbox' + (row.answered ? '' : ' is-unanswered') + '">' +
+            '<div class="st-phead">' +
+              '<a class="st-pid" href="' + pUrl + '" title="' + esc(p.title) + '">' + esc(label) + '</a>' +
+              '<i class="st-exam-dot ' + eCls + '" title="' + esc(p.exam) + '"></i>' +
+            '</div>' +
+            '<div class="st-pdots">' + dots + '</div>' +
+            '<div class="st-pfoot">' + scoreHtml + '<span title="' + esc(durTip) + '">' + durText + '</span></div>' +
+          '</div>'
+        );
+      }).join('');
+
+      var heatmapHtml =
+        '<div class="st-panel">' +
+          '<div class="st-sec-head">' +
+            '<div>' +
+              '<div class="st-sec-title">' + (statsState.heatmapScope === 'all' ? ('全部 ' + d.totalPassages + ' 篇') : (d.answeredPassages + ' 篇')) + '逐题作答热力图</div>' +
+              '<div class="st-sec-sub" style="margin-top:2px">数字为修改次数（仅标 ≥2 次与错题），点击任一方块直达对应精读解析</div>' +
+            '</div>' +
+            '<div class="st-mini-tabs">' +
+              '<button type="button" data-heatmap-scope="answered"' + (statsState.heatmapScope === 'answered' ? ' class="active"' : '') + '>已答 (' + d.answeredPassages + ')</button>' +
+              '<button type="button" data-heatmap-scope="all"' + (statsState.heatmapScope === 'all' ? ' class="active"' : '') + '>全部 (' + d.totalPassages + ')</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="st-passages">' + heatmapBoxes + '</div>' +
+        '</div>';
+
+      // Detail Table: Wrong vs Struggle
+      var detailList = statsState.detailMode === 'wrong' ? d.wrongRows : d.struggleRows;
+      var detailBodyHtml = '';
+      if (!detailList.length) {
+        detailBodyHtml = '<div class="st-empty" style="padding:18px 8px">' +
+          (statsState.detailMode === 'wrong' ? '暂无错题记录，继续保持！' : '暂无 ≥2 次修改后答对的纠结题。') +
+        '</div>';
+      } else {
+        var rowsHtml = detailList.map(function (item) {
+          var qUrl = 'reading.html?pid=' + encodeURIComponent(item.pid) + '&q=' + encodeURIComponent(item.q_num) + '&mode=analysis';
+          var label = shortExam(item.exam) + ' ' + item.year + ' ' + shortTextNum(item.text_num) + ' Q' + item.q_num;
+          var ansHtml = statsState.detailMode === 'wrong'
+            ? ('<span class="st-ans-pair"><span class="st-ans-chip bad">' + esc(item.userAns) + '</span><span style="color:var(--text-light)">→</span><span class="st-ans-chip ok">' + esc(item.correctAns) + '</span></span>')
+            : ('<span class="st-ans-pair"><span class="st-ans-chip mid">' + item.attempts + ' 次</span><span class="st-ans-chip ok">' + esc(item.correctAns) + '</span></span>');
+          var col4Html = statsState.detailMode === 'wrong'
+            ? ('<span class="st-tag-pill">' + esc(item.trapTag) + '</span>' + (item.attempts >= 2 ? ' <span class="st-bar-meta">(' + item.attempts + '次)</span>' : ''))
+            : ('<span class="st-bar-meta">' + fmtQuestionDur(item.timeMs) + '</span>');
+          var noteHtml = item.noteText
+            ? ('<span class="st-note-flag" title="' + esc(item.noteText) + '">已记笔记</span>')
+            : '<span class="st-note-flag none">未记笔记</span>';
+
+          return (
+            '<tr>' +
+              '<td><a class="st-qlink" href="' + qUrl + '" title="' + esc(item.title) + '">' + esc(label) + '</a></td>' +
+              '<td><span class="st-tag-pill neutral">' + esc(item.q_type) + '</span></td>' +
+              '<td>' + ansHtml + '</td>' +
+              '<td>' + col4Html + '</td>' +
+              '<td>' + noteHtml + '</td>' +
+            '</tr>'
+          );
+        }).join('');
+
+        detailBodyHtml =
+          '<div class="st-table-wrap">' +
+            '<table class="st-table">' +
+              '<thead><tr>' +
+                '<th>篇章 · 题号</th>' +
+                '<th>题型</th>' +
+                '<th>' + (statsState.detailMode === 'wrong' ? '作答 → 正解' : '修改 / 正解') + '</th>' +
+                '<th>' + (statsState.detailMode === 'wrong' ? '错因标签' : '耗时') + '</th>' +
+                '<th>复盘笔记</th>' +
+              '</tr></thead>' +
+              '<tbody>' + rowsHtml + '</tbody>' +
+            '</table>' +
+          '</div>';
+      }
+
+      var detailPanelHtml =
+        '<div class="st-panel">' +
+          '<div class="st-sec-head">' +
+            '<div class="st-sec-title">错题与高危纠结题复盘清单</div>' +
+            '<div class="st-mini-tabs">' +
+              '<button type="button" data-detail-mode="wrong"' + (statsState.detailMode === 'wrong' ? ' class="active"' : '') + '>错题 (' + d.wrongRows.length + ')</button>' +
+              '<button type="button" data-detail-mode="struggle"' + (statsState.detailMode === 'struggle' ? ' class="active"' : '') + '>改对险胜 (' + d.struggleRows.length + ')</button>' +
+            '</div>' +
+          '</div>' +
+          detailBodyHtml +
+        '</div>';
+
+      return kpiHtml + twoColHtml + heatmapHtml + detailPanelHtml;
+    }
+
+    function renderOverviewTab(readingData) {
+      var sp = Sync.loadSpellingNormalized() || { items: {}, words: {}, favorites: {}, totals: { checks: 0, itemOk: 0, itemBad: 0 } };
+      var spData = window.SPELLING_DATA || { SETS: [], GROUPS: [] };
+      var trDrafts = Sync.loadTranslationDrafts ? (Sync.loadTranslationDrafts() || {}) : {};
+      var trNotes = Sync.loadTranslationNotes ? (Sync.loadTranslationNotes() || {}) : {};
+      var trYears = (window.TRANSLATION_DATA && window.TRANSLATION_DATA.YEARS) ? window.TRANSLATION_DATA.YEARS : [];
+
+      // Spelling totals & per-group progress
+      var setById = {};
+      var spTotalItems = 0;
+      (spData.SETS || []).forEach(function (set) {
+        setById[set.id] = set;
+        spTotalItems += (set.items || []).length;
+      });
+      var spMastered = 0;
+      Object.keys(sp.items || {}).forEach(function (k) {
+        if (sp.items[k] && sp.items[k].mastered === 'ok') spMastered++;
+      });
+      var spFavCount = 0;
+      Object.keys(sp.favorites || {}).forEach(function (k) {
+        if (sp.favorites[k] && sp.favorites[k].starred) spFavCount++;
+      });
+      var wordRight = 0, wordWrong = 0;
+      var wrongWords = [];
+      Object.keys(sp.words || {}).forEach(function (wk) {
+        var w = sp.words[wk];
+        if (!w) return;
+        wordRight += w.right || 0;
+        wordWrong += w.wrong || 0;
+        if ((w.wrong || 0) > 0) wrongWords.push({ word: w.word || wk, wrong: w.wrong, right: w.right || 0 });
+      });
+      wrongWords.sort(function (a, b) { return b.wrong - a.wrong || a.right - b.right; });
+      var wordTotal = wordRight + wordWrong;
+      var wordAcc = wordTotal ? (wordRight / wordTotal * 100) : 0;
+
+      // Translation totals
+      var trDone = 0;
+      trYears.forEach(function (y) {
+        if (trDrafts[y.id] && String(trDrafts[y.id].text || '').trim()) trDone++;
+      });
+      var trNoteCount = 0;
+      Object.keys(trNotes).forEach(function (k) {
+        if (trNotes[k] && String(trNotes[k].text || '').trim()) trNoteCount++;
+      });
+
+      var kpiHtml =
+        '<div class="st-kpi-grid">' +
+          '<div class="st-panel">' +
+            '<div class="st-kpi-label">阅读练习（' + readingData.answeredPassages + ' / ' + readingData.totalPassages + ' 篇）</div>' +
+            '<div class="st-kpi-val">' + (readingData.totalAns ? (readingData.acc.toFixed(1) + '%') : '--') + '<span>' + readingData.totalAns + ' / ' + readingData.totalQuestions + ' 题</span></div>' +
+            '<div class="st-kpi-sub">' + readingData.totalOk + ' 对 · ' + readingData.totalErr + ' 错 · 笔记 ' + readingData.noteCount + ' 条</div>' +
+          '</div>' +
+          '<div class="st-panel">' +
+            '<div class="st-kpi-label">拼写练习（已掌握 / 总项）</div>' +
+            '<div class="st-kpi-val">' + spMastered + '<span>/ ' + (spTotalItems || 419) + ' 项</span></div>' +
+            '<div class="st-kpi-sub">单词正确率 <b>' + (wordTotal ? (wordAcc.toFixed(1) + '%') : '--') + '</b> · 检查 ' + (sp.totals.checks || 0) + ' 次 · 收藏 ' + spFavCount + ' 项</div>' +
+          '</div>' +
+          '<div class="st-panel">' +
+            '<div class="st-kpi-label">翻译研习（2021–2026 真题）</div>' +
+            '<div class="st-kpi-val">' + trDone + '<span>/ ' + (trYears.length || 6) + ' 篇</span></div>' +
+            '<div class="st-kpi-sub">已写译文草稿 ' + trDone + ' 篇 · 逐句笔记 ' + trNoteCount + ' 条</div>' +
+          '</div>' +
+        '</div>';
+
+      // Spelling group bars
+      var groupBars = (spData.GROUPS || []).map(function (g, idx) {
+        var gTotal = 0, gOk = 0;
+        (g.ids || []).forEach(function (sid) {
+          var set = setById[sid];
+          if (!set) return;
+          var len = (set.items || []).length;
+          gTotal += len;
+          for (var i = 0; i < len; i++) {
+            var e = sp.items[sid + ':' + i];
+            if (e && e.mastered === 'ok') gOk++;
+          }
+        });
+        var pct = gTotal ? (gOk / gTotal * 100) : 0;
+        return (
+          '<div>' +
+            '<div class="st-bar-top">' +
+              '<span class="st-bar-name">' + esc(g.title) + '</span>' +
+              '<span class="st-bar-meta">' + gOk + ' / ' + gTotal + '（' + pct.toFixed(0) + '%）</span>' +
+            '</div>' +
+            '<div class="st-track"><div class="st-fill c' + ((idx % 5) + 1) + '" style="width:' + pct.toFixed(1) + '%"></div></div>' +
+          '</div>'
+        );
+      }).join('');
+
+      var wrongWordsHtml = wrongWords.length
+        ? ('<div class="st-word-chips">' + wrongWords.slice(0, 14).map(function (w) {
+            return '<span class="st-word-chip">' + esc(w.word) + '<b>×' + w.wrong + '</b></span>';
+          }).join('') + '</div>')
+        : '<div class="st-empty" style="padding:14px 6px">暂无高频错词记录</div>';
+
+      var spTwoCol =
+        '<div class="st-two-col">' +
+          '<div class="st-panel">' +
+            '<div class="st-sec-head">' +
+              '<div class="st-sec-title">拼写分组掌握进度</div>' +
+              '<a class="st-sec-sub" href="spelling.html" style="color:var(--accent-color);text-decoration:none;font-weight:600">进入拼写区 →</a>' +
+            '</div>' +
+            '<div class="st-bar-list">' + groupBars + '</div>' +
+          '</div>' +
+          '<div class="st-panel">' +
+            '<div class="st-sec-head">' +
+              '<div class="st-sec-title">拼写高频错词 Top ' + Math.min(14, wrongWords.length) + '</div>' +
+              '<span class="st-sec-sub">共 ' + wrongWords.length + ' 词曾出错</span>' +
+            '</div>' +
+            wrongWordsHtml +
+          '</div>' +
+        '</div>';
+
+      // Translation years grid
+      var trCards = trYears.map(function (y) {
+        var draft = trDrafts[y.id] && trDrafts[y.id].text ? String(trDrafts[y.id].text).trim() : '';
+        var chars = draft ? draft.replace(/\s+/g, '').length : 0;
+        var yNotes = 0;
+        Object.keys(trNotes).forEach(function (k) {
+          if (k.indexOf(y.id + '::') === 0 && trNotes[k] && String(trNotes[k].text || '').trim()) yNotes++;
+        });
+        return (
+          '<a class="st-tr-item" href="translation.html">' +
+            '<div class="st-tr-top">' +
+              '<span class="st-tr-year">' + y.year + ' 年</span>' +
+              (chars ? '<span class="st-note-flag">已练 ' + chars + ' 字</span>' : '<span class="st-note-flag none">待练习</span>') +
+            '</div>' +
+            '<div class="st-tr-topic" title="' + esc(y.topic) + '">' + esc(y.topic) + '</div>' +
+            '<div class="st-tr-meta">' + (y.sentences ? y.sentences.length : 0) + ' 句 · 笔记 ' + yNotes + ' 条</div>' +
+          '</a>'
+        );
+      }).join('');
+
+      var trPanel =
+        '<div class="st-panel">' +
+          '<div class="st-sec-head">' +
+            '<div class="st-sec-title">翻译真题进度（2021–2026 英语二）</div>' +
+            '<a class="st-sec-sub" href="translation.html" style="color:var(--accent-color);text-decoration:none;font-weight:600">进入翻译区 →</a>' +
+          '</div>' +
+          '<div class="st-tr-grid">' + trCards + '</div>' +
+        '</div>';
+
+      return kpiHtml + spTwoCol + trPanel;
+    }
+
+    function renderStatsModal() {
+      var readingData = computeReadingAnalytics();
+      if (statsSub) {
+        var cfg = Sync.getConfig ? Sync.getConfig() : {};
+        var syncHint = cfg.lastSyncAt ? (' · 上次同步 ' + new Date(cfg.lastSyncAt).toLocaleTimeString()) : '';
+        statsSub.textContent = readingData.totalAns
+          ? ('阅读已答 ' + readingData.answeredPassages + ' 篇 ' + readingData.totalAns + ' 题（' + readingData.acc.toFixed(1) + '%）' + syncHint)
+          : ('基于本机与云端同步记录实时计算' + syncHint);
+      }
+      statsBody.innerHTML = statsState.tab === 'reading'
+        ? renderReadingTab(readingData)
+        : renderOverviewTab(readingData);
+    }
+
+    function openStatsModal() {
+      statsModal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      statsBody.innerHTML = '<div class="st-panel st-empty">正在汇总学习数据…</div>';
+      ensureDataScripts().then(function () {
+        if (!statsModal.hidden) renderStatsModal();
+      }).catch(function (err) {
+        if (!statsModal.hidden) {
+          statsBody.innerHTML = '<div class="st-panel st-empty">题库数据加载失败：' + esc(err && err.message ? err.message : err) + '</div>';
+        }
+      });
+    }
+
+    function closeStatsModal() {
+      statsModal.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('btn-open-stats').addEventListener('click', openStatsModal);
+    document.getElementById('btn-close-stats').addEventListener('click', closeStatsModal);
+    statsModal.addEventListener('click', function (e) { if (e.target === statsModal) closeStatsModal(); });
+
+    statsModal.querySelectorAll('[data-stats-tab]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        statsState.tab = btn.getAttribute('data-stats-tab');
+        statsModal.querySelectorAll('[data-stats-tab]').forEach(function (b) {
+          var on = b === btn;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        renderStatsModal();
+      });
+    });
+
+    statsBody.addEventListener('click', function (e) {
+      var scopeBtn = e.target.closest('[data-heatmap-scope]');
+      if (scopeBtn) {
+        statsState.heatmapScope = scopeBtn.getAttribute('data-heatmap-scope');
+        renderStatsModal();
+        return;
+      }
+      var detailBtn = e.target.closest('[data-detail-mode]');
+      if (detailBtn) {
+        statsState.detailMode = detailBtn.getAttribute('data-detail-mode');
+        renderStatsModal();
+        return;
+      }
+      if (e.target.closest('[data-open-sync-from-stats]')) {
+        closeStatsModal();
+        ui.refresh();
+        modal.hidden = false;
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      if (!statsModal.hidden) closeStatsModal();
+      else if (!modal.hidden) modal.hidden = true;
+    });
   })();
   </script>
 </body>
